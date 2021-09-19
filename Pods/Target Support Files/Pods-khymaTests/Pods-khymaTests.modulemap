@@ -1,0 +1,6 @@
+framework module Pods_khymaTests {
+  umbrella header "Pods-khymaTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
