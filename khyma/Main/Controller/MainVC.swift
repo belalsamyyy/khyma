@@ -8,7 +8,6 @@
 import GoogleMobileAds
 import DesignX
 
-
 class MainVC: UIViewController {
 
     //MARK: - outlets
@@ -21,6 +20,7 @@ class MainVC: UIViewController {
     //MARK: - variables
     
     var gradientLayer = CAGradientLayer()
+    var navGradient = CAGradientLayer()
     
     // The banner ad
     private var bannerAd: GADBannerView = {
@@ -46,49 +46,87 @@ class MainVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        setupNavBar()
+        changeTheme()
         setupViews()
         loadBannerAd()
-        
     }
     
     override func viewDidLayoutSubviews() {
-        navigationController?.setNavigationBarHidden(true, animated: true)
+        changeTheme()
         gradientLayer.frame = posterImageView.bounds
     }
+    
+    override func viewWillLayoutSubviews() {
+        changeTheme()
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        changeTheme()
+    }
+    
     
     //MARK: - functions
     
     fileprivate func setupViews() {
-        navigationController?.setNavigationBarHidden(true, animated: true)
 
         // scroll
         mainScrollView.create(container: scrollContainer)
         
-        mainScrollView.backgroundColor = .white
-        scrollContainer.backgroundColor = .green
+        mainScrollView.backgroundColor = Color.primary
+        scrollContainer.backgroundColor = Color.primary
         
         // poster
         posterImageView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 0, mainTableView, 0, .fixed(500)))
-        gradientLayer = posterImageView.fill(gradient: [.color(.clear), .color(#colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))], locations: [0, 1], opacity: 1)
+        gradientLayer = posterImageView.fill(gradient: [.color(.clear), .color(Color.primary)], locations: [0, 1], opacity: 1)
 
         posterImageView.image = #imageLiteral(resourceName: "poster")
         posterImageView.contentMode = .scaleAspectFill
         gradientLayer.frame = posterImageView.bounds
-
         
         // table view
-        mainTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(posterImageView, 0, nil, 0, .fixed(1750)))
-        mainTableView.backgroundColor = .white
+        mainTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(posterImageView, 0, nil, 0, .fixed(1600)))
+        mainTableView.backgroundColor = Color.primary
         
         mainTableView.delegate = self
         mainTableView.dataSource = self
+        mainScrollView.delegate = self
+        
     }
     
     fileprivate func loadBannerAd() {
            bannerAd.rootViewController = self
            scrollContainer.addSubview(bannerAd)
-           bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(75))
+           bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(60))
        }
+    
+    fileprivate func changeTheme() {
+        // Dark mode or Light mode
+        Defaults.darkMode = traitCollection.userInterfaceStyle == .light ? false : true
+        view.setNeedsLayout()
+    }
+    
+    fileprivate func setupNavBar() {
+        let gradient = CAGradientLayer()
+        let sizeLength = UIScreen.main.bounds.size.height * 2
+        let defaultNavigationBarFrame = CGRect(x: 0, y: 0, width: sizeLength, height: 64)
+
+        gradient.frame = defaultNavigationBarFrame
+        gradient.colors = [#colorLiteral(red: 0.7529411765, green: 0.262745098, blue: 0.2235294118, alpha: 1).cgColor, UIColor.clear.cgColor]
+        gradient.locations = [0, 1]
+
+        UINavigationBar.appearance().setBackgroundImage(self.convertGradientLayerIntoImage(fromLayer: gradient), for: .default)
+    }
+    
+    fileprivate func convertGradientLayerIntoImage(fromLayer layer: CALayer) -> UIImage {
+        UIGraphicsBeginImageContext(layer.frame.size)
+        layer.render(in: UIGraphicsGetCurrentContext()!)
+        let outputImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return outputImage!
+    }
     
     
     //MARK: - actions
@@ -98,6 +136,14 @@ class MainVC: UIViewController {
 
 
 //MARK: - extensions
+
+//MARK: - UIScrollView Delegate
+
+extension MainVC: UIScrollViewDelegate {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        self.navigationController?.setNavigationBarHidden(velocity.y < 0, animated: true)
+    }
+}
 
 
 // MARK: - UITableView Data Source
@@ -120,19 +166,12 @@ extension MainVC: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let section = TableSections.allCases[indexPath.section]
+        // let section = TableSections.allCases[indexPath.section]
         var cell = tableView.dequeueReusableCell(withIdentifier: TableCell.identifier) as? TableCell
         
         if cell == nil {
             cell = TableCell(style: .default, reuseIdentifier: TableCell.identifier)
-            switch section {
-            case .continueWatching, .Movies, .Series, .Plays, .games:
-                cell?.collectionFlowLayout.scrollDirection = .horizontal
-                
-            case .popular:
-                cell?.collectionFlowLayout.scrollDirection = .vertical
-            }
-            
+            cell?.collectionFlowLayout.scrollDirection = .horizontal
             cell?.selectionStyle = .none
         }
         return cell!
@@ -149,12 +188,14 @@ extension MainVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+       let headerView = UIView()
+
        let myLabel = UILabel()
        myLabel.frame = CGRect(x: 20, y: 8, width: 320, height: 30)
-       myLabel.font = UIFont.boldSystemFont(ofSize: 25)
+       myLabel.font = UIFont.boldSystemFont(ofSize: 18)
        myLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
+       myLabel.textColor = Color.text
 
-       let headerView = UIView()
        headerView.addSubview(myLabel)
 
        return headerView
@@ -203,13 +244,13 @@ extension MainVC: UICollectionViewDataSource {
         switch section {
         case .popular, .Movies, .Series, .Plays, .games:
             let cell1 = collectionView.dequeue(indexPath: indexPath) as CollectionCell
-            cell1.backgroundColor = section.ui.itemColor
+            cell1.backgroundColor = Color.secondary
             cell1.movie = movies[indexPath.item]
             return cell1
             
         case .continueWatching:
             let cell2 = collectionView.dequeue(indexPath: indexPath) as CollectionCell2
-            cell2.backgroundColor = section.ui.itemColor
+            cell2.backgroundColor = Color.secondary
             cell2.movie = continueWatching[indexPath.item]
             return cell2
         }
@@ -258,12 +299,9 @@ extension MainVC: UICollectionViewDelegateFlowLayout {
         switch section {
         case .continueWatching:
             return collectionView.size(rows: 1, columns: 1.25)
-            
-        case .popular:
-            return collectionView.size(rows: 2, columns: 3)
-
-        case .Movies, .Series, .Plays, .games:
-            return collectionView.size(rows: 1, columns: 3)
+      
+        case .popular, .Movies, .Series, .Plays, .games:
+            return collectionView.size(rows: 1, columns: 3.5)
         }
         
     }

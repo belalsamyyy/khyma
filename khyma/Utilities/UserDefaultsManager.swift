@@ -43,5 +43,17 @@ struct UserDefaultsManager {
         }
     }
     
+    // computed propery for darkMode
+    var darkMode: Bool {
+        set {
+            def.set(newValue, forKey: UserDefaultsKeys.darkMode)
+        } get {
+            guard def.object(forKey: UserDefaultsKeys.darkMode) != nil else {
+                return true
+            }
+            return def.object(forKey: UserDefaultsKeys.darkMode) as! Bool
+        }
+    }
+    
  
 }

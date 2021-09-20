@@ -107,6 +107,8 @@ class DetailsVC: UIViewController {
         coinCountLabel.textAlignment = .center
         coinCountLabel.textColor = .red
         timeRemainingLabel.textAlignment = .center
+        
+        view.backgroundColor = Color.primary
     }
     
     //MARK: - functions - Reward Timer
@@ -230,7 +232,7 @@ class DetailsVC: UIViewController {
     fileprivate func loadBannerAd() {
            bannerAd.rootViewController = self
            view.addSubview(bannerAd)
-           bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(75))
+           bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(60))
        }
     
     fileprivate func loadInterstitialAd() {
@@ -357,7 +359,7 @@ extension DetailsVC: GADFullScreenContentDelegate {
 extension DetailsVC: YTPlayerViewDelegate {
     
     func playerViewPreferredWebViewBackgroundColor(_ playerView: YTPlayerView) -> UIColor {
-        return .black
+        return Color.secondary
     }
     
     func playerView(_ playerView: YTPlayerView, didChangeTo state: YTPlayerState) {

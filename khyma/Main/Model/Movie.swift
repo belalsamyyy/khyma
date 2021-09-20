@@ -6,13 +6,16 @@
 //
 
 import Foundation
+import UIKit
 
 struct Movie {
     let name: String
     let youtubeUrl: String
+    let posterImage: UIImage
     
     init(name: String) {
         self.name = name
         self.youtubeUrl = "https://www.youtube.com/watch?v=x_me3xsvDgk"
+        self.posterImage = UIImage(imageLiteralResourceName: "poster")
     }
 }

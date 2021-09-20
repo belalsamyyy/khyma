@@ -10,21 +10,19 @@ import DesignX
 
 class CollectionCell: UICollectionViewCell {
     
-    @IBOutlet weak var myLabel: UILabel!
+    @IBOutlet weak var posterImageView: UIImageView!
     
      var movie: Movie? {
          didSet {
-             myLabel.text = movie?.name
+             posterImageView.image = movie?.posterImage
          }
      }
 
      override func awakeFromNib() {
          super.awakeFromNib()
-        
-         myLabel.layout(shortcut: .fillSuperView(0))
-         myLabel.textColor = .white
-         myLabel.textAlignment = .center
-         myLabel.font = UIFont.systemFont(ofSize: 25)
+   
+        posterImageView.layout(shortcut: .fillSuperView(0))
+        posterImageView.contentMode = .scaleAspectFill
         
          // Initialization code
          layer.masksToBounds = true

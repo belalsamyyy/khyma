@@ -28,7 +28,7 @@ class TableCell: UITableViewCell {
         collectionView.register(cell: CollectionCell.self)
         collectionView.register(cell: CollectionCell2.self)
         
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = Color.primary
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
         collectionView.bounces = true
