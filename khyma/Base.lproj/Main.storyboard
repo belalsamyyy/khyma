@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xK5-fo-vcw">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="xK5-fo-vcw">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
-        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -13,6 +12,10 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="GOa-f8-1Wy"/>
+                        <viewControllerLayoutGuide type="bottom" id="LQp-AE-md5"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -34,7 +37,6 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                 </viewController>
@@ -46,6 +48,10 @@
         <scene sceneID="JyX-gr-ZQK">
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="GbI-5P-a83" customClass="homeViewController" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="AW8-Gb-P79"/>
+                        <viewControllerLayoutGuide type="bottom" id="g6F-6g-s6S"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="4fh-i4-NSx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -101,13 +107,12 @@
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="2OB-DX-VXZ"/>
                         <color key="backgroundColor" red="0.74941849709999997" green="0.18071314690000001" blue="0.16689991949999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Dir-xc-h36" firstAttribute="leading" secondItem="2OB-DX-VXZ" secondAttribute="leading" constant="20" id="2ho-mj-QTP"/>
-                            <constraint firstItem="2OB-DX-VXZ" firstAttribute="bottom" secondItem="JdH-7e-3MT" secondAttribute="bottom" constant="50" id="RTZ-q4-SgO"/>
-                            <constraint firstItem="2OB-DX-VXZ" firstAttribute="trailing" secondItem="JdH-7e-3MT" secondAttribute="trailing" id="S1p-bV-66z"/>
-                            <constraint firstItem="JdH-7e-3MT" firstAttribute="leading" secondItem="2OB-DX-VXZ" secondAttribute="leading" id="VhI-mx-6hm"/>
+                            <constraint firstItem="Dir-xc-h36" firstAttribute="leading" secondItem="4fh-i4-NSx" secondAttribute="leading" constant="20" id="2ho-mj-QTP"/>
+                            <constraint firstItem="g6F-6g-s6S" firstAttribute="top" secondItem="JdH-7e-3MT" secondAttribute="bottom" constant="50" id="RTZ-q4-SgO"/>
+                            <constraint firstAttribute="trailing" secondItem="JdH-7e-3MT" secondAttribute="trailing" id="S1p-bV-66z"/>
+                            <constraint firstItem="JdH-7e-3MT" firstAttribute="leading" secondItem="4fh-i4-NSx" secondAttribute="leading" id="VhI-mx-6hm"/>
                             <constraint firstItem="Dir-xc-h36" firstAttribute="top" secondItem="4fh-i4-NSx" secondAttribute="top" constant="50" id="bRl-nm-Pp1"/>
                             <constraint firstItem="JdH-7e-3MT" firstAttribute="top" secondItem="Dir-xc-h36" secondAttribute="bottom" id="xsv-Xb-q5s"/>
                         </constraints>
@@ -125,6 +130,10 @@
         <scene sceneID="dZ0-MG-GJq">
             <objects>
                 <viewController storyboardIdentifier="MainVC" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" id="mVw-FU-iLz" customClass="MainVC" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eCx-yl-cRB"/>
+                        <viewControllerLayoutGuide type="bottom" id="1u2-G7-lpz"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="fH0-BA-nIx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -137,15 +146,26 @@
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fkb-WB-tBP" userLabel="posterImageView">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="429"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            </imageView>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SuC-cX-207" userLabel="mainTableView">
                                                 <rect key="frame" x="0.0" y="428" width="414" height="426"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             </tableView>
+                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="TVr-B5-xlT">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="430"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="amH-5G-TaJ">
+                                                    <size key="itemSize" width="128" height="128"/>
+                                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                </collectionViewFlowLayout>
+                                                <cells/>
+                                            </collectionView>
+                                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="sFH-Ol-y2A">
+                                                <rect key="frame" x="146" y="383" width="122" height="28"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            </pageControl>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
@@ -154,7 +174,6 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="GXl-yq-n6l"/>
                             </scrollView>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="uPl-7i-FBL"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -163,18 +182,23 @@
                     <connections>
                         <outlet property="mainScrollView" destination="gkk-UW-F7Q" id="lKG-Xq-TO7"/>
                         <outlet property="mainTableView" destination="SuC-cX-207" id="IWa-rX-9WG"/>
-                        <outlet property="posterImageView" destination="Fkb-WB-tBP" id="0vK-Mw-lA9"/>
+                        <outlet property="pageView" destination="sFH-Ol-y2A" id="6v4-1k-gK6"/>
                         <outlet property="scrollContainer" destination="KHh-kg-sef" id="BNm-xA-bJF"/>
+                        <outlet property="sliderCollectionView" destination="TVr-B5-xlT" id="ReV-Mt-Zxh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0MK-NT-AYS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="854" y="1317"/>
+            <point key="canvasLocation" x="853.62318840579712" y="1316.5178571428571"/>
         </scene>
         <!--DetailsVC-->
         <scene sceneID="4zd-kz-NA1">
             <objects>
                 <viewController storyboardIdentifier="DetailsVC" id="R4v-Qu-jCG" customClass="DetailsVC" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="SHA-ZE-gLF"/>
+                        <viewControllerLayoutGuide type="bottom" id="Nub-4f-QqF"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="5Nq-as-jQj">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -194,7 +218,6 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <viewLayoutGuide key="safeArea" id="6zh-eO-QXK"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
@@ -209,7 +232,6 @@
         <!--Navigation Controller-->
         <scene sceneID="Ovr-gH-Ubg">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Gyq-sK-1Qr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xK5-fo-vcw" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="6OR-sy-Tw1">
@@ -221,21 +243,21 @@
                         <segue destination="2Tu-hm-IC0" kind="relationship" relationship="rootViewController" id="6oS-Ag-rV3"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Gyq-sK-1Qr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="970" y="518"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Gzg-Wi-bHb">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zBV-1L-4bz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="2Tu-hm-IC0" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="GhU-mE-hOs"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="NFP-wz-2Ha">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" red="0.7573362589" green="0.1733449101" blue="0.1437537968" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="tintColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" red="0.12156862745098039" green="0.14509803921568626" blue="0.1803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
                         <segue destination="mVw-FU-iLz" kind="relationship" relationship="viewControllers" id="1yT-jL-1PI"/>
@@ -244,6 +266,7 @@
                         <segue destination="8RS-nz-kX2" kind="relationship" relationship="viewControllers" id="RE8-v2-lpv"/>
                     </connections>
                 </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zBV-1L-4bz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1880" y="518"/>
         </scene>
@@ -251,10 +274,13 @@
         <scene sceneID="N5b-Ds-QnN">
             <objects>
                 <viewController id="fU7-u0-bZC" customClass="SearchVC" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="UVv-W4-B71"/>
+                        <viewControllerLayoutGuide type="bottom" id="MCv-6F-erH"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="sTR-Hx-7Aa">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="XQu-MA-OCg"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Search" image="icon-search" id="XZ5-1I-7kj"/>
@@ -267,13 +293,16 @@
         <scene sceneID="nhV-jf-FCr">
             <objects>
                 <viewController id="wcw-f9-S4M" customClass="FavouriteVC" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="BbN-Tv-RnR"/>
+                        <viewControllerLayoutGuide type="bottom" id="yyF-kU-uaT"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Bc2-1V-lq1">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="cYF-qp-U3f"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="My List" image="icon-settings" id="p7g-5t-HAw"/>
+                    <tabBarItem key="tabBarItem" title="My List" image="icon-favourite" id="p7g-5t-HAw"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TQq-rs-K1L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -283,10 +312,13 @@
         <scene sceneID="kEG-PR-p0b">
             <objects>
                 <viewController id="8RS-nz-kX2" customClass="SettingsVC" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="A4L-IJ-uda"/>
+                        <viewControllerLayoutGuide type="bottom" id="bIb-vE-pQs"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="NxZ-ra-RLQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="wrg-yQ-OWy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Settings" image="icon-settings" id="Cuf-9g-ue7"/>
@@ -296,7 +328,9 @@
             <point key="canvasLocation" x="3319" y="1317"/>
         </scene>
     </scenes>
+    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
     <resources>
+        <image name="icon-favourite" width="26" height="24"/>
         <image name="icon-home" width="27" height="27"/>
         <image name="icon-search" width="27" height="27"/>
         <image name="icon-settings" width="27" height="18"/>

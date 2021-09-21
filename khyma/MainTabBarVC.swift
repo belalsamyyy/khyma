@@ -11,7 +11,7 @@ class MainTabBarVC: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
-        view.backgroundColor = Color.tabBar
+        view.backgroundColor = Color.primary
     }
     
     fileprivate func templateNavController(unselected: UIImage, selected: UIImage,

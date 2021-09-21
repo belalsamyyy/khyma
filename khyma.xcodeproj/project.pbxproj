@@ -42,6 +42,8 @@
 		D95B207226F8B01400112079 /* MainTabBarVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95B207126F8B01400112079 /* MainTabBarVC.swift */; };
 		D95B207426F8C54100112079 /* TabBarItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95B207326F8C54100112079 /* TabBarItems.swift */; };
 		D95B208226F8D8E200112079 /* TableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95B208126F8D8E200112079 /* TableCell.swift */; };
+		D99B79A126F9E0460019B087 /* CollectionCell3.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99B799F26F9E0460019B087 /* CollectionCell3.swift */; };
+		D99B79A226F9E0460019B087 /* CollectionCell3.xib in Resources */ = {isa = PBXBuildFile; fileRef = D99B79A026F9E0460019B087 /* CollectionCell3.xib */; };
 		EF3650329F78E05222102D37 /* Pods_khyma.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6373667ECC5ED1C9FC9E6E /* Pods_khyma.framework */; };
 /* End PBXBuildFile section */
 
@@ -114,6 +116,8 @@
 		D95B207126F8B01400112079 /* MainTabBarVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarVC.swift; sourceTree = "<group>"; };
 		D95B207326F8C54100112079 /* TabBarItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItems.swift; sourceTree = "<group>"; };
 		D95B208126F8D8E200112079 /* TableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableCell.swift; sourceTree = "<group>"; };
+		D99B799F26F9E0460019B087 /* CollectionCell3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCell3.swift; sourceTree = "<group>"; };
+		D99B79A026F9E0460019B087 /* CollectionCell3.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionCell3.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -302,6 +306,7 @@
 				D95B208126F8D8E200112079 /* TableCell.swift */,
 				D9125A9426F738CF00D29128 /* CollectionCell.swift */,
 				D9125A9826F738EC00D29128 /* CollectionCell2.swift */,
+				D99B799F26F9E0460019B087 /* CollectionCell3.swift */,
 				D9125A9C26F73A6E00D29128 /* xib */,
 			);
 			path = View;
@@ -344,6 +349,7 @@
 			children = (
 				D9125A9526F738D000D29128 /* CollectionCell.xib */,
 				D9125A9926F738EC00D29128 /* CollectionCell2.xib */,
+				D99B79A026F9E0460019B087 /* CollectionCell3.xib */,
 			);
 			path = xib;
 			sourceTree = "<group>";
@@ -568,6 +574,7 @@
 				C9EE0CC626ED0C10009361A6 /* Assets.xcassets in Resources */,
 				D9125A9726F738D000D29128 /* CollectionCell.xib in Resources */,
 				C9EE0CC426ED0C0E009361A6 /* Main.storyboard in Resources */,
+				D99B79A226F9E0460019B087 /* CollectionCell3.xib in Resources */,
 				D9125A9B26F738EC00D29128 /* CollectionCell2.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -709,6 +716,7 @@
 				D9125A8E26F7380900D29128 /* Movie.swift in Sources */,
 				D9125AA026F7474B00D29128 /* DetailsVC.swift in Sources */,
 				D9125A8226F7339D00D29128 /* UIViewController+Extensions.swift in Sources */,
+				D99B79A126F9E0460019B087 /* CollectionCell3.swift in Sources */,
 				C9EE0CBF26ED0C0E009361A6 /* SceneDelegate.swift in Sources */,
 				D9125A7626F72B6A00D29128 /* MainVC.swift in Sources */,
 				D9125A9626F738D000D29128 /* CollectionCell.swift in Sources */,

@@ -237,7 +237,7 @@ class DetailsVC: UIViewController {
     
     fileprivate func loadInterstitialAd() {
         let request = GADRequest()
-        GADInterstitialAd.load(withAdUnitID: "ca-app-pub-3940256099942544/4411468910", request: request) { (ad, error) in
+        GADInterstitialAd.load(withAdUnitID: AdUnitKeys.interstitial, request: request) { (ad, error) in
           if let error = error {
             print("Failed to load interstitial ad with error: \(error.localizedDescription)")
             return
@@ -251,7 +251,7 @@ class DetailsVC: UIViewController {
       
         
       fileprivate func loadRewardVideoAd() {
-        GADRewardedAd.load(withAdUnitID: "ca-app-pub-3940256099942544/1712485313", request: GADRequest())  { (ad, error) in
+        GADRewardedAd.load(withAdUnitID: AdUnitKeys.rewardVideo, request: GADRequest())  { (ad, error) in
             
           if let error = error {
             print("Rewarded ad failed to load with error: \(error.localizedDescription)")

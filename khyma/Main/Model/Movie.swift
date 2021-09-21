@@ -13,9 +13,9 @@ struct Movie {
     let youtubeUrl: String
     let posterImage: UIImage
     
-    init(name: String) {
+    init(name: String, poster: UIImage) {
         self.name = name
         self.youtubeUrl = "https://www.youtube.com/watch?v=x_me3xsvDgk"
-        self.posterImage = UIImage(imageLiteralResourceName: "poster")
+        self.posterImage = poster
     }
 }
