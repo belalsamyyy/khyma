@@ -13,8 +13,8 @@ class CollectionView: UICollectionView {
 }
 
 //MARK: - TableView Cell
-class TableCell: UITableViewCell {
-    static let identifier = "TableCell"
+class MainTableCell: UITableViewCell {
+    static let identifier = "MainTableCell"
     var collectionView: CollectionView!
     var collectionFlowLayout = UICollectionViewFlowLayout()
 
@@ -25,8 +25,8 @@ class TableCell: UITableViewCell {
         collectionView = CollectionView(frame: .zero, collectionViewLayout: collectionFlowLayout)
         
         // register
-        collectionView.register(cell: CollectionCell.self)
-        collectionView.register(cell: CollectionCell2.self)
+        collectionView.register(cell: MovieCell.self)
+        collectionView.register(cell: ContinueWatchingCell.self)
         
         collectionView.backgroundColor = Color.primary
         collectionView.showsHorizontalScrollIndicator = false

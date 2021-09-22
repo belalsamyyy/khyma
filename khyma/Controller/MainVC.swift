@@ -30,11 +30,13 @@ class MainVC: UIViewController {
       return banner
     }()
     
-    var timer = Timer()
+    var sliderTimer: Timer?
     var counter = 0
 
         
     //MARK: - constants
+    
+    let customNavBar = CustomNavBar()
     
     let continueWatching = [Movie(name: "Body Guard", poster: UIImage(named: "poster-movie-1")!),
                             Movie(name: "Avengers: End Game", poster: UIImage(named: "poster-movie-2")!),
@@ -56,9 +58,24 @@ class MainVC: UIViewController {
         loadBannerAd()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        print(viewWillAppear)
+        self.navigationController?.navigationBar.topItem?.title = ""
+        addCustomNavBar()
+        startTimer()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        print(viewWillDisappear)
+        customNavBar.removeFromSuperview()
+        endTimer()
+    }
+    
     override func viewDidLayoutSubviews() {
         sliderCollectionView.reloadData()
     }
+    
+   
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
             super.traitCollectionDidChange(previousTraitCollection)
@@ -75,15 +92,19 @@ class MainVC: UIViewController {
             }
         }
     
+
+    
     //MARK: - functions
     
     fileprivate func setupViews() {
         
         // navigation bar
         self.navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationItem.largeTitleDisplayMode = .never
+        addCustomNavBar()
         
         // tab bar
-        UITabBar.appearance().tintColor = .white
+        UITabBar.appearance().tintColor = Color.text
 
         // scroll
         mainScrollView.create(container: scrollContainer)
@@ -95,7 +116,7 @@ class MainVC: UIViewController {
         sliderCollectionView.delegate = self
         sliderCollectionView.dataSource = self
         
-        sliderCollectionView.register(cell: CollectionCell3.self)
+        sliderCollectionView.register(cell: MainSliderCell.self)
         sliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 0, mainTableView, 0, .fixed(500)))
         
         // pager
@@ -103,10 +124,7 @@ class MainVC: UIViewController {
         pageView.numberOfPages = movies.count
         pageView.currentPage = 0
         
-        // timer
-        DispatchQueue.main.async {
-            self.timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.slideImage), userInfo: nil, repeats: true)
-        }
+        startTimer()
         
         // table view
         mainTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(sliderCollectionView, 0, nil, 0, .fixed(1600)))
@@ -116,6 +134,16 @@ class MainVC: UIViewController {
         mainTableView.dataSource = self
         mainScrollView.delegate = self
         
+    }
+    
+    fileprivate func startTimer() {
+        // timer
+        self.sliderTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.slideImage), userInfo: nil, repeats: true)
+    }
+    
+    fileprivate func endTimer() {
+        sliderTimer?.invalidate()
+        sliderTimer = nil
     }
     
     @objc func slideImage() {
@@ -132,6 +160,14 @@ class MainVC: UIViewController {
              counter = 1
          }
         print("image slider => \(counter)")
+    }
+    
+    fileprivate func addCustomNavBar() {
+        customNavBar.delegate = self // custom delegation pattern
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        let navBar = navigationController?.navigationBar
+        navBar?.addSubview(customNavBar)
+        customNavBar.layout(X: .center(nil), W: .equal(nil, 0.9), Y: .center(nil), H: .fixed(50))
     }
     
     fileprivate func lightModeEnabled() {
@@ -158,6 +194,35 @@ class MainVC: UIViewController {
 
 
 //MARK: - extensions
+
+//MARK: - CustomNavBar Delegate
+
+extension MainVC: CustomNavBarDelegate {
+    // custom delegation pattern 
+    
+    func handleMoviesTapped() {
+        print("movies tapped here from main vc")
+        let moviesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoviesVC") as! MoviesVC
+        //moviesVC.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(moviesVC, animated: true, completion: nil)
+    }
+    
+    func handleSeriesTapped() {
+        print("series tapped here from main vc")
+        let seriesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "SeriesVC") as! SeriesVC
+        //seriesVC.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(seriesVC, animated: true, completion: nil)
+    }
+    
+    func handlePlaysTapped() {
+        print("plays tapped here from main vc")
+        let playsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "PlaysVC") as! PlaysVC
+        //playsVC.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(playsVC, animated: true, completion: nil)
+    }
+    
+    
+}
 
 //MARK: - UIScrollView Delegate
 
@@ -189,10 +254,10 @@ extension MainVC: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // let section = TableSections.allCases[indexPath.section]
-        var cell = tableView.dequeueReusableCell(withIdentifier: TableCell.identifier) as? TableCell
+        var cell = tableView.dequeueReusableCell(withIdentifier: MainTableCell.identifier) as? MainTableCell
         
         if cell == nil {
-            cell = TableCell(style: .default, reuseIdentifier: TableCell.identifier)
+            cell = MainTableCell(style: .default, reuseIdentifier: MainTableCell.identifier)
             cell?.collectionFlowLayout.scrollDirection = .horizontal
             cell?.selectionStyle = .none
         }
@@ -234,7 +299,7 @@ extension MainVC: UITableViewDelegate {
     }
     
     func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-       guard let cell: TableCell = cell as? TableCell else { return }
+       guard let cell: MainTableCell = cell as? MainTableCell else { return }
        cell.setCollectionView(dataSource: self, delegate: self, indexPath: indexPath)
     }
 }
@@ -269,21 +334,21 @@ extension MainVC: UICollectionViewDataSource {
         let section = TableSections.allCases[collectionView.tag]
         
         if collectionView == sliderCollectionView {
-            let cell3 = collectionView.dequeue(indexPath: indexPath) as CollectionCell3
-            cell3.backgroundColor = .blue
+            let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
+            cell3.backgroundColor = Color.secondary
             cell3.movie = movies[indexPath.item]
             return cell3
         }
         
         switch section {
         case .popular, .Movies, .Series, .Plays, .games:
-            let cell1 = collectionView.dequeue(indexPath: indexPath) as CollectionCell
+            let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
             cell1.backgroundColor = Color.secondary
             cell1.movie = movies[indexPath.item]
             return cell1
             
         case .continueWatching:
-            let cell2 = collectionView.dequeue(indexPath: indexPath) as CollectionCell2
+            let cell2 = collectionView.dequeue(indexPath: indexPath) as ContinueWatchingCell
             cell2.backgroundColor = Color.secondary
             cell2.movie = continueWatching[indexPath.item]
             return cell2

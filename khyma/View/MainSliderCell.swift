@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CollectionCell3: UICollectionViewCell {
+class MainSliderCell: UICollectionViewCell {
 
     var gradientLayer = CAGradientLayer()
     @IBOutlet weak var posterImageView: UIImageView!
@@ -30,17 +30,13 @@ class CollectionCell3: UICollectionViewCell {
         addGradientLayer(to: posterImageView)
     }
     
-    fileprivate func addGradientLayer(to view: UIView) {
-        DispatchQueue.main.async {
-            self.gradientLayer = view.fill(gradient: [.color(.clear), .color(Color.primary)], locations: [0, 1], opacity: 1)
-            self.gradientLayer.frame = view.bounds
-        }
+    override func layoutSubviews() {
+        self.gradientLayer.frame = posterImageView.bounds
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        gradientLayer.removeFromSuperlayer()
         switch traitCollection.userInterfaceStyle {
             case .dark:
                 darkModeEnabled()   // Switch to dark mode colors, etc.
@@ -53,11 +49,20 @@ class CollectionCell3: UICollectionViewCell {
         }
     }
     
+    fileprivate func addGradientLayer(to view: UIView) {
+        DispatchQueue.main.async {
+            self.gradientLayer = view.fill(gradient: [.color(.clear), .color(Color.primary)], locations: [0, 1], opacity: 1)
+            self.gradientLayer.frame = view.bounds
+        }
+    }
+    
     fileprivate func lightModeEnabled() {
+        gradientLayer.removeFromSuperlayer()
         addGradientLayer(to: posterImageView)
     }
     
     fileprivate func darkModeEnabled() {
+        gradientLayer.removeFromSuperlayer()
         addGradientLayer(to: posterImageView)
     }
     

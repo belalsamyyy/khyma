@@ -27,7 +27,7 @@ struct AdUnitKeys {
 //MARK: - Colors
 
 struct Color {
-    static let primary = UIColor(named: "Primary")!
-    static let secondary = UIColor(named: "Secondary")!
-    static let text = UIColor(named: "Text")!
+    static let primary = UIColor(named: "color-primary")!
+    static let secondary = UIColor(named: "color-secondary")!
+    static let text = UIColor(named: "color-text")!
 }

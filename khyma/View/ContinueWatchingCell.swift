@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CollectionCell2: UICollectionViewCell {
+class ContinueWatchingCell: UICollectionViewCell {
         
     @IBOutlet weak var myLabel: UILabel!
     

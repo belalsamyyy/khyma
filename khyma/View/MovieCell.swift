@@ -8,7 +8,7 @@
 import UIKit
 import DesignX
 
-class CollectionCell: UICollectionViewCell {
+class MovieCell: UICollectionViewCell {
     
     @IBOutlet weak var posterImageView: UIImageView!
     

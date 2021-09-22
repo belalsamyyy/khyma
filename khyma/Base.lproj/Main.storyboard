@@ -138,7 +138,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gkk-UW-F7Q" userLabel="mainScrollView">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gkk-UW-F7Q" userLabel="mainScrollView">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
@@ -281,13 +281,35 @@
                     <view key="view" contentMode="scaleToFill" id="sTR-Hx-7Aa">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z9D-yK-caH">
+                                <rect key="frame" x="0.0" y="88" width="414" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ugn-Mo-srk">
+                                <rect key="frame" x="0.0" y="132" width="414" height="681"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Sy6-mt-7Oc">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Search" image="icon-search" id="XZ5-1I-7kj"/>
+                    <connections>
+                        <outlet property="searchBar" destination="z9D-yK-caH" id="qWE-tV-eP4"/>
+                        <outlet property="searchCollectionView" destination="ugn-Mo-srk" id="RA1-s1-SRh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="raI-A1-eIK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1677" y="1317"/>
+            <point key="canvasLocation" x="1676.8115942028987" y="1316.5178571428571"/>
         </scene>
         <!--My List-->
         <scene sceneID="nhV-jf-FCr">
@@ -326,6 +348,60 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NWg-gN-CL6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3319" y="1317"/>
+        </scene>
+        <!--MoviesVC-->
+        <scene sceneID="zvp-jH-Ap7">
+            <objects>
+                <viewController storyboardIdentifier="MoviesVC" id="sda-zC-ksg" customClass="MoviesVC" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="w0d-eD-izP"/>
+                        <viewControllerLayoutGuide type="bottom" id="P9J-0K-7h8"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Zlt-L2-ApV">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IyB-2Q-XGg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4214" y="518"/>
+        </scene>
+        <!--SeriesVC-->
+        <scene sceneID="ICu-Sb-wPc">
+            <objects>
+                <viewController storyboardIdentifier="SeriesVC" id="gJc-mP-GlD" customClass="SeriesVC" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HGH-uY-61o"/>
+                        <viewControllerLayoutGuide type="bottom" id="Sx5-g1-BrH"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="XIe-I8-aic">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gbP-3u-uhl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4943" y="518"/>
+        </scene>
+        <!--PlaysVC-->
+        <scene sceneID="c3X-9p-JZC">
+            <objects>
+                <viewController storyboardIdentifier="PlaysVC" id="goO-7n-gMG" customClass="PlaysVC" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="r0v-we-1HW"/>
+                        <viewControllerLayoutGuide type="bottom" id="zvr-Wj-7GK"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="SVt-Ub-m1U">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="axN-xX-Gzx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5688" y="518"/>
         </scene>
     </scenes>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
