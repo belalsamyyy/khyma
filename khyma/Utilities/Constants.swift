@@ -11,9 +11,11 @@ import UIKit
 //MARK: - UserDefaults Keys
 
 struct UserDefaultsKeys {
+    static let language = "language"
     static let deviceID = "deviceID"
     static let coins = "coins"
     static let darkMode = "darkMode"
+    static let myList = "myList"
 }
 
 //MARK: - Ad Units Keys
@@ -30,4 +32,51 @@ struct Color {
     static let primary = UIColor(named: "color-primary")!
     static let secondary = UIColor(named: "color-secondary")!
     static let text = UIColor(named: "color-text")!
+}
+
+//MARK: - Strings
+struct StringsKeys {
+    //Movies
+    static let bodyGuard = "bodyGuard" // Body Guard
+    static let avengers = "avengers" // Avengers: End Game
+    static let weladRizk = "weladRizk" // Welad Rizk 2
+    static let batman = "batman" // Batman Hush
+    static let blueElephant = "blueElephant" // Blue Elephant 2
+    
+    //Main
+    static let continueWatching = "continueWatching"
+    static let popular = "popular"
+    static let movies = "movies"
+    static let series = "series"
+    static let plays = "plays"
+    static let more = "more"
+    
+    // Details
+    static let add = "add"
+    
+    // Search
+    static let search = "search"
+    static let searchPlaceholder = "searchPlaceholder"
+    
+    // My List
+    static let myList = "myList"
+    static let removeAlertTitle = "removeAlertTitle"
+    static let cancelAlert = "cancelAlert"
+    static let removeAlertAction = "removeAlertAction"
+    static let addAlertAction = "addAlertAction"
+    
+    // Settings
+    static let settings = "settings"
+    static let coins = "coins"
+    static let theme = "theme"
+    static let darkMode = "darkMode"
+    static let language = "language"
+    static let changeLangAlert = "changeLangAlert"
+    static let english = "english"
+    static let arabic = "arabic"
+    static let currentLanguage = "currentLanguage"
+    
+    // movies category
+    static let back = "back"
+    
 }

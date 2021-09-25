@@ -5,7 +5,6 @@
 //  Created by Belal Samy on 19/09/2021.
 //
 
-import GoogleMobileAds
 import DesignX
 
 class MainVC: UIViewController {
@@ -20,34 +19,35 @@ class MainVC: UIViewController {
     @IBOutlet weak var pageView: UIPageControl!
     
     //MARK: - variables
-        
-    // The banner ad
-    private var bannerAd: GADBannerView = {
-      let banner = GADBannerView()
-      banner.adUnitID = AdUnitKeys.banner
-      banner.load(GADRequest())
-      banner.backgroundColor = .lightGray
-      return banner
-    }()
     
     var sliderTimer: Timer?
     var counter = 0
+    
+    var timerState = TimerState.notStarted
 
         
     //MARK: - constants
     
-    let customNavBar = CustomNavBar()
+    // Timer state
+    enum TimerState {
+      case notStarted
+      case playing
+      case ended
+    }
     
-    let continueWatching = [Movie(name: "Body Guard", poster: UIImage(named: "poster-movie-1")!),
-                            Movie(name: "Avengers: End Game", poster: UIImage(named: "poster-movie-2")!),
-                            Movie(name: "Welad Rizk 2", poster: UIImage(named: "poster-movie-3")!),
-                            Movie(name: "Batman Hush", poster: UIImage(named: "poster-movie-4")!)]
-       
-    let movies = [Movie(name: "BodyGuard", poster: UIImage(named: "poster-movie-1")!),
-                  Movie(name: "Avengers: End Game", poster: UIImage(named: "poster-movie-2")!),
-                  Movie(name: "Welad Rizk 2", poster: UIImage(named: "poster-movie-3")!),
-                  Movie(name: "Batman Hush", poster: UIImage(named: "poster-movie-4")!),
-                  Movie(name: "Blue Elephant 2", poster: UIImage(named: "poster-movie-5")!)]
+    let customNavBar = MainNavBar()
+    
+    let continueWatching = [Movie(name: StringsKeys.bodyGuard.localized, posterUrl: "poster-movie-1"),
+                            Movie(name: StringsKeys.avengers.localized, posterUrl: "poster-movie-2"),
+                            Movie(name: StringsKeys.weladRizk.localized, posterUrl: "poster-movie-3"),
+                            Movie(name: StringsKeys.batman.localized, posterUrl: "poster-movie-4"),
+                            Movie(name: StringsKeys.blueElephant.localized, posterUrl: "poster-movie-5")]
+    
+    let movies = [Movie(name: StringsKeys.bodyGuard.localized, posterUrl: "poster-movie-1"),
+                  Movie(name: StringsKeys.avengers.localized, posterUrl: "poster-movie-2"),
+                  Movie(name: StringsKeys.weladRizk.localized, posterUrl: "poster-movie-3"),
+                  Movie(name: StringsKeys.batman.localized, posterUrl: "poster-movie-4"),
+                  Movie(name: StringsKeys.blueElephant.localized, posterUrl: "poster-movie-5")]
 
     
     //MARK: - lifecycle
@@ -55,11 +55,10 @@ class MainVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        loadBannerAd()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print(viewWillAppear)
+        sliderCollectionView.reloadData()
         self.navigationController?.navigationBar.topItem?.title = ""
         addCustomNavBar()
         startTimer()
@@ -68,30 +67,12 @@ class MainVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         print(viewWillDisappear)
         customNavBar.removeFromSuperview()
-        endTimer()
+        timerState = .ended
     }
     
     override func viewDidLayoutSubviews() {
         sliderCollectionView.reloadData()
     }
-    
-   
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-            super.traitCollectionDidChange(previousTraitCollection)
-
-            switch traitCollection.userInterfaceStyle {
-                case .dark:
-                    darkModeEnabled()   // Switch to dark mode colors, etc.
-                case .light:
-                    fallthrough
-                case .unspecified:
-                    fallthrough
-                default:
-                    lightModeEnabled()   // Switch to light mode colors, etc.
-            }
-        }
-    
 
     
     //MARK: - functions
@@ -113,12 +94,14 @@ class MainVC: UIViewController {
         scrollContainer.backgroundColor = Color.primary
         
         // posters slider
+        sliderCollectionView.backgroundColor = Color.primary
         sliderCollectionView.delegate = self
         sliderCollectionView.dataSource = self
         
         sliderCollectionView.register(cell: MainSliderCell.self)
         sliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 0, mainTableView, 0, .fixed(500)))
-        
+        sliderCollectionView.reloadData()
+
         // pager
         pageView.layout(X: .center(nil), W: .equal(nil, 1), Y: .top(sliderCollectionView, -75), H: .fixed(50))
         pageView.numberOfPages = movies.count
@@ -136,17 +119,23 @@ class MainVC: UIViewController {
         
     }
     
+    
     fileprivate func startTimer() {
         // timer
-        self.sliderTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.slideImage), userInfo: nil, repeats: true)
+        timerState = .playing
+        self.sliderTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.timerTick), userInfo: nil, repeats: true)
     }
     
-    fileprivate func endTimer() {
-        sliderTimer?.invalidate()
-        sliderTimer = nil
+    
+    @objc func timerTick() {
+        if timerState == .playing {
+            slideImage()
+        } else {
+            endTimer()
+        }
     }
     
-    @objc func slideImage() {
+    fileprivate func slideImage() {
          if counter < movies.count {
              let index = IndexPath.init(item: counter, section: 0)
              self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
@@ -159,7 +148,13 @@ class MainVC: UIViewController {
              pageView.currentPage = counter
              counter = 1
          }
-        print("image slider => \(counter)")
+        print("main slider => \(counter)")
+    }
+    
+    
+    fileprivate func endTimer() {
+        sliderTimer?.invalidate()
+        sliderTimer = nil
     }
     
     fileprivate func addCustomNavBar() {
@@ -170,21 +165,13 @@ class MainVC: UIViewController {
         customNavBar.layout(X: .center(nil), W: .equal(nil, 0.9), Y: .center(nil), H: .fixed(50))
     }
     
-    fileprivate func lightModeEnabled() {
-        print("dark mode")
-        sliderCollectionView.reloadData()
+    @objc fileprivate func handleMoreTapped() {
+        print("more tapped ...")
+        let moreVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoreRootVC") as! UINavigationController
+        //moreVC.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(moreVC, animated: true, completion: nil)
     }
-    
-    fileprivate func darkModeEnabled() {
-        print("light mode")
-        sliderCollectionView.reloadData()
-    }
-    
-    fileprivate func loadBannerAd() {
-           bannerAd.rootViewController = self
-           scrollContainer.addSubview(bannerAd)
-           bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(60))
-    }
+
     
     
     //MARK: - actions
@@ -195,29 +182,30 @@ class MainVC: UIViewController {
 
 //MARK: - extensions
 
+
 //MARK: - CustomNavBar Delegate
 
-extension MainVC: CustomNavBarDelegate {
+extension MainVC: MainNavBarDelegate {
     // custom delegation pattern 
     
     func handleMoviesTapped() {
         print("movies tapped here from main vc")
-        let moviesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoviesVC") as! MoviesVC
-        //moviesVC.modalPresentationStyle = .fullScreen
+        let moviesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoviesRootVC") as! UINavigationController
+        moviesVC.modalPresentationStyle = .fullScreen
         self.navigationController?.present(moviesVC, animated: true, completion: nil)
     }
     
     func handleSeriesTapped() {
         print("series tapped here from main vc")
-        let seriesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "SeriesVC") as! SeriesVC
-        //seriesVC.modalPresentationStyle = .fullScreen
+        let seriesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "SeriesRootVC") as! UINavigationController
+        seriesVC.modalPresentationStyle = .fullScreen
         self.navigationController?.present(seriesVC, animated: true, completion: nil)
     }
     
     func handlePlaysTapped() {
         print("plays tapped here from main vc")
-        let playsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "PlaysVC") as! PlaysVC
-        //playsVC.modalPresentationStyle = .fullScreen
+        let playsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "PlaysRootVC") as! UINavigationController
+        playsVC.modalPresentationStyle = .fullScreen
         self.navigationController?.present(playsVC, animated: true, completion: nil)
     }
     
@@ -239,11 +227,11 @@ extension MainVC: UITableViewDataSource {
 
     // section
      func numberOfSections(in _: UITableView) -> Int {
-        return TableSections.allCases.count
+        return MainTableSections.allCases.count
     }
     
     func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
-       let section = TableSections.allCases[section]
+       let section = MainTableSections.allCases[section]
         return section.ui.sectionTitle
    }
 
@@ -275,17 +263,46 @@ extension MainVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-       let headerView = UIView()
+       let currentSection = MainTableSections.allCases[section]
+       switch currentSection {
+       case .continueWatching:
+        let headerView = UIView()
 
-       let myLabel = UILabel()
-       myLabel.frame = CGRect(x: 20, y: 8, width: 320, height: 30)
-       myLabel.font = UIFont.boldSystemFont(ofSize: 18)
-       myLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
-       myLabel.textColor = Color.text
+        let sectionLabel = UILabel()
+        headerView.addSubview(sectionLabel)
 
-       headerView.addSubview(myLabel)
+        sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
+        sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        sectionLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
+        sectionLabel.textColor = Color.text
+        
+        return headerView
+        
+       case .popular, .Movies, .Series, .Plays, .games:
+        let headerView = UIView()
 
-       return headerView
+        let sectionLabel = UILabel()
+        headerView.addSubview(sectionLabel)
+
+        sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
+        sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        sectionLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
+        sectionLabel.textColor = Color.text
+         
+         let moreBtn = UIButton()
+         headerView.addSubview(moreBtn)
+         
+         moreBtn.layout(X: .trailing(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
+         moreBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+         moreBtn.setTitle(StringsKeys.more.localized, for: .normal)
+         moreBtn.setTitleColor(Color.secondary, for: .normal)
+         moreBtn.titleLabel?.textAlignment = .center
+         moreBtn.addTarget(self, action: #selector(handleMoreTapped), for: .touchUpInside)
+
+        return headerView
+    }
+
+       
     }
     
     func tableView(_: UITableView, heightForFooterInSection _: Int) -> CGFloat {
@@ -294,7 +311,7 @@ extension MainVC: UITableViewDelegate {
     
      // row
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let section = TableSections.allCases[indexPath.section]
+        let section = MainTableSections.allCases[indexPath.section]
         return section.ui.sectionHeight
     }
     
@@ -315,7 +332,7 @@ extension MainVC: UICollectionViewDataSource {
     
     // item
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let section = TableSections.allCases[collectionView.tag]
+        let section = MainTableSections.allCases[collectionView.tag]
         
         if collectionView == sliderCollectionView {
             return movies.count
@@ -331,7 +348,7 @@ extension MainVC: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = TableSections.allCases[collectionView.tag]
+        let section = MainTableSections.allCases[collectionView.tag]
         
         if collectionView == sliderCollectionView {
             let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
@@ -363,7 +380,7 @@ extension MainVC: UICollectionViewDelegate {
     // item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // section
-        let section = TableSections.allCases[collectionView.tag]
+        let section = MainTableSections.allCases[collectionView.tag]
         print("section : \(section.ui.sectionTitle) => \(indexPath.item)")
         
         // movie
@@ -371,7 +388,7 @@ extension MainVC: UICollectionViewDelegate {
         
         let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
         detailsVC.modalPresentationStyle = .fullScreen
-        detailsVC.youtubeID = movie.youtubeUrl.youtubeID
+        detailsVC.movie = movie
         self.navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
@@ -398,7 +415,7 @@ extension MainVC: UICollectionViewDelegateFlowLayout {
     
     // item
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        let section = TableSections.allCases[collectionView.tag]
+        let section = MainTableSections.allCases[collectionView.tag]
         
         if collectionView == sliderCollectionView {
             let size = sliderCollectionView.frame.size

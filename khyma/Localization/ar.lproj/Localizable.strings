@@ -3,5 +3,49 @@
   khyma
 
   Created by Belal Samy on 19/09/2021.
-  
 */
+
+//Movies
+bodyGuard = "بودي جارد";
+avengers = "الافنجرز: نهاية اللعبة";
+weladRizk = "ولاد رزق ٢";
+batman = "بات مان هاش";
+blueElephant = "الفيل الازرق ٢";
+
+//Main
+continueWatching = "استكمال المشاهدة";
+popular = "الاكثر مشاهدة";
+movies = "افــــلام";
+series = "مسلسلات";
+plays = "مسرحيات";
+more = "المزيــد";
+
+// Details
+add = "+ اضافة";
+
+//Search
+search = "البحث";
+searchPlaceholder = "افلام، مسلسلات، مسرحيات ...";
+
+//My List
+myList = "قائمتي";
+removeAlertTitle = "ازالة من قائمتي ؟";
+cancelAlert = "الغاء";
+removeAlertAction = "ازالة";
+addAlertAction = "اضافة الي قائمتي";
+
+//Settings
+settings = "الاعدادات";
+coins = "النقاط";
+theme = "الشكل";
+darkMode = "الوضع المظلم";
+language = "اللغة";
+changeLangAlert = "تغيير اللغة";
+english = "الانجليزية";
+arabic = "العربية";
+currentLanguage = "العربية";
+
+//Categories
+back = ">";
+
+

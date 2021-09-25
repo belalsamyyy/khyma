@@ -9,16 +9,16 @@ import Foundation
 import UIKit
 
 
-protocol CustomNavBarDelegate: AnyObject {
+protocol MainNavBarDelegate: AnyObject {
     func handleMoviesTapped()
     func handleSeriesTapped()
     func handlePlaysTapped()
 }
 
-class CustomNavBar: UIView {
+class MainNavBar: UIView {
     
     // delegate
-    weak var delegate: CustomNavBarDelegate?
+    weak var delegate: MainNavBarDelegate?
     
     // stackview
     let stackView = UIStackView()
@@ -42,7 +42,6 @@ class CustomNavBar: UIView {
     }
     
     fileprivate func setupViews() {
-        self.tag = 500
         self.addSubviews([stackView, imageContainer, moviesBtn, seriesBtn, playsBtn])
         
         // logo image
@@ -51,9 +50,9 @@ class CustomNavBar: UIView {
         logoImageView.layout(X: .center(nil), W: .fixed(80), Y: .center(nil), H: .fixed(40))
 
         // labels
-        moviesBtn.setTitle("Movies", for: .normal)
-        seriesBtn.setTitle("Series", for: .normal)
-        playsBtn.setTitle("Plays", for: .normal)
+        moviesBtn.setTitle(StringsKeys.movies.localized, for: .normal)
+        seriesBtn.setTitle(StringsKeys.series.localized, for: .normal)
+        playsBtn.setTitle(StringsKeys.plays.localized, for: .normal)
         
         moviesBtn.setTitleColor(Color.text, for: .normal)
         seriesBtn.setTitleColor(Color.text, for: .normal)
@@ -75,7 +74,6 @@ class CustomNavBar: UIView {
         // stack view
         stackView.layout(shortcut: .fillSuperView(0))
         
-        //let subViews2 = stackView.fakeViews(4)
         let subViews = [imageContainer, moviesBtn, seriesBtn, playsBtn]
         stackView.create(subviews: subViews, colors: [.color(.clear)], axis: .H, distribution: .fillEqually(5))
     }

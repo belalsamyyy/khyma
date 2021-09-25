@@ -19,6 +19,18 @@ struct UserDefaultsManager {
     
     //MARK: - computed properties
     
+    // computed propery for language
+        var language: String {
+            set {
+                def.set(newValue, forKey: UserDefaultsKeys.language)
+            } get {
+                guard def.object(forKey: UserDefaultsKeys.language) != nil else {
+                    return "language not specified"
+                }
+                return def.object(forKey: UserDefaultsKeys.language) as! String
+            }
+        }
+    
     // computed propery for deviceID
     var deviceID: String {
         set {
@@ -42,5 +54,44 @@ struct UserDefaultsManager {
             return def.object(forKey: UserDefaultsKeys.coins) as! Int
         }
     }
- 
+    
+    // computed propery for darkMode
+    var darkMode: Bool {
+        set {
+            def.set(newValue, forKey: UserDefaultsKeys.darkMode)
+        } get {
+            guard def.object(forKey: UserDefaultsKeys.darkMode) != nil else {
+                return true
+            }
+            return def.object(forKey: UserDefaultsKeys.darkMode) as! Bool
+        }
+    }
+    
+    // function to return saved movies in my list
+    func savedMovies() -> [Movie] {
+        do {
+            guard let savedMoviesData = UserDefaults.standard.data(forKey: UserDefaultsKeys.myList) else { return [] }
+            guard let savedMovies = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedMoviesData) as? [Movie] else { return [] }
+            return savedMovies
+        } catch {
+            return []
+        }
+    }
+    
+    
+    // function to delete a movie from my list
+    func deleteMovie(movie: Movie) {
+          let movies = savedMovies()
+          let filteredMovies = movies.filter { (m) -> Bool in
+            return m.name != movie.name
+          }
+            
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: filteredMovies, requiringSecureCoding: true)
+            UserDefaults.standard.set(data, forKey: UserDefaultsKeys.myList)
+        } catch let error {
+            print(error)
+        }
+    }
+    
 }

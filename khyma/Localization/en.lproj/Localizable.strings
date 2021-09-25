@@ -2,6 +2,50 @@
   Localizable.strings
   khyma
 
-  Created by Belal Samy on 19/09/2021.
+  Created by Belal Samy on 25/09/2021.
   
 */
+
+//Movies
+bodyGuard = "Body Guard";
+avengers = "Avengers: End Game";
+weladRizk = "Welad Rizk 2";
+batman = "Batman Hush";
+blueElephant = "Blue Elephant 2";
+
+//Main
+continueWatching = "Contiue Watching";
+popular = "Popular";
+movies = "Movies";
+series = "Series";
+plays = "Plays";
+more = "More";
+
+// Details
+add = "+ Add";
+
+//Search
+search = "Search";
+searchPlaceholder = "movies, series, plays ...";
+
+//My List
+myList = "My List";
+removeAlertTitle = "Remove from your list ?!";
+cancelAlert = "Cancel";
+removeAlertAction = "Remove";
+addAlertAction = "Add to my list";
+
+//Settings
+settings = "Settings";
+coins = "Coins";
+theme = "Theme";
+darkMode = "Dark Mode";
+language = "Language";
+changeLangAlert = "Change the language";
+english = "English";
+arabic = "Arabic";
+currentLanguage = "English";
+
+//Categories
+back = "<";
+

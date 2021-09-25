@@ -28,5 +28,9 @@ extension UICollectionView {
         let height = ( self.frame.height - ( rows * 10 ) - 10 ) / rows // vertical spacing 10
         return CGSize(width: width, height: height)
     }
-
+    
+    func size(height: CGFloat, columns: CGFloat) -> CGSize {
+        let width = ( self.frame.width - ( columns * 10 ) - 10 ) / columns //  horizontal spacing 10
+        return CGSize(width: width, height: height)
+    }
 }

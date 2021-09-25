@@ -14,7 +14,8 @@ class MovieCell: UICollectionViewCell {
     
      var movie: Movie? {
          didSet {
-             posterImageView.image = movie?.posterImage
+            posterImageView.image = UIImage(named: movie?.posterImageUrl ?? "")
+                
          }
      }
 

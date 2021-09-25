@@ -12,15 +12,16 @@ import DesignX
 class DetailsVC: UIViewController {
 
     //MARK: - outlets
-    @IBOutlet weak var coinCountLabel: UILabel!
     @IBOutlet weak var timeRemainingLabel: UILabel!
     
     //MARK: - variables
     
+    // movie object
+    var movie: Movie?
+    
     // The video player
     var YoutubePlayer = YTPlayerView()
     var timerState = TimerState.notStarted
-    var youtubeID: String!
     
     // The reward timer.
     var rewardTimer: Timer?
@@ -46,7 +47,7 @@ class DetailsVC: UIViewController {
     
     //MARK: - constants
 
-    // Timer state
+      // Timer state
       enum TimerState {
         case notStarted
         case playing
@@ -57,7 +58,7 @@ class DetailsVC: UIViewController {
       // reward
       let rewardValue = 5 // earn 5 coins
       let rewardFrequency = 5 // every 5 seconds
-      
+          
     
     // MARK: - lifecycle
     
@@ -68,6 +69,7 @@ class DetailsVC: UIViewController {
         setupViews()
         
         // youtube video player
+        let youtubeID = movie?.youtubeUrl?.youtubeID ?? ""
         loadYoutubeVideo(from: youtubeID)
           
         // Pause timer when application is backgrounded.
@@ -88,27 +90,77 @@ class DetailsVC: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        setupNavBar()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.topItem?.title = ""
+    }
+    
     override func viewDidLayoutSubviews() {
-        navigationController?.setNavigationBarHidden(false, animated: true)
+        setupNavBar()
     }
 
     
     //MARK: - functions
     
     fileprivate func setupViews() {
-        navigationController?.setNavigationBarHidden(false, animated: true)
-
+        setupNavBar()
+        
         view.addSubview(YoutubePlayer)
         YoutubePlayer.layout(XW :.leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(300))
-        coinCountLabel.layout(XW: .leadingAndCenter(nil, 0), Y: .top(YoutubePlayer, 10), H: .fixed(50))
-        timeRemainingLabel.layout(XW: .leadingAndCenter(nil, 0), Y: .top(coinCountLabel, 10), H: .fixed(50))
-        
-        coinCountLabel.text = "Coins: \(Defaults.coins)"
-        coinCountLabel.textAlignment = .center
-        coinCountLabel.textColor = .red
+        timeRemainingLabel.layout(XW: .leadingAndCenter(nil, 0), Y: .top(YoutubePlayer, 10), H: .fixed(50))
         timeRemainingLabel.textAlignment = .center
+    }
+    
+    fileprivate func setupNavBar() {
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationItem.largeTitleDisplayMode = .never
+        self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
+        self.navigationController?.navigationBar.topItem?.title = "\(StringsKeys.coins.localized): \(Defaults.coins)"
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
-        view.backgroundColor = Color.primary
+        // check if we have already saved this movie in my list
+        let savedMovies = Defaults.savedMovies()
+        let isInMyList = savedMovies.firstIndex(where: {$0.name == movie?.name}) != nil
+        
+            if isInMyList {
+                // setting up our heart icon
+                navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icon-favourite").withRenderingMode(.alwaysOriginal), style: .plain, target: nil, action: nil)
+            } else {
+                navigationItem.rightBarButtonItems = [
+                    UIBarButtonItem(title: StringsKeys.add.localized, style: .plain, target: self, action: #selector(handleAddToMyList)),
+                ]
+            }
+        }
+    
+    @objc fileprivate func handleAddToMyList() {
+        
+        let alertController = UIAlertController(title: movie?.name, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: StringsKeys.addAlertAction.localized, style: .default, handler: { (_) in
+            // add to my list ---------------------------------
+            guard let movie =  self.movie else { return }
+             
+            do {
+             var listOfMovies = Defaults.savedMovies()
+             listOfMovies.append(movie)
+        
+             // transform movie into data
+             let data = try NSKeyedArchiver.archivedData(withRootObject: listOfMovies, requiringSecureCoding: true)
+             UserDefaults.standard.set(data , forKey: UserDefaultsKeys.myList)
+             self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icon-favourite").withRenderingMode(.alwaysOriginal), style: .plain, target: nil, action: nil)
+
+             
+            } catch let error {
+                print("Failed to save info into userDefaults : ", error)
+            }
+            // ------------------------------------------------
+        }))
+        
+        alertController.addAction(UIAlertAction(title: StringsKeys.cancelAlert.localized, style: .cancel ))
+        present(alertController, animated: true, completion: nil)
+
     }
     
     //MARK: - functions - Reward Timer
@@ -132,16 +184,17 @@ class DetailsVC: UIViewController {
         }
         
         
-        // convert seconds into minutes and seconds
-        func minutesAndSeconds(from seconds: Int) -> (Int, Int) {
-            return (seconds / 60, seconds % 60)
+        // convert seconds into hours and minutes and seconds
+        func minutesAndSeconds(from seconds: Int) -> (Int, Int, Int) {
+            let minutes = seconds / 60
+            return (minutes / 60, minutes, seconds % 60)
         }
         
         func updateTimeRemaining() {
             timeRemaining -= 1
-            let (minutes, seconds) = minutesAndSeconds(from: timeRemaining)
-            timeRemainingLabel.text = "time remaining: \(minutes.twoDigits()):\(seconds.twoDigits())"
-            print("remaining => \(minutes.twoDigits()):\(seconds.twoDigits())")
+            let (hours, minutes, seconds) = minutesAndSeconds(from: timeRemaining)
+            timeRemainingLabel.text = "time remaining: \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())"
+            print("remaining => \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())")
             
             // reward the user every "n" seconds with "n" coins
             if seconds % rewardFrequency == 0 {
@@ -320,20 +373,16 @@ class DetailsVC: UIViewController {
       fileprivate func earnCoins(_ coins: NSInteger) {
           print("Reward received with \(coins) coins")
           Defaults.coins += coins
-          coinCountLabel.text = "Coins: \(Defaults.coins)"
           let rewardMessage = coins == 1 ? " +\(coins) coin" : " +\(coins) coins"
           self.showToast(message: rewardMessage, font: .systemFont(ofSize: 18))
       }
         
      fileprivate func loseCoins(_ coins: NSInteger) {
         Defaults.coins -= coins
-        coinCountLabel.text = "Coins: \(Defaults.coins)"
      }
-        
     
     //MARK: - actions
     
-
 }
 
 

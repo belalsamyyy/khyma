@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-enum TableSections: CaseIterable {
+enum MainTableSections: CaseIterable {
     case continueWatching
     case popular
     case Movies
@@ -19,24 +19,27 @@ enum TableSections: CaseIterable {
     var ui: (sectionTitle: String, sectionHeight: CGFloat) {
         switch self {
         case .continueWatching:
-            return ("Continue Watching", 200)
+            return (StringsKeys.continueWatching.localized, 200)
             
         case .popular:
-            return ("Popular", 200)
+            return (StringsKeys.popular.localized, 200)
 
         case .Movies:
-            return ("Movies", 200)
+            return (StringsKeys.movies.localized, 200)
 
         case .Series:
-            return ("Series", 200)
+            return (StringsKeys.series.localized, 200)
 
         case .Plays:
-            return ("Plays", 200)
+            return (StringsKeys.plays.localized, 200)
 
         case .games:
-            return ("Games", 200)
+            return (StringsKeys.movies.localized, 200)
 
         }
     }
 
 }
+
+
+

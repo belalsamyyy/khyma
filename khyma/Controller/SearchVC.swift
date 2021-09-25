@@ -19,11 +19,11 @@ class SearchVC: UIViewController {
     
     //MARK: - constants
     
-    let movies = [Movie(name: "BodyGuard", poster: UIImage(named: "poster-movie-1")!),
-                  Movie(name: "Avengers: End Game", poster: UIImage(named: "poster-movie-2")!),
-                  Movie(name: "Welad Rizk 2", poster: UIImage(named: "poster-movie-3")!),
-                  Movie(name: "Batman Hush", poster: UIImage(named: "poster-movie-4")!),
-                  Movie(name: "Blue Elephant 2", poster: UIImage(named: "poster-movie-5")!)]
+    let movies = [Movie(name: StringsKeys.bodyGuard.localized, posterUrl: "poster-movie-1"),
+                  Movie(name: StringsKeys.avengers.localized, posterUrl: "poster-movie-2"),
+                  Movie(name: StringsKeys.weladRizk.localized, posterUrl: "poster-movie-3"),
+                  Movie(name: StringsKeys.batman.localized, posterUrl: "poster-movie-4"),
+                  Movie(name: StringsKeys.blueElephant.localized, posterUrl: "poster-movie-5")]
     
     
     //MARK: - lifecycle
@@ -34,29 +34,30 @@ class SearchVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-        navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.topItem?.title = "Search"
-        searchBar.isHidden = false
+        setupNavBar()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        //
+//    override func viewWillDisappear(_ animated: Bool) {
+//        self.navigationController?.navigationBar.topItem?.title = ""
+//    }
+    
+    override func viewDidLayoutSubviews() {
+        setupNavBar()
+        searchBar.isHidden = false
     }
     
     //MARK: - functions
 
     fileprivate func setupViews() {
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-        navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.topItem?.title = "Search"
         view.backgroundColor = Color.primary
+        
+        // nav bar
+        setupNavBar()
         
         // search bar
         searchBar.delegate = self
         
-        searchBar.placeholder = "Search movies, series, plays ..."
+        searchBar.placeholder = StringsKeys.searchPlaceholder.localized
         searchBar.barTintColor = Color.primary
         searchBar.layer.borderColor = Color.primary.cgColor
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = Color.secondary
@@ -72,6 +73,12 @@ class SearchVC: UIViewController {
         searchCollectionView.backgroundColor = Color.primary
         searchCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottom(searchBar, 0, nil, 0))
     
+    }
+    
+    fileprivate func setupNavBar() {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.topItem?.title = StringsKeys.search.localized
     }
     
     
@@ -90,7 +97,7 @@ extension SearchVC: UISearchBarDelegate {
             filteredMovies = movies
         }else {
             filteredMovies = self.movies.filter { (movie) -> Bool in
-                return movie.name.lowercased().contains(searchText.lowercased())
+                return (movie.name?.lowercased().contains(searchText.lowercased()))!
             }
         }
         searchCollectionView.reloadData()
@@ -128,10 +135,10 @@ extension SearchVC: UICollectionViewDelegate {
         searchBar.isHidden = true
         searchBar.resignFirstResponder()
         
-        let movie = filteredMovies[indexPath.item]
+        let movie = filteredMovies.count == 0 ? movies[indexPath.item] : filteredMovies[indexPath.item]
         let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
         detailsVC.modalPresentationStyle = .fullScreen
-        detailsVC.youtubeID = movie.youtubeUrl.youtubeID
+        detailsVC.movie = movie
         self.navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
@@ -154,6 +161,6 @@ extension SearchVC: UICollectionViewDelegateFlowLayout {
     
     // item
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        return CGSize(width: 125, height: 200)
+        return collectionView.size(height: 200, columns: 3)
     }
 }

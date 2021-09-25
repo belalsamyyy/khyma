@@ -11,9 +11,14 @@ import GoogleMobileAds
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        
+        // RTL or LTR
+        UIView.appearance().semanticContentAttribute = Language.currentLanguage == Lang.english.rawValue ? .forceLeftToRight : .forceRightToLeft
+        
+        // dark mode
+        window?.overrideUserInterfaceStyle = Defaults.darkMode ? .dark : .light
         
         // Initialize Google Mobile Ads SDK
            GADMobileAds.sharedInstance().start(completionHandler: nil)

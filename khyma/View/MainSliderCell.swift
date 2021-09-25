@@ -15,7 +15,7 @@ class MainSliderCell: UICollectionViewCell {
     
     var movie: Movie? {
        didSet {
-           posterImageView.image = movie?.posterImage
+           posterImageView.image = UIImage(named: movie?.posterImageUrl ?? "")
            movieNameLabel.text = movie?.name
        }
     }
@@ -23,50 +23,34 @@ class MainSliderCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        changeTheme()
         
         self.clipsToBounds = true
         posterImageView.contentMode = .scaleAspectFill
         movieNameLabel.textColor = .white
-        addGradientLayer(to: posterImageView)
     }
     
     override func layoutSubviews() {
+        changeTheme()
         self.gradientLayer.frame = posterImageView.bounds
     }
+
     
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        
-        switch traitCollection.userInterfaceStyle {
-            case .dark:
-                darkModeEnabled()   // Switch to dark mode colors, etc.
-            case .light:
-                fallthrough
-            case .unspecified:
-                fallthrough
-            default:
-                lightModeEnabled()   // Switch to light mode colors, etc.
+    fileprivate func addGradientLayer(to view: UIView, color: UIColor) {
+        DispatchQueue.main.async { [weak self] in
+            // Add colors and locations
+            self?.gradientLayer.colors = [UIColor.clear.cgColor, color.cgColor]
+            self?.gradientLayer.locations = [0 ,1]
+
+            self?.gradientLayer.frame = self?.bounds ?? CGRect.zero
+            view.layer.addSublayer(self?.gradientLayer ?? CAGradientLayer())
         }
     }
     
-    fileprivate func addGradientLayer(to view: UIView) {
-        DispatchQueue.main.async {
-            self.gradientLayer = view.fill(gradient: [.color(.clear), .color(Color.primary)], locations: [0, 1], opacity: 1)
-            self.gradientLayer.frame = view.bounds
-        }
+    fileprivate func changeTheme() {
+        addGradientLayer(to: posterImageView, color: Defaults.darkMode == true ? #colorLiteral(red: 0.07843137255, green: 0.07843137255, blue: 0.07843137255, alpha: 1) : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1))
     }
-    
-    fileprivate func lightModeEnabled() {
-        gradientLayer.removeFromSuperlayer()
-        addGradientLayer(to: posterImageView)
-    }
-    
-    fileprivate func darkModeEnabled() {
-        gradientLayer.removeFromSuperlayer()
-        addGradientLayer(to: posterImageView)
-    }
-    
-  
+
     
     
 }
