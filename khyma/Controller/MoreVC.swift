@@ -13,18 +13,31 @@ class MoreVC: UIViewController {
     
     @IBOutlet weak var moreCollectionView: UICollectionView!
     
-    
     //MARK: - variables
-    
-    var navBarTitle: String!
-    
+        
     //MARK: - constants
     
-    let movies = [Movie(name: StringsKeys.bodyGuard.localized, posterUrl: "poster-movie-1"),
-                  Movie(name: StringsKeys.avengers.localized, posterUrl: "poster-movie-2"),
-                  Movie(name: StringsKeys.weladRizk.localized, posterUrl: "poster-movie-3"),
-                  Movie(name: StringsKeys.batman.localized, posterUrl: "poster-movie-4"),
-                  Movie(name: StringsKeys.blueElephant.localized, posterUrl: "poster-movie-5")]
+    let customNavBar = MoreNavBar()
+    
+    let movies = [Movie(name: StringsKeys.bodyGuard.localized,
+                        posterUrl: "poster-movie-1",
+                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                  
+                  Movie(name: StringsKeys.avengers.localized,
+                        posterUrl: "poster-movie-2",
+                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
+                  
+                  Movie(name: StringsKeys.weladRizk.localized,
+                        posterUrl: "poster-movie-3",
+                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
+                  
+                  Movie(name: StringsKeys.batman.localized,
+                        posterUrl: "poster-movie-4",
+                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
+                  
+                  Movie(name: StringsKeys.blueElephant.localized,
+                        posterUrl: "poster-movie-5",
+                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
     
     
     //MARK: - lifecycle
@@ -35,17 +48,17 @@ class MoreVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setupNavBar()
+        addCustomNavBar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.navigationBar.topItem?.title = ""
+        customNavBar.removeFromSuperview()
     }
     
     //MARK: - functions
     
     fileprivate func setupViews() {
-        setupNavBar()
+        addCustomNavBar()
         
         moreCollectionView.backgroundColor = Color.primary
         moreCollectionView.layout(shortcut: .fillSuperView(0))
@@ -56,9 +69,13 @@ class MoreVC: UIViewController {
         moreCollectionView.reloadData()
     }
     
-    fileprivate func setupNavBar() {
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-        self.navigationController?.navigationBar.topItem?.title = StringsKeys.more.localized
+    
+    fileprivate func addCustomNavBar() {
+        customNavBar.delegate = self // custom delegation pattern
+        customNavBar.moreLabel.text = StringsKeys.more.localized
+        let navBar = navigationController?.navigationBar
+        navBar?.addSubview(customNavBar)
+        customNavBar.layout(X: .center(nil), W: .equal(nil, 0.9), Y: .center(nil), H: .fixed(50))
     }
     
     
@@ -67,6 +84,17 @@ class MoreVC: UIViewController {
 }
 
 //MARK: - extensions
+
+//MARK: - CustomNavBar Delegate
+
+extension MoreVC: MoreNavBarDelegate {
+    // custom delegation pattern
+    func handleCancelTapped() {
+        print("cancel tapped here from more vc")
+        self.navigationController?.dismiss(animated: true, completion: nil)
+    }
+}
+
 
 // MARK: - UICollectionView Data Source
 extension MoreVC: UICollectionViewDataSource {
@@ -97,7 +125,7 @@ extension MoreVC: UICollectionViewDelegate {
         let movie = movies[indexPath.item]
         let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
         detailsVC.modalPresentationStyle = .fullScreen
-        detailsVC.movie = movie
+        detailsVC.video = movie
         self.navigationController?.pushViewController(detailsVC, animated: true)
     }
 }

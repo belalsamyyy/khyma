@@ -18,7 +18,12 @@ popular = "الاكثر مشاهدة";
 movies = "افــــلام";
 series = "مسلسلات";
 plays = "مسرحيات";
+anime = "انمــــي";
 more = "المزيــد";
+
+//Series
+season = "الموسم";
+episode = "الحلقة";
 
 // Details
 add = "+ اضافة";

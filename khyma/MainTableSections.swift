@@ -14,7 +14,7 @@ enum MainTableSections: CaseIterable {
     case Movies
     case Series
     case Plays
-    case games
+    case anime
     
     var ui: (sectionTitle: String, sectionHeight: CGFloat) {
         switch self {
@@ -33,8 +33,8 @@ enum MainTableSections: CaseIterable {
         case .Plays:
             return (StringsKeys.plays.localized, 200)
 
-        case .games:
-            return (StringsKeys.movies.localized, 200)
+        case .anime:
+            return (StringsKeys.anime.localized, 200)
 
         }
     }

@@ -1,24 +1,24 @@
 //
-//  Movie.swift
+//  Episode.swift
 //  khyma
 //
-//  Created by Belal Samy on 19/09/2021.
+//  Created by Belal Samy on 26/09/2021.
 //
 
 import Foundation
-import UIKit
 
-class Movie: NSObject, Video, NSCoding, NSSecureCoding {
+class Series: NSObject, Video, NSCoding, NSSecureCoding {
     var name: String?
     var posterImageUrl: String?
     var youtubeUrl: String?
-
+    var seasons: [Season]?
+    
     // NSSecureCoding
     static var supportsSecureCoding: Bool = true
     
-    init(name: String, posterUrl: String, youtubeUrl: String) {
+    init(name: String, posterUrl: String) {
         self.name = name
-        self.youtubeUrl = youtubeUrl
+        self.youtubeUrl = "https://www.youtube.com/watch?v=x_me3xsvDgk"
         self.posterImageUrl = posterUrl
     }
     
@@ -36,8 +36,4 @@ class Movie: NSObject, Video, NSCoding, NSSecureCoding {
         self.youtubeUrl = coder.decodeObject(forKey: "youtubeUrl") as? String
         self.posterImageUrl = coder.decodeObject(forKey: "posterImageUrl") as? String
     }
-    
 }
-
-
-

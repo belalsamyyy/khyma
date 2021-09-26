@@ -17,7 +17,7 @@ class DetailsVC: UIViewController {
     //MARK: - variables
     
     // movie object
-    var movie: Movie?
+    var video: Video?
     
     // The video player
     var YoutubePlayer = YTPlayerView()
@@ -35,7 +35,6 @@ class DetailsVC: UIViewController {
       let banner = GADBannerView()
       banner.adUnitID = AdUnitKeys.banner
       banner.load(GADRequest())
-      banner.backgroundColor = .lightGray
       return banner
     }()
     
@@ -69,7 +68,7 @@ class DetailsVC: UIViewController {
         setupViews()
         
         // youtube video player
-        let youtubeID = movie?.youtubeUrl?.youtubeID ?? ""
+        let youtubeID = video?.youtubeUrl?.youtubeID ?? ""
         loadYoutubeVideo(from: youtubeID)
           
         // Pause timer when application is backgrounded.
@@ -96,6 +95,7 @@ class DetailsVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.navigationBar.topItem?.title = ""
+        self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
     }
     
     override func viewDidLayoutSubviews() {
@@ -121,10 +121,13 @@ class DetailsVC: UIViewController {
         self.navigationController?.navigationBar.topItem?.title = "\(StringsKeys.coins.localized): \(Defaults.coins)"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
-        // check if we have already saved this movie in my list
-        let savedMovies = Defaults.savedMovies()
-        let isInMyList = savedMovies.firstIndex(where: {$0.name == movie?.name}) != nil
-        
+        if (video as? Episode) != nil {
+            // do nothing
+        } else {
+            // check if we have already saved this movie in my list
+            let savedVideos = Defaults.savedVideos()
+            let isInMyList = savedVideos.firstIndex(where: {$0.name == video?.name}) != nil
+            
             if isInMyList {
                 // setting up our heart icon
                 navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icon-favourite").withRenderingMode(.alwaysOriginal), style: .plain, target: nil, action: nil)
@@ -134,20 +137,21 @@ class DetailsVC: UIViewController {
                 ]
             }
         }
+    }
     
     @objc fileprivate func handleAddToMyList() {
         
-        let alertController = UIAlertController(title: movie?.name, message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: video?.name, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: StringsKeys.addAlertAction.localized, style: .default, handler: { (_) in
             // add to my list ---------------------------------
-            guard let movie =  self.movie else { return }
+            guard let video =  self.video else { return }
              
             do {
-             var listOfMovies = Defaults.savedMovies()
-             listOfMovies.append(movie)
+             var listOfVideos = Defaults.savedVideos()
+                listOfVideos.append(video)
         
              // transform movie into data
-             let data = try NSKeyedArchiver.archivedData(withRootObject: listOfMovies, requiringSecureCoding: true)
+             let data = try NSKeyedArchiver.archivedData(withRootObject: listOfVideos, requiringSecureCoding: true)
              UserDefaults.standard.set(data , forKey: UserDefaultsKeys.myList)
              self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icon-favourite").withRenderingMode(.alwaysOriginal), style: .plain, target: nil, action: nil)
 

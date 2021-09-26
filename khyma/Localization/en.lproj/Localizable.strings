@@ -19,7 +19,12 @@ popular = "Popular";
 movies = "Movies";
 series = "Series";
 plays = "Plays";
+anime = "anime";
 more = "More";
+
+//Series
+season = "Season";
+episode = "Episode";
 
 // Details
 add = "+ Add";

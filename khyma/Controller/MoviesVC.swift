@@ -37,17 +37,45 @@ class MoviesVC: UIViewController {
     
     let customNavBar = BackNavBar()
     
-    let continueWatching = [Movie(name: StringsKeys.bodyGuard.localized, posterUrl: "poster-movie-1"),
-                            Movie(name: StringsKeys.avengers.localized, posterUrl: "poster-movie-2"),
-                            Movie(name: StringsKeys.weladRizk.localized, posterUrl: "poster-movie-3"),
-                            Movie(name: StringsKeys.batman.localized, posterUrl: "poster-movie-4"),
-                            Movie(name: StringsKeys.blueElephant.localized, posterUrl: "poster-movie-5")]
+    let continueWatching = [Movie(name: StringsKeys.bodyGuard.localized,
+                                           posterUrl: "poster-movie-1",
+                                           youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                     
+                                     Movie(name: StringsKeys.avengers.localized,
+                                           posterUrl: "poster-movie-2",
+                                           youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
+                                     
+                                     Movie(name: StringsKeys.weladRizk.localized,
+                                           posterUrl: "poster-movie-3",
+                                           youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
+                                     
+                                     Movie(name: StringsKeys.batman.localized,
+                                           posterUrl: "poster-movie-4",
+                                           youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
+                                     
+                                     Movie(name: StringsKeys.blueElephant.localized,
+                                           posterUrl: "poster-movie-5",
+                                           youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
     
-    let movies = [Movie(name: StringsKeys.bodyGuard.localized, posterUrl: "poster-movie-1"),
-                  Movie(name: StringsKeys.avengers.localized, posterUrl: "poster-movie-2"),
-                  Movie(name: StringsKeys.weladRizk.localized, posterUrl: "poster-movie-3"),
-                  Movie(name: StringsKeys.batman.localized, posterUrl: "poster-movie-4"),
-                  Movie(name: StringsKeys.blueElephant.localized, posterUrl: "poster-movie-5")]
+    let movies = [Movie(name: StringsKeys.bodyGuard.localized,
+                        posterUrl: "poster-movie-1",
+                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                  
+                  Movie(name: StringsKeys.avengers.localized,
+                        posterUrl: "poster-movie-2",
+                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
+                  
+                  Movie(name: StringsKeys.weladRizk.localized,
+                        posterUrl: "poster-movie-3",
+                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
+                  
+                  Movie(name: StringsKeys.batman.localized,
+                        posterUrl: "poster-movie-4",
+                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
+                  
+                  Movie(name: StringsKeys.blueElephant.localized,
+                        posterUrl: "poster-movie-5",
+                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
 
     
     //MARK: - lifecycle
@@ -55,6 +83,12 @@ class MoviesVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        
+        // stop timer when application is backgrounded.
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
+
+        // start timer when application is returned to foreground.
+        NotificationCenter.default.addObserver(self, selector: #selector(applicationDidBecomeActive(_:)), name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -153,6 +187,15 @@ class MoviesVC: UIViewController {
         sliderTimer = nil
     }
     
+    // stop timer in background and start again when comeback
+    @objc func applicationDidEnterBackground(_ notification: Notification) {
+        timerState = .ended
+    }
+
+    @objc func applicationDidBecomeActive(_ notification: Notification) {
+        timerState = .playing
+    }
+    
     fileprivate func addCustomNavBar() {
         customNavBar.delegate = self // custom delegation pattern
         customNavBar.backLabel.text = StringsKeys.movies.localized
@@ -163,6 +206,9 @@ class MoviesVC: UIViewController {
     
     @objc fileprivate func handleMoreTapped() {
         print("more tapped ...")
+        let moreVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoreRootVC") as! UINavigationController
+        moreVC.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(moreVC, animated: true, completion: nil)
     }
 
     
@@ -252,7 +298,7 @@ extension MoviesVC: UITableViewDelegate {
          
          return headerView
          
-        case .popular, .Movies, .Series, .Plays, .games:
+        case .popular, .Movies, .Series, .Plays, .anime:
          let headerView = UIView()
 
          let sectionLabel = UILabel()
@@ -314,7 +360,7 @@ extension MoviesVC: UICollectionViewDataSource {
         case .continueWatching:
             return 4
             
-        case .popular, .Movies, .Series, .Plays, .games:
+        case .popular, .Movies, .Series, .Plays, .anime:
             return movies.count
         }
     }
@@ -330,7 +376,7 @@ extension MoviesVC: UICollectionViewDataSource {
         }
         
         switch section {
-        case .popular, .Movies, .Series, .Plays, .games:
+        case .popular, .Movies, .Series, .Plays, .anime:
             let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
             cell1.backgroundColor = Color.secondary
             cell1.movie = movies[indexPath.item]
@@ -360,7 +406,7 @@ extension MoviesVC: UICollectionViewDelegate {
         
         let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
         detailsVC.modalPresentationStyle = .fullScreen
-        detailsVC.movie = movie
+        detailsVC.video = movie
         self.navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
@@ -398,7 +444,7 @@ extension MoviesVC: UICollectionViewDelegateFlowLayout {
         case .continueWatching:
             return collectionView.size(rows: 1, columns: 1.25)
       
-        case .popular, .Movies, .Series, .Plays, .games:
+        case .popular, .Movies, .Series, .Plays, .anime:
             return collectionView.size(rows: 1, columns: 3.5)
         }
         

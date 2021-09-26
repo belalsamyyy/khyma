@@ -49,7 +49,12 @@ struct StringsKeys {
     static let movies = "movies"
     static let series = "series"
     static let plays = "plays"
+    static let anime = "anime"
     static let more = "more"
+    
+    // Series
+    static let season = "season"
+    static let episode = "episode"
     
     // Details
     static let add = "add"

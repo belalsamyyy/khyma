@@ -15,7 +15,6 @@ class MainTabBar: UITabBarController {
       let banner = GADBannerView()
       banner.adUnitID = AdUnitKeys.banner
       banner.load(GADRequest())
-      banner.backgroundColor = .lightGray
       return banner
     }()
 

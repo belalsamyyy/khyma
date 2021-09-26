@@ -15,7 +15,7 @@ class myListVC: UIViewController {
 
     //MARK: - variables
     
-    var movies = Defaults.savedMovies()
+    var movies = Defaults.savedVideos()
     
     //MARK: - constants
     
@@ -32,19 +32,19 @@ class myListVC: UIViewController {
         // nav bar
         setupNavBar()
         
-        movies = Defaults.savedMovies()
+        movies = Defaults.savedVideos()
         myListCollectionView.reloadData()
     }
     
-//    override func viewWillDisappear(_ animated: Bool) {
-//        self.navigationController?.navigationBar.topItem?.title = ""
-//    }
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.topItem?.title = ""
+    }
     
     override func viewDidLayoutSubviews() {
         // nav bar
         setupNavBar()
         
-        movies = Defaults.savedMovies()
+        movies = Defaults.savedVideos()
         myListCollectionView.reloadData()
     }
     
@@ -92,7 +92,7 @@ class myListVC: UIViewController {
             
             self.movies.remove(at: selectedIndexPath.item)
             self.myListCollectionView.deleteItems(at: [selectedIndexPath])
-            Defaults.deleteMovie(movie: selectedMovie)
+            Defaults.deleteVideos(movie: selectedMovie)
             self.myListCollectionView.reloadData()
         }))
         
@@ -134,7 +134,7 @@ extension myListVC: UICollectionViewDelegate {
         let movie = movies[indexPath.item]
         let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
         detailsVC.modalPresentationStyle = .fullScreen
-        detailsVC.movie = movie
+        detailsVC.video = movie
         self.navigationController?.pushViewController(detailsVC, animated: true)
     }
 }

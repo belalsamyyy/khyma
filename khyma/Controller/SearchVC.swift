@@ -19,11 +19,25 @@ class SearchVC: UIViewController {
     
     //MARK: - constants
     
-    let movies = [Movie(name: StringsKeys.bodyGuard.localized, posterUrl: "poster-movie-1"),
-                  Movie(name: StringsKeys.avengers.localized, posterUrl: "poster-movie-2"),
-                  Movie(name: StringsKeys.weladRizk.localized, posterUrl: "poster-movie-3"),
-                  Movie(name: StringsKeys.batman.localized, posterUrl: "poster-movie-4"),
-                  Movie(name: StringsKeys.blueElephant.localized, posterUrl: "poster-movie-5")]
+    let movies = [Movie(name: StringsKeys.bodyGuard.localized,
+                        posterUrl: "poster-movie-1",
+                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                  
+                  Movie(name: StringsKeys.avengers.localized,
+                        posterUrl: "poster-movie-2",
+                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
+                  
+                  Movie(name: StringsKeys.weladRizk.localized,
+                        posterUrl: "poster-movie-3",
+                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
+                  
+                  Movie(name: StringsKeys.batman.localized,
+                        posterUrl: "poster-movie-4",
+                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
+                  
+                  Movie(name: StringsKeys.blueElephant.localized,
+                        posterUrl: "poster-movie-5",
+                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
     
     
     //MARK: - lifecycle
@@ -138,7 +152,7 @@ extension SearchVC: UICollectionViewDelegate {
         let movie = filteredMovies.count == 0 ? movies[indexPath.item] : filteredMovies[indexPath.item]
         let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
         detailsVC.modalPresentationStyle = .fullScreen
-        detailsVC.movie = movie
+        detailsVC.video = movie
         self.navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
