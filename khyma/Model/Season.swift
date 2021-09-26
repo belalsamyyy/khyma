@@ -8,11 +8,10 @@
 import Foundation
 import UIKit
 
-class Season: Video {
-    var youtubeUrl: String?
-    
+class Season: Watchable {
     var name: String?
     var posterImageUrl: String?
+    var youtubeUrl: String?
     var episodes: [Episode]?
     
     init(name: String, posterImageUrl: String, episodes: [Episode]) {

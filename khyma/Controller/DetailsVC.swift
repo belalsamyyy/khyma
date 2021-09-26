@@ -17,7 +17,7 @@ class DetailsVC: UIViewController {
     //MARK: - variables
     
     // movie object
-    var video: Video?
+    var video: Watchable?
     
     // The video player
     var YoutubePlayer = YTPlayerView()

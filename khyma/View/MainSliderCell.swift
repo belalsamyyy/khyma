@@ -13,7 +13,7 @@ class MainSliderCell: UICollectionViewCell {
     @IBOutlet weak var posterImageView: UIImageView!
     @IBOutlet weak var movieNameLabel: UILabel!
     
-    var movie: Video? {
+    var movie: Watchable? {
        didSet {
            posterImageView.image = UIImage(named: movie?.posterImageUrl ?? "")
            movieNameLabel.text = movie?.name

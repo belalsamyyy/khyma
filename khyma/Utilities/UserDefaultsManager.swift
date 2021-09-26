@@ -68,10 +68,10 @@ struct UserDefaultsManager {
     }
     
     // function to return saved movies in my list
-    func savedVideos() -> [Video] {
+    func savedVideos() -> [Watchable] {
         do {
             guard let savedMoviesData = UserDefaults.standard.data(forKey: UserDefaultsKeys.myList) else { return [] }
-            guard let savedMovies = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedMoviesData) as? [Video] else { return [] }
+            guard let savedMovies = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedMoviesData) as? [Watchable] else { return [] }
             return savedMovies
         } catch {
             return []
@@ -80,7 +80,7 @@ struct UserDefaultsManager {
     
     
     // function to delete a movie from my list
-    func deleteVideos(movie: Video) {
+    func deleteVideos(movie: Watchable) {
           let movies = savedVideos()
           let filteredMovies = movies.filter { (m) -> Bool in
             return m.name != movie.name

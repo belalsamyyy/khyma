@@ -8,9 +8,9 @@
 import Foundation
 import UIKit
 
-class Episode: Video {
+class Episode: Watchable {
     var name: String?
-    var posterImageUrl: String? // just to conform watchable
+    var posterImageUrl: String?
     var youtubeUrl: String?
     
     init(name: String, youtubeUrl: String) {

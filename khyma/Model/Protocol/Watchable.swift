@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol Video: Decodable {
+protocol Watchable: Decodable {
     var name: String? { get set }
     var posterImageUrl: String? { get set }
     var youtubeUrl: String? { get set }

@@ -11,7 +11,7 @@ class ContinueWatchingCell: UICollectionViewCell {
         
     @IBOutlet weak var myLabel: UILabel!
     
-    var movie: Video? {
+    var movie: Watchable? {
          didSet {
              myLabel.text = movie?.name
          }

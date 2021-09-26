@@ -14,7 +14,7 @@ class EpisodesVC: UIViewController {
     
     //MARK: - variables
     
-    var series: Video?
+    var series: Watchable?
     
     //MARK: - constants
     

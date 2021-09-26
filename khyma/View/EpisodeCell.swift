@@ -13,7 +13,7 @@ class EpisodeCell: UICollectionViewCell {
     @IBOutlet weak var posterImageView: UIImageView!
     @IBOutlet weak var episodeTitleLabel: UILabel!
     
-    var episode: Video? {
+    var episode: Watchable? {
         didSet {
            episodeTitleLabel.text = episode?.name
         }

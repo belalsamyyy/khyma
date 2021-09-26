@@ -7,11 +7,12 @@
 
 import Foundation
 
-class Series: NSObject, Video, NSCoding, NSSecureCoding {
+class Series: NSObject, Watchable, NSCoding, NSSecureCoding {
     var name: String?
     var posterImageUrl: String?
+    
     var youtubeUrl: String?
-    var seasons: [Season]?
+    weak var seasons: [Season]?
     
     // NSSecureCoding
     static var supportsSecureCoding: Bool = true

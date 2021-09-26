@@ -37,45 +37,20 @@ class SeriesVC: UIViewController {
     
     let customNavBar = BackNavBar()
     
-    let continueWatching = [Movie(name: StringsKeys.bodyGuard.localized,
-                                           posterUrl: "poster-movie-1",
-                                           youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     
-                                     Movie(name: StringsKeys.avengers.localized,
-                                           posterUrl: "poster-movie-2",
-                                           youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
-                                     
-                                     Movie(name: StringsKeys.weladRizk.localized,
-                                           posterUrl: "poster-movie-3",
-                                           youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
-                                     
-                                     Movie(name: StringsKeys.batman.localized,
-                                           posterUrl: "poster-movie-4",
-                                           youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
-                                     
-                                     Movie(name: StringsKeys.blueElephant.localized,
-                                           posterUrl: "poster-movie-5",
-                                           youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
-    
-    let movies = [Movie(name: StringsKeys.bodyGuard.localized,
-                                 posterUrl: "poster-movie-1",
-                                 youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+    let series = [Series(name: StringsKeys.bodyGuard.localized,
+                                 posterUrl: "poster-movie-1"),
                            
-                           Movie(name: StringsKeys.avengers.localized,
-                                 posterUrl: "poster-movie-2",
-                                 youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
+                                 Series(name: StringsKeys.avengers.localized,
+                                 posterUrl: "poster-movie-2"),
                            
-                           Movie(name: StringsKeys.weladRizk.localized,
-                                 posterUrl: "poster-movie-3",
-                                 youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
+                                 Series(name: StringsKeys.weladRizk.localized,
+                                 posterUrl: "poster-movie-3"),
                            
-                           Movie(name: StringsKeys.batman.localized,
-                                 posterUrl: "poster-movie-4",
-                                 youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
+                                 Series(name: StringsKeys.batman.localized,
+                                 posterUrl: "poster-movie-4"),
                            
-                           Movie(name: StringsKeys.blueElephant.localized,
-                                 posterUrl: "poster-movie-5",
-                                 youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
+                                 Series(name: StringsKeys.blueElephant.localized,
+                                 posterUrl: "poster-movie-5")]
 
     
     //MARK: - lifecycle
@@ -135,7 +110,7 @@ class SeriesVC: UIViewController {
 
         // pager
         pageView.layout(X: .center(nil), W: .equal(nil, 1), Y: .top(seriesSliderCollectionView, -75), H: .fixed(50))
-        pageView.numberOfPages = movies.count
+        pageView.numberOfPages = series.count
         pageView.currentPage = 0
         
         startTimer()
@@ -166,7 +141,7 @@ class SeriesVC: UIViewController {
     }
     
     fileprivate func slideImage() {
-         if counter < movies.count {
+         if counter < series.count {
              let index = IndexPath.init(item: counter, section: 0)
              self.seriesSliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
              pageView.currentPage = counter
@@ -352,7 +327,7 @@ extension SeriesVC: UICollectionViewDataSource {
         let section = MainTableSections.allCases[collectionView.tag]
         
         if collectionView == seriesSliderCollectionView {
-            return movies.count
+            return series.count
         }
         
         switch section {
@@ -360,7 +335,7 @@ extension SeriesVC: UICollectionViewDataSource {
             return 4
             
         case .popular, .Movies, .Series, .Plays, .anime:
-            return movies.count
+            return series.count
         }
     }
 
@@ -370,7 +345,7 @@ extension SeriesVC: UICollectionViewDataSource {
         if collectionView == seriesSliderCollectionView {
             let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
             cell3.backgroundColor = Color.secondary
-            cell3.movie = movies[indexPath.item]
+            cell3.movie = series[indexPath.item]
             return cell3
         }
         
@@ -378,13 +353,13 @@ extension SeriesVC: UICollectionViewDataSource {
         case .popular, .Movies, .Series, .Plays, .anime:
             let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
             cell1.backgroundColor = Color.secondary
-            cell1.movie = movies[indexPath.item]
+            cell1.movie = series[indexPath.item]
             return cell1
             
         case .continueWatching:
             let cell2 = collectionView.dequeue(indexPath: indexPath) as ContinueWatchingCell
             cell2.backgroundColor = Color.secondary
-            cell2.movie = continueWatching[indexPath.item]
+            cell2.movie = series[indexPath.item]
             return cell2
         }
    
@@ -400,7 +375,7 @@ extension SeriesVC: UICollectionViewDelegate {
         print("section : \(section.ui.sectionTitle) => \(indexPath.item)")
         
         // movie
-        let series = movies[indexPath.item]
+        let series = series[indexPath.item]
         
         let episodesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "EpisodesVC") as! EpisodesVC
         episodesVC.modalPresentationStyle = .fullScreen

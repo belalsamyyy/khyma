@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Initialize Google Mobile Ads SDK
            GADMobileAds.sharedInstance().start(completionHandler: nil)
            
-           Defaults.deviceID = "RESET USER DEFAULTS"  // reset usesr defaults
+           // Defaults.deviceID = "RESET USER DEFAULTS"  // reset usesr defaults
            
            if Defaults.deviceID != UIDevice.current.identifierForVendor!.uuidString {
                Defaults.deviceID = UIDevice.current.identifierForVendor!.uuidString

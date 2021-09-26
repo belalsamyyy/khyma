@@ -37,43 +37,23 @@ class MoviesVC: UIViewController {
     
     let customNavBar = BackNavBar()
     
-    let continueWatching = [Movie(name: StringsKeys.bodyGuard.localized,
-                                           posterUrl: "poster-movie-1",
-                                           youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     
-                                     Movie(name: StringsKeys.avengers.localized,
-                                           posterUrl: "poster-movie-2",
-                                           youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
-                                     
-                                     Movie(name: StringsKeys.weladRizk.localized,
-                                           posterUrl: "poster-movie-3",
-                                           youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
-                                     
-                                     Movie(name: StringsKeys.batman.localized,
-                                           posterUrl: "poster-movie-4",
-                                           youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
-                                     
-                                     Movie(name: StringsKeys.blueElephant.localized,
-                                           posterUrl: "poster-movie-5",
-                                           youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
-    
-    let movies = [Movie(name: StringsKeys.bodyGuard.localized,
+    let movies = [Video(name: StringsKeys.bodyGuard.localized,
                         posterUrl: "poster-movie-1",
                         youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
                   
-                  Movie(name: StringsKeys.avengers.localized,
+                        Video(name: StringsKeys.avengers.localized,
                         posterUrl: "poster-movie-2",
                         youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
                   
-                  Movie(name: StringsKeys.weladRizk.localized,
+                        Video(name: StringsKeys.weladRizk.localized,
                         posterUrl: "poster-movie-3",
                         youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
                   
-                  Movie(name: StringsKeys.batman.localized,
+                        Video(name: StringsKeys.batman.localized,
                         posterUrl: "poster-movie-4",
                         youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
                   
-                  Movie(name: StringsKeys.blueElephant.localized,
+                        Video(name: StringsKeys.blueElephant.localized,
                         posterUrl: "poster-movie-5",
                         youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
 
@@ -385,7 +365,7 @@ extension MoviesVC: UICollectionViewDataSource {
         case .continueWatching:
             let cell2 = collectionView.dequeue(indexPath: indexPath) as ContinueWatchingCell
             cell2.backgroundColor = Color.secondary
-            cell2.movie = continueWatching[indexPath.item]
+            cell2.movie = movies[indexPath.item]
             return cell2
         }
    

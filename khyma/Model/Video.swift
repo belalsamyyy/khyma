@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class Movie: NSObject, Video, NSCoding, NSSecureCoding {
+class Video: NSObject, Watchable, NSCoding, NSSecureCoding {
     var name: String?
     var posterImageUrl: String?
     var youtubeUrl: String?
