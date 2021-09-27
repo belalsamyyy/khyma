@@ -12,14 +12,16 @@ class Video: NSObject, Watchable, NSCoding, NSSecureCoding {
     var name: String?
     var posterImageUrl: String?
     var youtubeUrl: String?
+    var continueWatching: Float?
 
     // NSSecureCoding
     static var supportsSecureCoding: Bool = true
     
-    init(name: String, posterUrl: String, youtubeUrl: String) {
+    init(name: String, posterUrl: String, youtubeUrl: String, continueWatching: Float) {
         self.name = name
         self.youtubeUrl = youtubeUrl
         self.posterImageUrl = posterUrl
+        self.continueWatching = continueWatching
     }
     
     func encode(with coder: NSCoder) {

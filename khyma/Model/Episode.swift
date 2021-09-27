@@ -12,6 +12,7 @@ class Episode: Watchable {
     var name: String?
     var posterImageUrl: String?
     var youtubeUrl: String?
+    var continueWatching: Float?
     
     init(name: String, youtubeUrl: String) {
         self.name = name

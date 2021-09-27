@@ -67,31 +67,61 @@ struct UserDefaultsManager {
         }
     }
     
-    // function to return saved movies in my list
+    // function to return saved videos in my list
     func savedVideos() -> [Watchable] {
         do {
-            guard let savedMoviesData = UserDefaults.standard.data(forKey: UserDefaultsKeys.myList) else { return [] }
-            guard let savedMovies = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedMoviesData) as? [Watchable] else { return [] }
-            return savedMovies
+            guard let savedVideossData = UserDefaults.standard.data(forKey: UserDefaultsKeys.myList) else { return [] }
+            guard let savedVideos = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedVideossData) as? [Watchable] else { return [] }
+            return savedVideos
         } catch {
             return []
         }
     }
     
     
-    // function to delete a movie from my list
-    func deleteVideos(movie: Watchable) {
-          let movies = savedVideos()
-          let filteredMovies = movies.filter { (m) -> Bool in
-            return m.name != movie.name
+    // function to delete a video from my list
+    func deleteVideos(video: Watchable) {
+          let videos = savedVideos()
+          let filteredVideos = videos.filter { (m) -> Bool in
+            return m.name != video.name
           }
             
         do {
-            let data = try NSKeyedArchiver.archivedData(withRootObject: filteredMovies, requiringSecureCoding: true)
+            let data = try NSKeyedArchiver.archivedData(withRootObject: filteredVideos, requiringSecureCoding: true)
             UserDefaults.standard.set(data, forKey: UserDefaultsKeys.myList)
         } catch let error {
             print(error)
         }
     }
+    
+    
+    // function to return saved continue Watching
+    func savedContinueWatching() -> [Watchable] {
+        do {
+            guard let savedVideossData = UserDefaults.standard.data(forKey: UserDefaultsKeys.continueWatching) else { return [] }
+            guard let savedVideos = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedVideossData) as? [Watchable] else { return [] }
+            return savedVideos
+        } catch {
+            return []
+        }
+    }
+    
+    
+    // function to delete a continue Watching
+    func deleteContinueWatching(video: Watchable) {
+          let videos = savedVideos()
+          let filteredVideos = videos.filter { (m) -> Bool in
+            return m.name != video.name
+          }
+            
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: filteredVideos, requiringSecureCoding: true)
+            UserDefaults.standard.set(data, forKey: UserDefaultsKeys.continueWatching)
+        } catch let error {
+            print(error)
+        }
+    }
+    
+    
     
 }

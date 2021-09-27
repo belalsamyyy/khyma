@@ -12,4 +12,5 @@ protocol Watchable: Decodable {
     var name: String? { get set }
     var posterImageUrl: String? { get set }
     var youtubeUrl: String? { get set }
+    var continueWatching: Float? { get set }
 }

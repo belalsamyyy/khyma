@@ -85,14 +85,13 @@ class myListVC: UIViewController {
         let selectedMovie = self.movies[selectedIndexPath.item]
         print(selectedMovie)
         
-        // "hello %@! you are %d years old".localized("Mike", 25)
         let alertTitle = StringsKeys.removeAlertTitle.localized("\(selectedMovie.name ?? "")")
         let alertController = UIAlertController(title: alertTitle, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: StringsKeys.removeAlertAction.localized, style: .destructive, handler: { (_) in
             
             self.movies.remove(at: selectedIndexPath.item)
             self.myListCollectionView.deleteItems(at: [selectedIndexPath])
-            Defaults.deleteVideos(movie: selectedMovie)
+            Defaults.deleteVideos(video: selectedMovie)
             self.myListCollectionView.reloadData()
         }))
         

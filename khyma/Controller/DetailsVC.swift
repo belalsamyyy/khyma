@@ -22,6 +22,7 @@ class DetailsVC: UIViewController {
     // The video player
     var YoutubePlayer = YTPlayerView()
     var timerState = TimerState.notStarted
+    var currentTime = Float()
     
     // The reward timer.
     var rewardTimer: Timer?
@@ -164,7 +165,39 @@ class DetailsVC: UIViewController {
         
         alertController.addAction(UIAlertAction(title: StringsKeys.cancelAlert.localized, style: .cancel ))
         present(alertController, animated: true, completion: nil)
-
+    }
+    
+    fileprivate func addToContinueWatching() {
+        
+        let continueWatching = Defaults.savedContinueWatching()
+        let isInContinueWatching = continueWatching.firstIndex(where: {$0.name == video?.name}) != nil
+        
+        if isInContinueWatching {
+            // if it's in my contiue watching, do nothing
+            
+        } else {
+            // add to my list ---------------------------------
+            guard var video =  self.video else { return }
+            video.continueWatching = self.currentTime
+            print("we save current time here as \(self.currentTime)")
+             
+            do {
+             var listOfVideos = Defaults.savedContinueWatching()
+                listOfVideos.append(video)
+        
+             // transform movie into data
+             let data = try NSKeyedArchiver.archivedData(withRootObject: listOfVideos, requiringSecureCoding: true)
+             UserDefaults.standard.set(data , forKey: UserDefaultsKeys.continueWatching)
+            
+            } catch let error {
+                print("Failed to save info into userDefaults : ", error)
+            }
+            // ------------------------------------------------
+        }
+    }
+    
+    fileprivate func deleteFromContinueWatching() {
+        Defaults.deleteContinueWatching(video: video!)
     }
     
     //MARK: - functions - Reward Timer
@@ -182,6 +215,7 @@ class DetailsVC: UIViewController {
         @objc func timerTick() {
             if timeRemaining > 0 {
                 updateTimeRemaining()
+                getCurrentTime()
             } else {
                 endTimer()
             }
@@ -196,7 +230,7 @@ class DetailsVC: UIViewController {
         
         func updateTimeRemaining() {
             timeRemaining -= 1
-            let (hours, minutes, seconds) = minutesAndSeconds(from: timeRemaining)
+            let (hours, minutes, seconds) = timeRemaining.hoursAndMinutesAndSeconds()
             timeRemainingLabel.text = "time remaining: \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())"
             print("remaining => \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())")
             
@@ -280,6 +314,30 @@ class DetailsVC: UIViewController {
         func getVideoDuration() {
             self.YoutubePlayer.duration { result, error in
                 self.timeRemaining = Int(result)
+            }
+        }
+    
+        func returnVideoDuration() -> Int {
+            var duration = 0
+            self.YoutubePlayer.duration { result, error in
+                duration = Int(result)
+            }
+            return duration
+        }
+    
+        func getCurrentTime() {
+            self.YoutubePlayer.currentTime { [weak self] currentTime, error in
+                
+                if Int(currentTime) == self?.returnVideoDuration() {
+                    // delete from contiue watching
+                    self?.deleteFromContinueWatching()
+                } else {
+                    // add to continue watching if its not there
+                    self?.addToContinueWatching()
+                }
+                
+                let (hours, minutes, seconds) = Int(currentTime).hoursAndMinutesAndSeconds()
+                print("youtube current time is : => \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())")
             }
         }
     

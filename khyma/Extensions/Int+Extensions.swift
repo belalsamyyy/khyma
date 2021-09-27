@@ -9,11 +9,18 @@ import Foundation
 
 extension Int {
     
+    // convert seconds(Int) into hours and minutes and seconds
+    func hoursAndMinutesAndSeconds() -> (Int, Int, Int) {
+        let minutes = self / 60
+        return (minutes / 60, minutes, self % 60)
+    }
+    
+    // 1 -> 01
     func twoDigits() -> String {
         return String(format: "%02d", self)
     }
     
     func toMinutes() -> Int {
-        return self * 60 + 1
+        return self * 60
     }
 }

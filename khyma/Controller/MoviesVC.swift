@@ -39,23 +39,28 @@ class MoviesVC: UIViewController {
     
     let movies = [Video(name: StringsKeys.bodyGuard.localized,
                         posterUrl: "poster-movie-1",
-                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk",
+                        continueWatching: Float(2.toMinutes())),
                   
-                        Video(name: StringsKeys.avengers.localized,
+                  Video(name: StringsKeys.avengers.localized,
                         posterUrl: "poster-movie-2",
-                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
+                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0",
+                        continueWatching:  Float(2.toMinutes())),
                   
-                        Video(name: StringsKeys.weladRizk.localized,
+                  Video(name: StringsKeys.weladRizk.localized,
                         posterUrl: "poster-movie-3",
-                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
+                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM",
+                        continueWatching:  Float(2.toMinutes())),
                   
-                        Video(name: StringsKeys.batman.localized,
+                  Video(name: StringsKeys.batman.localized,
                         posterUrl: "poster-movie-4",
-                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
+                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY",
+                        continueWatching:  Float(2.toMinutes())),
                   
-                        Video(name: StringsKeys.blueElephant.localized,
+                  Video(name: StringsKeys.blueElephant.localized,
                         posterUrl: "poster-movie-5",
-                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
+                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8",
+                        continueWatching:  Float(2.toMinutes()))]
 
     
     //MARK: - lifecycle

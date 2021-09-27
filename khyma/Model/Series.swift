@@ -8,11 +8,13 @@
 import Foundation
 
 class Series: NSObject, Watchable, NSCoding, NSSecureCoding {
+    var continueWatching: Float?
+    
     var name: String?
     var posterImageUrl: String?
     
     var youtubeUrl: String?
-    weak var seasons: [Season]?
+    var seasons: [Season]?
     
     // NSSecureCoding
     static var supportsSecureCoding: Bool = true

@@ -16,6 +16,7 @@ struct UserDefaultsKeys {
     static let coins = "coins"
     static let darkMode = "darkMode"
     static let myList = "myList"
+    static let continueWatching = "continueWatching"
 }
 
 //MARK: - Ad Units Keys

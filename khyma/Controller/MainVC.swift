@@ -24,7 +24,6 @@ class MainVC: UIViewController {
     var counter = 0
     
     var timerState = TimerState.notStarted
-
         
     //MARK: - constants
     
@@ -39,24 +38,30 @@ class MainVC: UIViewController {
     
     let videos = [Video(name: StringsKeys.bodyGuard.localized,
                         posterUrl: "poster-movie-1",
-                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk",
+                        continueWatching: Float(2.toMinutes())),
                   
                   Video(name: StringsKeys.avengers.localized,
                         posterUrl: "poster-movie-2",
-                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
+                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0",
+                        continueWatching:  Float(5.toMinutes())),
                   
                   Video(name: StringsKeys.weladRizk.localized,
                         posterUrl: "poster-movie-3",
-                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
+                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM",
+                        continueWatching:  Float(1.toMinutes())),
                   
                   Video(name: StringsKeys.batman.localized,
                         posterUrl: "poster-movie-4",
-                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
+                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY",
+                        continueWatching:  Float(1.toMinutes())),
                   
                   Video(name: StringsKeys.blueElephant.localized,
                         posterUrl: "poster-movie-5",
-                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
-
+                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8",
+                        continueWatching:  Float(3.toMinutes()))]
+    
+    let continueWatching = Defaults.savedContinueWatching()
     
     //MARK: - lifecycle
     
@@ -73,6 +78,7 @@ class MainVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         sliderCollectionView.reloadData()
+        mainTableView.reloadData()
         self.navigationController?.navigationBar.topItem?.title = ""
         addCustomNavBar()
         startTimer()
@@ -127,7 +133,7 @@ class MainVC: UIViewController {
         startTimer()
         
         // table view
-        mainTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(sliderCollectionView, 0, nil, 0, .fixed(1600)))
+        mainTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(sliderCollectionView, 0, nil, 0, .fixed(1700)))
         mainTableView.backgroundColor = Color.primary
         
         mainTableView.delegate = self
@@ -366,7 +372,7 @@ extension MainVC: UICollectionViewDataSource {
         
         switch section {
         case .continueWatching:
-            return 4
+            return continueWatching.count
             
         case .popular, .Movies, .Series, .Plays, .anime:
             return videos.count
@@ -393,7 +399,7 @@ extension MainVC: UICollectionViewDataSource {
         case .continueWatching:
             let cell2 = collectionView.dequeue(indexPath: indexPath) as ContinueWatchingCell
             cell2.backgroundColor = Color.secondary
-            cell2.movie = videos[indexPath.item]
+            cell2.movie = continueWatching[indexPath.item]
             return cell2
         }
    
