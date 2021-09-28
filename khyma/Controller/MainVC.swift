@@ -305,10 +305,10 @@ extension MainVC: UITableViewDelegate {
 
         sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
         sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        sectionLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
+        sectionLabel.text = continueWatching.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
         sectionLabel.textColor = Color.text
         
-        return headerView
+        return continueWatching.count == 0 ? nil : headerView
         
        case .popular, .Movies, .Series, .Plays, .anime:
         let headerView = UIView()
@@ -344,7 +344,13 @@ extension MainVC: UITableViewDelegate {
      // row
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let section = MainTableSections.allCases[indexPath.section]
-        return section.ui.sectionHeight
+        switch section {
+            
+        case .continueWatching:
+            return continueWatching.count == 0 ? 0.1 : section.ui.sectionHeight
+        case .popular, .Movies, .Series, .Plays, .anime:
+            return section.ui.sectionHeight
+        }
     }
     
     func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -372,7 +378,7 @@ extension MainVC: UICollectionViewDataSource {
         
         switch section {
         case .continueWatching:
-            return continueWatching.count
+            return continueWatching.count == 0 ? 0 : continueWatching.count
             
         case .popular, .Movies, .Series, .Plays, .anime:
             return videos.count

@@ -16,7 +16,8 @@ class ContinueWatchingCell: UICollectionViewCell {
     var movie: Watchable? {
          didSet {
              myLabel.text = movie?.name
-             let (hours, minutes, seconds) = Int((movie?.continueWatching) ?? 0).hoursAndMinutesAndSeconds()
+             let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: movie?.name ?? "") as! Float
+             let (hours, minutes, seconds) = Int(continueWatchingAt).hoursAndMinutesAndSeconds()
              seekLabel.text = "\(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())"
          }
      }

@@ -36,6 +36,8 @@ class MainTableCell: UITableViewCell {
         collectionView.isDirectionalLockEnabled = true
         collectionView.isMultipleTouchEnabled = false
         collectionView.isOpaque = true
+        
+        collectionView.reloadData()
 
         contentView.addSubview(collectionView)
     }
