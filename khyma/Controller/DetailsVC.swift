@@ -94,6 +94,7 @@ class DetailsVC: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        timerState = .ended
         self.navigationController?.navigationBar.topItem?.title = ""
         self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
     }
@@ -177,7 +178,7 @@ class DetailsVC: UIViewController {
         } else {
             // add to my list ---------------------------------
             guard let video =  self.video else { return }
-             
+            
             do {
              var listOfVideos = Defaults.savedContinueWatching()
                 listOfVideos.append(video)
@@ -203,7 +204,11 @@ class DetailsVC: UIViewController {
             
             if timerState == .notStarted {
                 getVideoDuration()
-                YoutubePlayer.seek(toSeconds: video?.continueWatching ?? 0, allowSeekAhead: true)
+                
+                if let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: self.video?.name ?? "") {
+                    YoutubePlayer.playVideo()
+                    YoutubePlayer.seek(toSeconds: continueWatchingAt as! Float, allowSeekAhead: true)
+                }
             }
             
             timerState = .playing
@@ -213,24 +218,23 @@ class DetailsVC: UIViewController {
         @objc func timerTick() {
             if timeRemaining > 0 {
                 updateTimeRemaining()
-                getCurrentTime()
             } else {
+                rewardTimer?.invalidate()
                 endTimer()
             }
         }
-        
-        
-        // convert seconds into hours and minutes and seconds
-        func minutesAndSeconds(from seconds: Int) -> (Int, Int, Int) {
-            let minutes = seconds / 60
-            return (minutes / 60, minutes, seconds % 60)
-        }
+
         
         func updateTimeRemaining() {
             timeRemaining -= 1
             let (hours, minutes, seconds) = timeRemaining.hoursAndMinutesAndSeconds()
             timeRemainingLabel.text = "time remaining: \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())"
             print("remaining => \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())")
+            
+            // get current time
+            if timerState == .playing {
+                getCurrentTime()
+            }
             
             // reward the user every "n" seconds with "n" coins
             if seconds % rewardFrequency == 0 {
@@ -311,32 +315,29 @@ class DetailsVC: UIViewController {
         
         func getVideoDuration() {
             self.YoutubePlayer.duration { [weak self] result, error in
-                self?.timeRemaining = Int(result) - Int(self?.video?.continueWatching ?? 0)
+                let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: self?.video?.name ?? "") as? Float
+                self?.timeRemaining = Int(result) - Int(continueWatchingAt ?? 0)
             }
-        }
-    
-        func returnVideoDuration() -> Int {
-            var duration = 0
-            self.YoutubePlayer.duration { result, error in
-                duration = Int(result)
-            }
-            return duration
         }
     
         func getCurrentTime() {
-            self.YoutubePlayer.currentTime { [weak self] currentTime, error in
-                UserDefaultsManager.shared.def.set(currentTime, forKey: self?.video?.name ?? "")
-                
-                if self?.timeRemaining == 0 {
-                    // delete from contiue watching
-                    self?.deleteFromContinueWatching()
-                } else {
-                    // add to continue watching if its not there
-                    self?.addToContinueWatching()
+            if timerState == .playing {
+                self.YoutubePlayer.currentTime { [weak self] currentTime, error in
+                    // save current time in user defaults
+                    UserDefaultsManager.shared.def.set(currentTime, forKey: self?.video?.name ?? "")
+                    
+                    if self?.timeRemaining ?? 0 < 30 {
+                        // delete from contiue watching
+                        print("delete \(self?.video?.name ?? "") from continue watching")
+                        self?.deleteFromContinueWatching()
+                    } else {
+                        // add to continue watching if its not there
+                        self?.addToContinueWatching()
+                    }
+                    
+                    let (hours, minutes, seconds) = Int(currentTime).hoursAndMinutesAndSeconds()
+                    print("youtube current time is : => \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())")
                 }
-                
-                let (hours, minutes, seconds) = Int(currentTime).hoursAndMinutesAndSeconds()
-                print("youtube current time is : => \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())")
             }
         }
     

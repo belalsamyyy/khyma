@@ -38,30 +38,25 @@ class MainVC: UIViewController {
     
     let videos = [Video(name: StringsKeys.bodyGuard.localized,
                         posterUrl: "poster-movie-1",
-                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk",
-                        continueWatching: Float(2.toMinutes())),
+                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
                   
                   Video(name: StringsKeys.avengers.localized,
                         posterUrl: "poster-movie-2",
-                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0",
-                        continueWatching:  Float(5.toMinutes())),
+                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
                   
                   Video(name: StringsKeys.weladRizk.localized,
                         posterUrl: "poster-movie-3",
-                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM",
-                        continueWatching:  Float(1.toMinutes())),
+                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
                   
                   Video(name: StringsKeys.batman.localized,
                         posterUrl: "poster-movie-4",
-                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY",
-                        continueWatching:  Float(1.toMinutes())),
+                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
                   
                   Video(name: StringsKeys.blueElephant.localized,
                         posterUrl: "poster-movie-5",
-                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8",
-                        continueWatching:  Float(3.toMinutes()))]
+                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
     
-    let continueWatching = Defaults.savedContinueWatching()
+    var continueWatching = Defaults.savedContinueWatching()
     
     //MARK: - lifecycle
     
@@ -77,6 +72,7 @@ class MainVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        continueWatching = Defaults.savedContinueWatching()
         sliderCollectionView.reloadData()
         mainTableView.reloadData()
         self.navigationController?.navigationBar.topItem?.title = ""
@@ -92,6 +88,7 @@ class MainVC: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
+        continueWatching = Defaults.savedContinueWatching()
         self.navigationController?.navigationBar.topItem?.title = ""
         sliderCollectionView.reloadData()
     }
@@ -133,7 +130,7 @@ class MainVC: UIViewController {
         startTimer()
         
         // table view
-        mainTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(sliderCollectionView, 0, nil, 0, .fixed(1700)))
+        mainTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(sliderCollectionView, 0, nil, 0, .fixed(1600)))
         mainTableView.backgroundColor = Color.primary
         
         mainTableView.delegate = self
@@ -146,7 +143,7 @@ class MainVC: UIViewController {
     fileprivate func startTimer() {
         // timer
         timerState = .playing
-        self.sliderTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.timerTick), userInfo: nil, repeats: true)
+        self.sliderTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.timerTick), userInfo: nil, repeats: true)
     }
     
     
@@ -261,10 +258,15 @@ extension MainVC: UITableViewDataSource {
      func numberOfSections(in _: UITableView) -> Int {
         return MainTableSections.allCases.count
     }
-    
+    // return continuewatching
     func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
        let section = MainTableSections.allCases[section]
-        return section.ui.sectionTitle
+        
+        if section == .continueWatching {
+            return continueWatching.count == 0 ? nil : section.ui.sectionTitle
+        } else {
+            return section.ui.sectionTitle
+        }
    }
 
     // row
@@ -290,51 +292,52 @@ extension MainVC: UITableViewDataSource {
 extension MainVC: UITableViewDelegate {
     
     // section
-    func tableView(_: UITableView, heightForHeaderInSection _: Int) -> CGFloat {
-       return 50
+    func tableView(_: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let section = MainTableSections.allCases[section]
+        switch section {
+        case .continueWatching:
+            return continueWatching.count == 0 ? CGFloat.leastNonzeroMagnitude : 50
+        case .popular, .Movies, .Series, .Plays, .anime:
+            return 50
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
        let currentSection = MainTableSections.allCases[section]
-       switch currentSection {
-       case .continueWatching:
-        let headerView = UIView()
-
-        let sectionLabel = UILabel()
-        headerView.addSubview(sectionLabel)
-
-        sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-        sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        sectionLabel.text = continueWatching.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
-        sectionLabel.textColor = Color.text
         
-        return continueWatching.count == 0 ? nil : headerView
-        
-       case .popular, .Movies, .Series, .Plays, .anime:
-        let headerView = UIView()
+           switch currentSection {
+           case .continueWatching:
+            
+            let headerView = UIView()
+            let sectionLabel = UILabel()
+            headerView.addSubview(sectionLabel)
+            sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
+            sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
+            sectionLabel.text = continueWatching.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
+            sectionLabel.textColor = Color.text
+            return continueWatching.count == 0 ? nil : headerView
+            
+           case .popular, .Movies, .Series, .Plays, .anime:
+            
+            let headerView = UIView()
+            let sectionLabel = UILabel()
+            headerView.addSubview(sectionLabel)
+            sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
+            sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
+            sectionLabel.text = continueWatching.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
+            sectionLabel.textColor = Color.text
+            
+             let moreBtn = UIButton()
+             headerView.addSubview(moreBtn)
+             moreBtn.layout(X: .trailing(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
+             moreBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+             moreBtn.setTitle(StringsKeys.more.localized, for: .normal)
+             moreBtn.setTitleColor(Color.secondary, for: .normal)
+             moreBtn.titleLabel?.textAlignment = .center
+             moreBtn.addTarget(self, action: #selector(handleMoreTapped), for: .touchUpInside)
 
-        let sectionLabel = UILabel()
-        headerView.addSubview(sectionLabel)
-
-        sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-        sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
-        sectionLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
-        sectionLabel.textColor = Color.text
-         
-         let moreBtn = UIButton()
-         headerView.addSubview(moreBtn)
-         
-         moreBtn.layout(X: .trailing(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-         moreBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-         moreBtn.setTitle(StringsKeys.more.localized, for: .normal)
-         moreBtn.setTitleColor(Color.secondary, for: .normal)
-         moreBtn.titleLabel?.textAlignment = .center
-         moreBtn.addTarget(self, action: #selector(handleMoreTapped), for: .touchUpInside)
-
-        return headerView
-    }
-
-       
+            return headerView
+        }
     }
     
     func tableView(_: UITableView, heightForFooterInSection _: Int) -> CGFloat {
@@ -345,9 +348,8 @@ extension MainVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let section = MainTableSections.allCases[indexPath.section]
         switch section {
-            
         case .continueWatching:
-            return continueWatching.count == 0 ? 0.1 : section.ui.sectionHeight
+            return continueWatching.count == 0 ? CGFloat.leastNonzeroMagnitude : section.ui.sectionHeight
         case .popular, .Movies, .Series, .Plays, .anime:
             return section.ui.sectionHeight
         }
@@ -405,7 +407,7 @@ extension MainVC: UICollectionViewDataSource {
         case .continueWatching:
             let cell2 = collectionView.dequeue(indexPath: indexPath) as ContinueWatchingCell
             cell2.backgroundColor = Color.secondary
-            cell2.movie = continueWatching[indexPath.item]
+            cell2.video = continueWatching[indexPath.item]
             return cell2
         }
    
@@ -421,13 +423,21 @@ extension MainVC: UICollectionViewDelegate {
         let section = MainTableSections.allCases[collectionView.tag]
         print("section : \(section.ui.sectionTitle) => \(indexPath.item)")
         
-        // movie
-        let movie = videos[indexPath.item]
-        
-        let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
-        detailsVC.modalPresentationStyle = .fullScreen
-        detailsVC.video = movie
-        self.navigationController?.pushViewController(detailsVC, animated: true)
+        switch section {
+        case .continueWatching:
+            let video = continueWatching[indexPath.item]
+            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+            detailsVC.modalPresentationStyle = .fullScreen
+            detailsVC.video = video
+            self.navigationController?.pushViewController(detailsVC, animated: true)
+            
+        case .popular, .Movies, .Series, .Plays, .anime:
+            let video = videos[indexPath.item]
+            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+            detailsVC.modalPresentationStyle = .fullScreen
+            detailsVC.video = video
+            self.navigationController?.pushViewController(detailsVC, animated: true)        }
+    
     }
 }
 

@@ -313,15 +313,8 @@
 		D9125A6B26F729AF00D29128 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				D9125A8F26F7384000D29128 /* MainTableSections.swift */,
-				D90E6DC12700655D0064A50D /* MoviesTableSections.swift */,
-				D90E6DC32700657F0064A50D /* SeriesTableSections.swift */,
-				D90E6DC5270065900064A50D /* PlaysTableSections.swift */,
-				41319D7C26FE620300FCCBBC /* SettingsTableSections.swift */,
-				D95CF74926FB2A0F00C05C89 /* MainNavBar.swift */,
-				41319D9926FFA72F00FCCBBC /* BackNavBar.swift */,
-				D90E6DC7270066240064A50D /* MoreNavBar.swift */,
-				D90E6DD6270079B00064A50D /* SeasonNavBar.swift */,
+				D933888327034EB10061AA06 /* TableSections */,
+				D933888227034EA30061AA06 /* NavBar */,
 				41319D8A26FF456E00FCCBBC /* Localizer.swift */,
 			);
 			name = Helpers;
@@ -339,6 +332,29 @@
 				41319D8726FF2E9E00FCCBBC /* LanguageCell.xib */,
 			);
 			path = xib;
+			sourceTree = "<group>";
+		};
+		D933888227034EA30061AA06 /* NavBar */ = {
+			isa = PBXGroup;
+			children = (
+				D95CF74926FB2A0F00C05C89 /* MainNavBar.swift */,
+				41319D9926FFA72F00FCCBBC /* BackNavBar.swift */,
+				D90E6DC7270066240064A50D /* MoreNavBar.swift */,
+				D90E6DD6270079B00064A50D /* SeasonNavBar.swift */,
+			);
+			name = NavBar;
+			sourceTree = "<group>";
+		};
+		D933888327034EB10061AA06 /* TableSections */ = {
+			isa = PBXGroup;
+			children = (
+				D9125A8F26F7384000D29128 /* MainTableSections.swift */,
+				D90E6DC12700655D0064A50D /* MoviesTableSections.swift */,
+				D90E6DC32700657F0064A50D /* SeriesTableSections.swift */,
+				D90E6DC5270065900064A50D /* PlaysTableSections.swift */,
+				41319D7C26FE620300FCCBBC /* SettingsTableSections.swift */,
+			);
+			name = TableSections;
 			sourceTree = "<group>";
 		};
 		D95CF75D26FB722A00C05C89 /* Model */ = {

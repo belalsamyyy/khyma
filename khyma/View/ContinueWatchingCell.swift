@@ -13,10 +13,10 @@ class ContinueWatchingCell: UICollectionViewCell {
     @IBOutlet weak var myLabel: UILabel!
     let seekLabel = UILabel()
     
-    var movie: Watchable? {
+    var video: Watchable? {
          didSet {
-             myLabel.text = movie?.name
-             let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: movie?.name ?? "") as! Float
+             myLabel.text = video?.name
+             let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: video?.name ?? "") as! Float
              let (hours, minutes, seconds) = Int(continueWatchingAt).hoursAndMinutesAndSeconds()
              seekLabel.text = "\(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())"
          }

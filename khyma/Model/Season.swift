@@ -9,8 +9,6 @@ import Foundation
 import UIKit
 
 class Season: Watchable {
-    var continueWatching: Float?
-    
     var name: String?
     var posterImageUrl: String?
     var youtubeUrl: String?

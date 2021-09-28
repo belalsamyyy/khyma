@@ -39,28 +39,23 @@ class MoviesVC: UIViewController {
     
     let movies = [Video(name: StringsKeys.bodyGuard.localized,
                         posterUrl: "poster-movie-1",
-                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk",
-                        continueWatching: Float(2.toMinutes())),
+                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
                   
                   Video(name: StringsKeys.avengers.localized,
                         posterUrl: "poster-movie-2",
-                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0",
-                        continueWatching:  Float(2.toMinutes())),
+                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
                   
                   Video(name: StringsKeys.weladRizk.localized,
                         posterUrl: "poster-movie-3",
-                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM",
-                        continueWatching:  Float(2.toMinutes())),
+                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
                   
                   Video(name: StringsKeys.batman.localized,
                         posterUrl: "poster-movie-4",
-                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY",
-                        continueWatching:  Float(2.toMinutes())),
+                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
                   
                   Video(name: StringsKeys.blueElephant.localized,
                         posterUrl: "poster-movie-5",
-                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8",
-                        continueWatching:  Float(2.toMinutes()))]
+                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
 
     
     //MARK: - lifecycle
@@ -232,11 +227,11 @@ extension MoviesVC: UITableViewDataSource {
 
     // section
      func numberOfSections(in _: UITableView) -> Int {
-        return MainTableSections.allCases.count
+        return MoviesTableSections.allCases.count
     }
     
     func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
-       let section = MainTableSections.allCases[section]
+       let section = MoviesTableSections.allCases[section]
         return section.ui.sectionTitle
    }
 
@@ -268,22 +263,7 @@ extension MoviesVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let currentSection = MainTableSections.allCases[section]
-        switch currentSection {
-        case .continueWatching:
-         let headerView = UIView()
-
-         let sectionLabel = UILabel()
-         headerView.addSubview(sectionLabel)
-
-         sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-         sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
-         sectionLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
-         sectionLabel.textColor = Color.text
-         
-         return headerView
-         
-        case .popular, .Movies, .Series, .Plays, .anime:
+        // let currentSection = MoviesTableSections.allCases[section]
          let headerView = UIView()
 
          let sectionLabel = UILabel()
@@ -305,7 +285,6 @@ extension MoviesVC: UITableViewDelegate {
           moreBtn.addTarget(self, action: #selector(handleMoreTapped), for: .touchUpInside)
 
          return headerView
-        }
     }
     
     func tableView(_: UITableView, heightForFooterInSection _: Int) -> CGFloat {
@@ -314,7 +293,7 @@ extension MoviesVC: UITableViewDelegate {
     
      // row
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let section = MainTableSections.allCases[indexPath.section]
+        let section = MoviesTableSections.allCases[indexPath.section]
         return section.ui.sectionHeight
     }
     
@@ -335,23 +314,17 @@ extension MoviesVC: UICollectionViewDataSource {
     
     // item
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let section = MainTableSections.allCases[collectionView.tag]
+        // let section = MoviesTableSections.allCases[collectionView.tag]
         
         if collectionView == moviesSliderCollectionView {
             return movies.count
         }
-        
-        switch section {
-        case .continueWatching:
-            return 4
-            
-        case .popular, .Movies, .Series, .Plays, .anime:
-            return movies.count
+
+        return movies.count
         }
-    }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = MainTableSections.allCases[collectionView.tag]
+        // let section = MoviesTableSections.allCases[collectionView.tag]
         
         if collectionView == moviesSliderCollectionView {
             let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
@@ -359,20 +332,11 @@ extension MoviesVC: UICollectionViewDataSource {
             cell3.movie = movies[indexPath.item]
             return cell3
         }
-        
-        switch section {
-        case .popular, .Movies, .Series, .Plays, .anime:
-            let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
-            cell1.backgroundColor = Color.secondary
-            cell1.movie = movies[indexPath.item]
-            return cell1
-            
-        case .continueWatching:
-            let cell2 = collectionView.dequeue(indexPath: indexPath) as ContinueWatchingCell
-            cell2.backgroundColor = Color.secondary
-            cell2.movie = movies[indexPath.item]
-            return cell2
-        }
+
+        let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
+        cell1.backgroundColor = Color.secondary
+        cell1.movie = movies[indexPath.item]
+        return cell1
    
     }
 }
@@ -383,7 +347,7 @@ extension MoviesVC: UICollectionViewDelegate {
     // item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // section
-        let section = MainTableSections.allCases[collectionView.tag]
+        let section = MoviesTableSections.allCases[collectionView.tag]
         print("section : \(section.ui.sectionTitle) => \(indexPath.item)")
         
         // movie
@@ -418,20 +382,15 @@ extension MoviesVC: UICollectionViewDelegateFlowLayout {
     
     // item
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        let section = MainTableSections.allCases[collectionView.tag]
+        // let section = MoviesTableSections.allCases[collectionView.tag]
         
         if collectionView == moviesSliderCollectionView {
             let size = moviesSliderCollectionView.frame.size
             return CGSize(width: size.width, height: size.height)
         }
         
-        switch section {
-        case .continueWatching:
-            return collectionView.size(rows: 1, columns: 1.25)
       
-        case .popular, .Movies, .Series, .Plays, .anime:
             return collectionView.size(rows: 1, columns: 3.5)
-        }
         
     }
 }

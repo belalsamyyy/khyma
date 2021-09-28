@@ -8,8 +8,6 @@
 import Foundation
 
 class Series: NSObject, Watchable, NSCoding, NSSecureCoding {
-    var continueWatching: Float?
-    
     var name: String?
     var posterImageUrl: String?
     

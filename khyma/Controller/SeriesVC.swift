@@ -221,11 +221,11 @@ extension SeriesVC: UITableViewDataSource {
 
     // section
      func numberOfSections(in _: UITableView) -> Int {
-        return MainTableSections.allCases.count
+        return SeriesTableSections.allCases.count
     }
     
     func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
-       let section = MainTableSections.allCases[section]
+       let section = SeriesTableSections.allCases[section]
         return section.ui.sectionTitle
    }
 
@@ -257,22 +257,7 @@ extension SeriesVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let currentSection = MainTableSections.allCases[section]
-        switch currentSection {
-        case .continueWatching:
-         let headerView = UIView()
-
-         let sectionLabel = UILabel()
-         headerView.addSubview(sectionLabel)
-
-         sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-         sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
-         sectionLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
-         sectionLabel.textColor = Color.text
-         
-         return headerView
-         
-        case .popular, .Movies, .Series, .Plays, .anime:
+       //  let currentSection = SeriesTableSections.allCases[section]
          let headerView = UIView()
 
          let sectionLabel = UILabel()
@@ -294,7 +279,6 @@ extension SeriesVC: UITableViewDelegate {
           moreBtn.addTarget(self, action: #selector(handleMoreTapped), for: .touchUpInside)
 
          return headerView
-        }
     }
     
     func tableView(_: UITableView, heightForFooterInSection _: Int) -> CGFloat {
@@ -303,7 +287,7 @@ extension SeriesVC: UITableViewDelegate {
     
      // row
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let section = MainTableSections.allCases[indexPath.section]
+        let section = SeriesTableSections.allCases[indexPath.section]
         return section.ui.sectionHeight
     }
     
@@ -324,23 +308,17 @@ extension SeriesVC: UICollectionViewDataSource {
     
     // item
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let section = MainTableSections.allCases[collectionView.tag]
+        // let section = SeriesTableSections.allCases[collectionView.tag]
         
         if collectionView == seriesSliderCollectionView {
             return series.count
         }
         
-        switch section {
-        case .continueWatching:
-            return 4
-            
-        case .popular, .Movies, .Series, .Plays, .anime:
-            return series.count
-        }
+        return series.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = MainTableSections.allCases[collectionView.tag]
+        let section = SeriesTableSections.allCases[collectionView.tag]
         
         if collectionView == seriesSliderCollectionView {
             let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
@@ -355,12 +333,6 @@ extension SeriesVC: UICollectionViewDataSource {
             cell1.backgroundColor = Color.secondary
             cell1.movie = series[indexPath.item]
             return cell1
-            
-        case .continueWatching:
-            let cell2 = collectionView.dequeue(indexPath: indexPath) as ContinueWatchingCell
-            cell2.backgroundColor = Color.secondary
-            cell2.movie = series[indexPath.item]
-            return cell2
         }
    
     }
@@ -371,7 +343,7 @@ extension SeriesVC: UICollectionViewDelegate {
     // item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // section
-        let section = MainTableSections.allCases[collectionView.tag]
+        let section = SeriesTableSections.allCases[collectionView.tag]
         print("section : \(section.ui.sectionTitle) => \(indexPath.item)")
         
         // movie
@@ -407,20 +379,13 @@ extension SeriesVC: UICollectionViewDelegateFlowLayout {
     
     // item
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        let section = MainTableSections.allCases[collectionView.tag]
+        // let section = SeriesTableSections.allCases[collectionView.tag]
         
         if collectionView == seriesSliderCollectionView {
             let size = seriesSliderCollectionView.frame.size
             return CGSize(width: size.width, height: size.height)
         }
         
-        switch section {
-        case .continueWatching:
-            return collectionView.size(rows: 1, columns: 1.25)
-      
-        case .popular, .Movies, .Series, .Plays, .anime:
-            return collectionView.size(rows: 1, columns: 3.5)
-        }
-        
+        return collectionView.size(rows: 1, columns: 3.5)
     }
 }
