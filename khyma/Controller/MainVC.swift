@@ -420,22 +420,32 @@ extension MainVC: UICollectionViewDelegate {
         let section = MainTableSections.allCases[collectionView.tag]
         print("section : \(section.ui.sectionTitle) => \(indexPath.item)")
         
-        switch section {
-        case .continueWatching:
-            let video = continueWatching[indexPath.item]
+        if collectionView == sliderCollectionView {
+            let video = videos[indexPath.item]
             let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
             detailsVC.modalPresentationStyle = .fullScreen
             detailsVC.video = video
             self.navigationController?.pushViewController(detailsVC, animated: true)
             
-        case .popular, .Movies, .Series, .Plays, .anime:
-            let video = videos[indexPath.item]
-            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
-            detailsVC.modalPresentationStyle = .fullScreen
-            detailsVC.video = video
-            self.navigationController?.pushViewController(detailsVC, animated: true)        }
-    
-    }
+        } else {
+            
+            switch section {
+                
+            case .continueWatching:
+                let video = continueWatching[indexPath.item]
+                let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+                detailsVC.modalPresentationStyle = .fullScreen
+                detailsVC.video = video
+                self.navigationController?.pushViewController(detailsVC, animated: true)
+                
+            case .popular, .Movies, .Series, .Plays, .anime:
+                let video = videos[indexPath.item]
+                let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+                detailsVC.modalPresentationStyle = .fullScreen
+                detailsVC.video = video
+                self.navigationController?.pushViewController(detailsVC, animated: true)        }
+            }
+        }
 }
 
 
