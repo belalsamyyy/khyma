@@ -41,6 +41,17 @@ class Localizer {
                                 originalSelector: #selector(getter: UIApplication.userInterfaceLayoutDirection),
                                 overrideSelector: #selector(getter: UIApplication.changeDirection))
     }
+      
+      static func changeToEnglish() {
+          Language.setAppLanguage(lang: Lang.english) // change to English
+          UIView.appearance().semanticContentAttribute = .forceLeftToRight // LTR
+      }
+      
+      static func changeToArabic() {
+          Language.setAppLanguage(lang: Lang.arabic) // change to Arablic
+          UIView.appearance().semanticContentAttribute = .forceRightToLeft // RTL
+      }
+    
 }
 
 //MARK: - custom localized String

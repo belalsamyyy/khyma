@@ -324,7 +324,7 @@ extension MainVC: UITableViewDelegate {
             headerView.addSubview(sectionLabel)
             sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
             sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
-            sectionLabel.text = continueWatching.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
+            sectionLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
             sectionLabel.textColor = Color.text
             
              let moreBtn = UIButton()

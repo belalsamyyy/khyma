@@ -10,7 +10,7 @@ import youtube_ios_player_helper
 import DesignX
 
 class DetailsVC: UIViewController {
-
+    
     //MARK: - outlets
     @IBOutlet weak var timeRemainingLabel: UILabel!
     
@@ -218,27 +218,24 @@ class DetailsVC: UIViewController {
         @objc func timerTick() {
             if timeRemaining > 0 {
                 updateTimeRemaining()
+                getCurrentTime()
             } else {
-                rewardTimer?.invalidate()
                 endTimer()
             }
         }
 
         
         func updateTimeRemaining() {
-            timeRemaining -= 1
-            let (hours, minutes, seconds) = timeRemaining.hoursAndMinutesAndSeconds()
-            timeRemainingLabel.text = "time remaining: \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())"
-            print("remaining => \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())")
-            
-            // get current time
             if timerState == .playing {
-                getCurrentTime()
-            }
-            
-            // reward the user every "n" seconds with "n" coins
-            if seconds % rewardFrequency == 0 {
-                earnCoins(rewardValue)
+                timeRemaining -= 1
+                let (hours, minutes, seconds) = timeRemaining.hoursAndMinutesAndSeconds()
+                timeRemainingLabel.text = "time remaining: \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())"
+                print("remaining => \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())")
+                
+                // reward the user every "n" seconds with "n" coins
+                if seconds % rewardFrequency == 0 {
+                    earnCoins(rewardValue)
+                }
             }
         }
         
@@ -314,10 +311,18 @@ class DetailsVC: UIViewController {
         }
         
         func getVideoDuration() {
-            self.YoutubePlayer.duration { [weak self] result, error in
-                let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: self?.video?.name ?? "") as? Float
-                self?.timeRemaining = Int(result) - Int(continueWatchingAt ?? 0)
+            self.YoutubePlayer.duration { [weak self] duration, error in
+                //let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: self?.video?.name ?? "") as? Float
+                self?.timeRemaining = Int(duration) // - Int(continueWatchingAt ?? 0)
             }
+        }
+        
+        func videoDuration() -> Double {
+            var videoDuration: Double = 0
+            self.YoutubePlayer.duration { duration, error in
+                videoDuration = duration
+            }
+            return videoDuration
         }
     
         func getCurrentTime() {
@@ -326,13 +331,16 @@ class DetailsVC: UIViewController {
                     // save current time in user defaults
                     UserDefaultsManager.shared.def.set(currentTime, forKey: self?.video?.name ?? "")
                     
-                    if self?.timeRemaining ?? 0 < 30 {
-                        // delete from contiue watching
-                        print("delete \(self?.video?.name ?? "") from continue watching")
-                        self?.deleteFromContinueWatching()
-                    } else {
-                        // add to continue watching if its not there
-                        self?.addToContinueWatching()
+                    self?.YoutubePlayer.duration { [weak self] duration, error in
+                        if currentTime >= 0.95 * Float(duration) {
+                            // delete
+                            print("delete from continue watching after watching 95% of video")
+                            self?.deleteFromContinueWatching()
+                        } else {
+                            // add
+                            print("add video to continue watching")
+                            self?.addToContinueWatching()
+                        }
                     }
                     
                     let (hours, minutes, seconds) = Int(currentTime).hoursAndMinutesAndSeconds()
@@ -483,7 +491,7 @@ extension DetailsVC: YTPlayerViewDelegate {
           case .ended:
               print("ended")
               endTimer()
-
+          
           case .playing:
               print("playing")
               startTimer()

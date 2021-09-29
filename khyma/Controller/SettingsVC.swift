@@ -74,14 +74,16 @@ class SettingsVC: UIViewController {
         alertController.addAction(UIAlertAction(title: StringsKeys.english.localized, style: .default, handler: { (_) in
             // change to english -----------------------------------
             print("change to english")
-            self.changeToEnglish()
+            Localizer.changeToEnglish()
+            self.transition(.transitionFlipFromLeft) // Flip from left
             // ------------------------------------------------
         }))
         
         alertController.addAction(UIAlertAction(title: StringsKeys.arabic.localized, style: .default, handler: { (_) in
             // change to arabic -----------------------------------
             print("change to arabic")
-            self.changeToArabic()
+            Localizer.changeToArabic()
+            self.transition(.transitionFlipFromRight) // Flip from right
             // ------------------------------------------------
         }))
         
@@ -94,18 +96,6 @@ class SettingsVC: UIViewController {
           let sb = UIStoryboard(name: "Main", bundle: nil)
           window?.rootViewController = sb.instantiateViewController(withIdentifier: "rootVC")
           UIView.transition(with: window!, duration: 0.5, options: options, animations: nil, completion: nil)
-      }
-      
-      func changeToEnglish() {
-          Language.setAppLanguage(lang: Lang.english) // change to English
-          UIView.appearance().semanticContentAttribute = .forceLeftToRight // LTR
-          transition(.transitionFlipFromLeft) // Flip from left
-      }
-      
-      func changeToArabic() {
-          Language.setAppLanguage(lang: Lang.arabic) // change to Arablic
-          UIView.appearance().semanticContentAttribute = .forceRightToLeft // RTL
-          transition(.transitionFlipFromRight) // Flip from right
       }
     
     //MARK: - actions

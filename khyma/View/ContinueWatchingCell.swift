@@ -24,7 +24,7 @@ class ContinueWatchingCell: UICollectionViewCell {
 
      override func awakeFromNib() {
          super.awakeFromNib()
-        
+         
          myLabel.layout(XW: .leadingAndCenter(nil, 0), Y: .center(nil), H: .fixed(50))
          myLabel.textColor = .white
          myLabel.textAlignment = .center
@@ -36,9 +36,10 @@ class ContinueWatchingCell: UICollectionViewCell {
          seekLabel.textAlignment = .center
          seekLabel.font = UIFont.systemFont(ofSize: 25)
         
-        
          // Initialization code
          layer.masksToBounds = true
          layer.cornerRadius = 10
      }
+    
+    
  }
