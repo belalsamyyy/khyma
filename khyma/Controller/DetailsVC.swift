@@ -17,6 +17,7 @@ class DetailsVC: UIViewController {
     //MARK: - variables
     
     // movie object
+    var series: Watchable?
     var video: Watchable?
     
     // The video player
@@ -141,6 +142,7 @@ class DetailsVC: UIViewController {
     }
     
     @objc fileprivate func handleAddToMyList() {
+        
         
         let alertController = UIAlertController(title: video?.name, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: StringsKeys.addAlertAction.localized, style: .default, handler: { (_) in
@@ -333,12 +335,10 @@ class DetailsVC: UIViewController {
                     
                     self?.YoutubePlayer.duration { [weak self] duration, error in
                         if currentTime >= 0.95 * Float(duration) {
-                            // delete
-                            print("delete from continue watching after watching 95% of video")
+                            // delete from continue watching after watching 95% of video
                             self?.deleteFromContinueWatching()
                         } else {
-                            // add
-                            print("add video to continue watching")
+                            // add video to continue watching
                             self?.addToContinueWatching()
                         }
                     }

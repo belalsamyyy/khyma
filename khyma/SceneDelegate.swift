@@ -14,7 +14,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-        // RTL or LTR
+        // Change to arabic (RTL)
+        Localizer.changeToArabic()
+        window?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "rootVC")
         UIView.appearance().semanticContentAttribute = Language.currentLanguage == Lang.english.rawValue ? .forceLeftToRight : .forceRightToLeft
         
         // dark mode

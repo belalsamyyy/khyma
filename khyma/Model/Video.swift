@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+
 class Video: NSObject, Watchable, NSCoding, NSSecureCoding {
     var name: String?
     var posterImageUrl: String?

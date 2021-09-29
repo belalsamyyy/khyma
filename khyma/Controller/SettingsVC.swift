@@ -18,9 +18,6 @@ class SettingsVC: UIViewController {
     
     //MARK: - constants
     
-    let cellReuseIdentifier = "cell"
-    
-    
     //MARK: - lifecycle
     
     override func viewDidLoad() {
@@ -34,9 +31,9 @@ class SettingsVC: UIViewController {
         setupNavBar()
     }
     
-//    override func viewWillDisappear(_ animated: Bool) {
-//        self.navigationController?.navigationBar.topItem?.title = ""
-//    }
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.topItem?.title = ""
+    }
     
     override func viewDidLayoutSubviews() {
        setupNavBar()

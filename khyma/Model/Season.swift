@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 
+typealias Episode = Video
+
 class Season: Watchable {
     var name: String?
     var posterImageUrl: String?

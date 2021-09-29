@@ -20,51 +20,51 @@ class EpisodesVC: UIViewController {
     
     let seasons = [Season(name: "\(StringsKeys.season.localized) 1",
                           posterImageUrl: "poster-movie-1",
-                          episodes: [Episode(name: "\(StringsKeys.episode.localized) 1",
+                          episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-1",
                                              youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 2",
+                                     Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-1",
                                              youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 3",
+                                     Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-1",
                                              youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 4",
+                                     Episode(name: "\(StringsKeys.episode.localized) 4", posterUrl: "poster-movie-1",
                                              youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 5",
+                                     Episode(name: "\(StringsKeys.episode.localized) 5", posterUrl: "poster-movie-1",
                                              youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 6",
+                                     Episode(name: "\(StringsKeys.episode.localized) 6", posterUrl: "poster-movie-1",
                                              youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 7",
+                                     Episode(name: "\(StringsKeys.episode.localized) 7", posterUrl: "poster-movie-1",
                                              youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 8",
+                                     Episode(name: "\(StringsKeys.episode.localized) 8", posterUrl: "poster-movie-1",
                                              youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 9",
+                                     Episode(name: "\(StringsKeys.episode.localized) 9", posterUrl: "poster-movie-1",
                                              youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 10",
+                                     Episode(name: "\(StringsKeys.episode.localized) 10", posterUrl: "poster-movie-1",
                                              youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")]),
                           
                    Season(name: "\(StringsKeys.season.localized) 2",
                          posterImageUrl: "poster-movie-2",
-                         episodes: [Episode(name: "\(StringsKeys.episode.localized) 1",
+                          episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-2",
                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                    Episode(name: "\(StringsKeys.episode.localized) 2",
+                                     Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-2",
                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                    Episode(name: "\(StringsKeys.episode.localized) 3",
+                                     Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-2",
                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                    Episode(name: "\(StringsKeys.episode.localized) 4",
+                                     Episode(name: "\(StringsKeys.episode.localized) 4", posterUrl: "poster-movie-2",
                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                    Episode(name: "\(StringsKeys.episode.localized) 5",
+                                     Episode(name: "\(StringsKeys.episode.localized) 5", posterUrl: "poster-movie-2",
                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                    Episode(name: "\(StringsKeys.episode.localized) 6",
+                                     Episode(name: "\(StringsKeys.episode.localized) 6", posterUrl: "poster-movie-2",
                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                    Episode(name: "\(StringsKeys.episode.localized) 7",
+                                     Episode(name: "\(StringsKeys.episode.localized) 7", posterUrl: "poster-movie-2",
                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")]),
                         
                  Season(name: "\(StringsKeys.season.localized) 3",
                         posterImageUrl: "poster-movie-3",
-                        episodes: [Episode(name: "\(StringsKeys.episode.localized) 1",
+                        episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-3",
                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                   Episode(name: "\(StringsKeys.episode.localized) 2",
+                                   Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-3",
                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                   Episode(name: "\(StringsKeys.episode.localized) 3",
+                                   Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-3",
                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")])]
     //MARK: - lifecycle
     
@@ -82,6 +82,9 @@ class EpisodesVC: UIViewController {
         setupNavBar()
     }
     
+    override func viewDidLayoutSubviews() {
+        setupNavBar()
+    }
     
     
     //MARK: - functions
@@ -99,7 +102,7 @@ class EpisodesVC: UIViewController {
     }
     
     fileprivate func setupNavBar() {
-        self.navigationController?.navigationBar.topItem?.backButtonTitle = series?.name // ""
+        self.navigationController?.navigationBar.topItem?.backButtonTitle = series?.name
         self.navigationController?.navigationBar.topItem?.title = ""
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
