@@ -9,7 +9,7 @@ import Foundation
 
 //MARK: - Generic Model
 
-protocol Model: Codable {
+public protocol Model: Codable {
     static var endpoint: String! { get set }
     static var params: Params? { get set }
     static var headers: Headers? { get set }
@@ -17,7 +17,7 @@ protocol Model: Codable {
 
 //MARK: - Generic Function
 
-class API<M: Model> {
+public class API<M: Model> {
     
     enum ObjectResult {
         case success(M?)

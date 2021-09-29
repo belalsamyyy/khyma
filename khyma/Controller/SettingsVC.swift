@@ -90,8 +90,7 @@ class SettingsVC: UIViewController {
     
     func transition(_ options: UIView.AnimationOptions) {
           let window = (self.view.window?.windowScene?.delegate as? SceneDelegate)?.window
-          let sb = UIStoryboard(name: "Main", bundle: nil)
-          window?.rootViewController = sb.instantiateViewController(withIdentifier: "rootVC")
+          window?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "rootVC")
           UIView.transition(with: window!, duration: 0.5, options: options, animations: nil, completion: nil)
       }
     

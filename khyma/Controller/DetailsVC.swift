@@ -343,8 +343,8 @@ class DetailsVC: UIViewController {
                         }
                     }
                     
-                    let (hours, minutes, seconds) = Int(currentTime).hoursAndMinutesAndSeconds()
-                    print("youtube current time is : => \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())")
+                    // let (hours, minutes, seconds) = Int(currentTime).hoursAndMinutesAndSeconds()
+                    // print("youtube current time is : => \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())")
                 }
             }
         }

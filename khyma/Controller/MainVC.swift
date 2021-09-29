@@ -63,7 +63,7 @@ class MainVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        
+          
         // stop timer when application is backgrounded.
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
 
@@ -104,9 +104,6 @@ class MainVC: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
         addCustomNavBar()
         
-        // tab bar
-        UITabBar.appearance().tintColor = Color.text
-
         // scroll
         mainScrollView.create(container: scrollContainer)
 
@@ -130,7 +127,7 @@ class MainVC: UIViewController {
         startTimer()
         
         // table view
-        mainTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(sliderCollectionView, 0, nil, 0, .fixed(1600)))
+        mainTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(sliderCollectionView, 0, nil, 0, .fixed(1700)))
         mainTableView.backgroundColor = Color.primary
         
         mainTableView.delegate = self

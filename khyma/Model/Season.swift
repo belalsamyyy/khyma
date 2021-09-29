@@ -7,10 +7,17 @@
 
 import Foundation
 import UIKit
+import SimpleAPI
 
 typealias Episode = Video
 
-class Season: Watchable {
+class Season: Watchable, Model {
+    // API
+    static var endpoint: String!
+    static var params: Params?
+    static var headers: Headers?
+    
+    // Properties
     var name: String?
     var posterImageUrl: String?
     var youtubeUrl: String?

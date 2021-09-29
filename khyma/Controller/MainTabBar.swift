@@ -21,6 +21,8 @@ class MainTabBar: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.tabBar.tintColor = Color.text
+        self.tabBar.unselectedItemTintColor = .darkGray
         loadBannerAd()
     }
     
