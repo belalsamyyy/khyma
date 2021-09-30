@@ -153,6 +153,7 @@ class MainVC: UIViewController {
         }
     }
     
+    
     fileprivate func slideImage() {
          if counter < videos.count {
              let index = IndexPath.init(item: counter, section: 0)
@@ -175,14 +176,17 @@ class MainVC: UIViewController {
         sliderTimer = nil
     }
     
+    
     // stop timer in background and start again when comeback
     @objc func applicationDidEnterBackground(_ notification: Notification) {
         timerState = .ended
     }
 
+    
     @objc func applicationDidBecomeActive(_ notification: Notification) {
         timerState = .playing
     }
+    
     
     fileprivate func addCustomNavBar() {
         customNavBar.delegate = self // custom delegation pattern
@@ -199,7 +203,6 @@ class MainVC: UIViewController {
         self.navigationController?.present(moreVC, animated: true, completion: nil)
     }
 
-    
     
     //MARK: - actions
     
@@ -235,8 +238,6 @@ extension MainVC: MainNavBarDelegate {
         playsVC.modalPresentationStyle = .fullScreen
         self.navigationController?.present(playsVC, animated: true, completion: nil)
     }
-    
-    
 }
 
 //MARK: - UIScrollView Delegate

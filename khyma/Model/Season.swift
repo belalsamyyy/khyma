@@ -11,7 +11,11 @@ import SimpleAPI
 
 typealias Episode = Video
 
-class Season: NSObject, NSCoding, NSSecureCoding, Decodable {
+class Season: NSObject, NSCoding, NSSecureCoding, Decodable, Model {
+    // API
+    static var endpoint: String!
+    static var params: Params?
+    static var headers: Headers?
     
     // Properties
     var name: String?

@@ -25,6 +25,8 @@ class ContinueWatchingCell: UICollectionViewCell {
      override func awakeFromNib() {
          super.awakeFromNib()
          
+         self.backgroundColor = Color.secondary
+         
          myLabel.layout(XW: .leadingAndCenter(nil, 0), Y: .center(nil), H: .fixed(50))
          myLabel.textColor = .white
          myLabel.textAlignment = .center

@@ -8,7 +8,12 @@
 import Foundation
 import SimpleAPI
 
-class Series: NSObject, Watchable, NSCoding, NSSecureCoding {    
+class Series: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
+    // API
+    static var endpoint: String!
+    static var params: Params?
+    static var headers: Headers?
+    
     // Properties
     var name: String?
     var posterImageUrl: String?

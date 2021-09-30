@@ -9,7 +9,12 @@ import Foundation
 import UIKit
 import SimpleAPI
 
-class Video: NSObject, Watchable, NSCoding, NSSecureCoding {
+class Video: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
+    // API
+    static var endpoint: String!
+    static var params: Params?
+    static var headers: Headers?
+    
     // properties
     var name: String?
     var posterImageUrl: String?

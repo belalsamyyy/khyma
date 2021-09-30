@@ -62,7 +62,7 @@ class EpisodesVC: UIViewController {
         
         // check if we have already saved this series in my list
         let savedSeries = Defaults.savedVideos()
-        let isInMyList = savedSeries.firstIndex(where: {$0.name == series?.name}) != nil
+        let isInMyList = savedSeries.firstIndex(where: {$0?.name == series?.name}) != nil
         
             if isInMyList {
                 // setting up our heart icon

@@ -124,7 +124,7 @@ class DetailsVC: UIViewController {
 
         // check if we have already saved this movie in my list
         let savedVideos = Defaults.savedVideos()
-        let isInMyList = savedVideos.firstIndex(where: {$0.name == video?.name}) != nil
+        let isInMyList = savedVideos.firstIndex(where: {$0?.name == video?.name}) != nil
         
         if isInMyList {
             // setting up our heart icon
@@ -167,7 +167,7 @@ class DetailsVC: UIViewController {
     fileprivate func addToContinueWatching() {
         
         let continueWatching = Defaults.savedContinueWatching()
-        let isInContinueWatching = continueWatching.firstIndex(where: {$0.name == video?.name}) != nil
+        let isInContinueWatching = continueWatching.firstIndex(where: {$0?.name == video?.name}) != nil
         
         if isInContinueWatching {
             // if it's in my contiue watching, do nothing
@@ -192,7 +192,9 @@ class DetailsVC: UIViewController {
     }
     
     fileprivate func deleteFromContinueWatching() {
-        Defaults.deleteContinueWatching(video: video!)
+        // if it's in my contiue watching, do nothing
+        Defaults.deleteContinueWatching(video: video)
+        UserDefaultsManager.shared.def.set(Float(0), forKey: video?.name ?? "")
     }
     
     //MARK: - functions - Reward Timer
@@ -226,7 +228,6 @@ class DetailsVC: UIViewController {
             if timerState == .playing {
                 timeRemaining -= 1
                 let (hours, minutes, seconds) = timeRemaining.hoursAndMinutesAndSeconds()
-//                timeRemainingLabel.text = "time remaining: \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())"
                 print("remaining => \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())")
                 
                 // reward the user every "n" seconds with "n" coins
@@ -309,8 +310,7 @@ class DetailsVC: UIViewController {
         
         func getVideoDuration() {
             self.YoutubePlayer.duration { [weak self] duration, error in
-                //let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: self?.video?.name ?? "") as? Float
-                self?.timeRemaining = Int(duration) // - Int(continueWatchingAt ?? 0)
+                self?.timeRemaining = Int(duration)
             }
         }
         
@@ -332,15 +332,11 @@ class DetailsVC: UIViewController {
                         if currentTime >= 0.95 * Float(duration) {
                             // delete from continue watching after watching 95% of video
                             self?.deleteFromContinueWatching()
-                            UserDefaultsManager.shared.def.set(Float(0), forKey: self?.video?.name ?? "")
                         } else {
                             // add video to continue watching
                             self?.addToContinueWatching()
                         }
                     }
-                    
-                    // let (hours, minutes, seconds) = Int(currentTime).hoursAndMinutesAndSeconds()
-                    // print("youtube current time is : => \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())")
                 }
             }
         }
@@ -349,10 +345,10 @@ class DetailsVC: UIViewController {
     //MARK: - functions - admob ads
     
     fileprivate func loadBannerAd() {
-           bannerAd.rootViewController = self
-           view.addSubview(bannerAd)
-           bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(60))
-       }
+       bannerAd.rootViewController = self
+       view.addSubview(bannerAd)
+       bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(60))
+    }
     
     fileprivate func loadInterstitialAd() {
         let request = GADRequest()
