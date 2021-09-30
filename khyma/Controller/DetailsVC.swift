@@ -12,12 +12,11 @@ import DesignX
 class DetailsVC: UIViewController {
     
     //MARK: - outlets
-    @IBOutlet weak var timeRemainingLabel: UILabel!
+    @IBOutlet weak var videoTitle: UILabel!
     
     //MARK: - variables
     
-    // movie object
-    var series: Watchable?
+    // video object
     var video: Watchable?
     
     // The video player
@@ -57,7 +56,7 @@ class DetailsVC: UIViewController {
 
       // reward
       let rewardValue = 5 // earn 5 coins
-      let rewardFrequency = 5 // every 5 seconds
+      let rewardFrequency = 10 // every 10 seconds
           
     
     // MARK: - lifecycle
@@ -81,12 +80,10 @@ class DetailsVC: UIViewController {
         // admob ads
         loadBannerAd()
         
-        if Defaults.coins <= 30 {
+        if Int.random(in: 1...10) % 2 == 0 {
             presentRewardVideo()
-        } else if Defaults.coins <= 50 {
-            presentinterstitialAd()
         } else {
-            print("you have enought coins to get rid of ads")
+            presentinterstitialAd()
         }
     }
     
@@ -112,8 +109,10 @@ class DetailsVC: UIViewController {
         
         view.addSubview(YoutubePlayer)
         YoutubePlayer.layout(XW :.leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(300))
-        timeRemainingLabel.layout(XW: .leadingAndCenter(nil, 0), Y: .top(YoutubePlayer, 10), H: .fixed(50))
-        timeRemainingLabel.textAlignment = .center
+        videoTitle.layout(XW: .leadingAndCenter(nil, 0), Y: .top(YoutubePlayer, 10), H: .fixed(50))
+        videoTitle.textAlignment = .center
+        videoTitle.text = video?.name
+
     }
     
     fileprivate func setupNavBar() {
@@ -122,22 +121,18 @@ class DetailsVC: UIViewController {
         self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
         self.navigationController?.navigationBar.topItem?.title = "\(StringsKeys.coins.localized): \(Defaults.coins)"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+
+        // check if we have already saved this movie in my list
+        let savedVideos = Defaults.savedVideos()
+        let isInMyList = savedVideos.firstIndex(where: {$0.name == video?.name}) != nil
         
-        if (video as? Episode) != nil {
-            // do nothing
+        if isInMyList {
+            // setting up our heart icon
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icon-favourite").withRenderingMode(.alwaysOriginal), style: .plain, target: nil, action: nil)
         } else {
-            // check if we have already saved this movie in my list
-            let savedVideos = Defaults.savedVideos()
-            let isInMyList = savedVideos.firstIndex(where: {$0.name == video?.name}) != nil
-            
-            if isInMyList {
-                // setting up our heart icon
-                navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icon-favourite").withRenderingMode(.alwaysOriginal), style: .plain, target: nil, action: nil)
-            } else {
-                navigationItem.rightBarButtonItems = [
-                    UIBarButtonItem(title: StringsKeys.add.localized, style: .plain, target: self, action: #selector(handleAddToMyList)),
-                ]
-            }
+            navigationItem.rightBarButtonItems = [
+                UIBarButtonItem(title: StringsKeys.add.localized, style: .plain, target: self, action: #selector(handleAddToMyList)),
+            ]
         }
     }
     
@@ -231,7 +226,7 @@ class DetailsVC: UIViewController {
             if timerState == .playing {
                 timeRemaining -= 1
                 let (hours, minutes, seconds) = timeRemaining.hoursAndMinutesAndSeconds()
-                timeRemainingLabel.text = "time remaining: \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())"
+//                timeRemainingLabel.text = "time remaining: \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())"
                 print("remaining => \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())")
                 
                 // reward the user every "n" seconds with "n" coins
@@ -246,7 +241,7 @@ class DetailsVC: UIViewController {
             print("The timer ends !")
             
             timeRemaining = 0
-            timeRemainingLabel.text = "The timer ends !"
+            //timeRemainingLabel.text = "The timer ends !"
             
             // fix timer issues after replay
             resetTimer()
@@ -337,6 +332,7 @@ class DetailsVC: UIViewController {
                         if currentTime >= 0.95 * Float(duration) {
                             // delete from continue watching after watching 95% of video
                             self?.deleteFromContinueWatching()
+                            UserDefaultsManager.shared.def.set(Float(0), forKey: self?.video?.name ?? "")
                         } else {
                             // add video to continue watching
                             self?.addToContinueWatching()
@@ -399,13 +395,8 @@ class DetailsVC: UIViewController {
                    //success
                    ad.present(fromRootViewController: self)
                } else {
-                 // the Ad failed to present .. show alert message
-                 let alert = UIAlertController(title: "Interstitial ad isn't available yet.", message: "The Interstitial ad cannot be shown at this time",preferredStyle: .alert)
-                 let alertAction = UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] action in
-                     self?.loadInterstitialAd()
-                 })
-                 alert.addAction(alertAction)
-                 self.present(alert, animated: true, completion: nil)
+                 // the Ad failed to present .. try again
+                   self.presentinterstitialAd()
                }
            })
         }
@@ -424,14 +415,10 @@ class DetailsVC: UIViewController {
                 }
                  
                 } else {
-                   
-                 // the Ad failed to present .. show alert message
-                 let alert = UIAlertController(title: "Rewarded ad isn't available yet.", message: "The rewarded ad cannot be shown at this time",preferredStyle: .alert)
-                 let alertAction = UIAlertAction(title: "OK", style: .cancel, handler: { [weak self] action in
-                     self?.loadRewardVideoAd()
-                 })
-                 alert.addAction(alertAction)
-                 self.present(alert, animated: true, completion: nil)
+                
+                 // the Ad failed to present .. try again
+                self.presentRewardVideo()
+
                }
            })
         }
@@ -467,10 +454,6 @@ extension DetailsVC: GADFullScreenContentDelegate {
 
     func ad(_ ad: GADFullScreenPresentingAd,didFailToPresentFullScreenContentWithError error: Error) {
       print("Ad failed to present with error: \(error.localizedDescription).")
-      let alert = UIAlertController(title: "Ad failed to present", message: "The Ad could not be presented.", preferredStyle: .alert)
-      let alertAction = UIAlertAction(title: "Try Again", style: .cancel, handler: { [weak self] action in self?.loadRewardVideoAd() })
-      alert.addAction(alertAction)
-      self.present(alert, animated: true, completion: nil)
     }
 }
 

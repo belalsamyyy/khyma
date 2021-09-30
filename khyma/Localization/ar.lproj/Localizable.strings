@@ -30,7 +30,7 @@ add = "+ اضافة";
 
 //Search
 search = "البحث";
-searchPlaceholder = "افلام، مسلسلات، مسرحيات ...";
+searchPlaceholder = "بـحث ...";
 
 //My List
 myList = "قائمتي";

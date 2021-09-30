@@ -15,7 +15,7 @@ class myListVC: UIViewController {
 
     //MARK: - variables
     
-    var movies = Defaults.savedVideos()
+    var videos = Defaults.savedVideos()
     
     //MARK: - constants
     
@@ -32,7 +32,7 @@ class myListVC: UIViewController {
         // nav bar
         setupNavBar()
         
-        movies = Defaults.savedVideos()
+        videos = Defaults.savedVideos()
         myListCollectionView.reloadData()
     }
     
@@ -44,7 +44,7 @@ class myListVC: UIViewController {
         // nav bar
         setupNavBar()
         
-        movies = Defaults.savedVideos()
+        videos = Defaults.savedVideos()
         myListCollectionView.reloadData()
     }
     
@@ -82,14 +82,14 @@ class myListVC: UIViewController {
         guard let selectedIndexPath = myListCollectionView.indexPathForItem(at: location) else { return }
         print(selectedIndexPath )
         
-        let selectedMovie = self.movies[selectedIndexPath.item]
+        let selectedMovie = self.videos[selectedIndexPath.item]
         print(selectedMovie)
         
         let alertTitle = StringsKeys.removeAlertTitle.localized("\(selectedMovie.name ?? "")")
         let alertController = UIAlertController(title: alertTitle, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: StringsKeys.removeAlertAction.localized, style: .destructive, handler: { (_) in
             
-            self.movies.remove(at: selectedIndexPath.item)
+            self.videos.remove(at: selectedIndexPath.item)
             self.myListCollectionView.deleteItems(at: [selectedIndexPath])
             Defaults.deleteVideos(video: selectedMovie)
             self.myListCollectionView.reloadData()
@@ -114,13 +114,13 @@ extension myListVC: UICollectionViewDataSource {
     
     // item
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return movies.count
+        return videos.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeue(indexPath: indexPath) as MovieCell
         cell.backgroundColor = Color.secondary
-        cell.movie = movies[indexPath.item]
+        cell.movie = videos[indexPath.item]
         return cell
     }
 }
@@ -130,11 +130,24 @@ extension myListVC: UICollectionViewDataSource {
 extension myListVC: UICollectionViewDelegate {
     // item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movie = movies[indexPath.item]
-        let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
-        detailsVC.modalPresentationStyle = .fullScreen
-        detailsVC.video = movie
-        self.navigationController?.pushViewController(detailsVC, animated: true)
+        
+        if (videos[indexPath.item] as? Series) != nil {
+            // series
+            let series = videos[indexPath.item]
+            let episodesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "EpisodesVC") as! EpisodesVC
+            episodesVC.modalPresentationStyle = .fullScreen
+            episodesVC.series = series
+            episodesVC.navigationController?.navigationBar.topItem?.title = series.name
+            self.navigationController?.pushViewController(episodesVC, animated: true)
+            
+        } else {
+            let video = videos[indexPath.item]
+            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+            detailsVC.modalPresentationStyle = .fullScreen
+            detailsVC.video = video
+            self.navigationController?.pushViewController(detailsVC, animated: true)
+        }
+        
     }
 }
 

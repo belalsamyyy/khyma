@@ -8,12 +8,7 @@
 import Foundation
 import SimpleAPI
 
-class Series: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
-    // API
-    static var endpoint: String!
-    static var params: Params?
-    static var headers: Headers?
-    
+class Series: NSObject, Watchable, NSCoding, NSSecureCoding {    
     // Properties
     var name: String?
     var posterImageUrl: String?
@@ -23,10 +18,11 @@ class Series: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
     // NSSecureCoding
     static var supportsSecureCoding: Bool = true
     
-    init(name: String, posterUrl: String) {
+    init(name: String, posterUrl: String, seasons: [Season]) {
         self.name = name
-        self.youtubeUrl = "https://www.youtube.com/watch?v=x_me3xsvDgk"
+        self.youtubeUrl = ""
         self.posterImageUrl = posterUrl
+        self.seasons = seasons
     }
     
     func encode(with coder: NSCoder) {
@@ -34,7 +30,7 @@ class Series: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
         coder.encode(name ?? "", forKey: "name")
         coder.encode(youtubeUrl ?? "", forKey: "youtubeUrl")
         coder.encode(posterImageUrl ?? "", forKey: "posterImageUrl")
-
+        coder.encode(seasons ?? [], forKey: "seasons")
     }
     
     required init?(coder: NSCoder) {
@@ -42,5 +38,6 @@ class Series: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
         self.name = coder.decodeObject(forKey: "name") as? String
         self.youtubeUrl = coder.decodeObject(forKey: "youtubeUrl") as? String
         self.posterImageUrl = coder.decodeObject(forKey: "posterImageUrl") as? String
+        self.seasons = coder.decodeObject(forKey: "seasons") as? [Season]
     }
 }

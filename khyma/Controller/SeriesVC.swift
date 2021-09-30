@@ -38,19 +38,155 @@ class SeriesVC: UIViewController {
     let customNavBar = BackNavBar()
     
     let series = [Series(name: StringsKeys.bodyGuard.localized,
-                                 posterUrl: "poster-movie-1"),
+                         posterUrl: "poster-movie-1",
+                         seasons: [Season(name: "\(StringsKeys.season.localized) 1",
+                                          posterImageUrl: "poster-movie-1",
+                                          episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-1",
+                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                     Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-1",
+                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                     Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-1",
+                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                     Episode(name: "\(StringsKeys.episode.localized) 4", posterUrl: "poster-movie-1",
+                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                     Episode(name: "\(StringsKeys.episode.localized) 5", posterUrl: "poster-movie-1",
+                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                     Episode(name: "\(StringsKeys.episode.localized) 6", posterUrl: "poster-movie-1",
+                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                     Episode(name: "\(StringsKeys.episode.localized) 7", posterUrl: "poster-movie-1",
+                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                     Episode(name: "\(StringsKeys.episode.localized) 8", posterUrl: "poster-movie-1",
+                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                     Episode(name: "\(StringsKeys.episode.localized) 9", posterUrl: "poster-movie-1",
+                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                     Episode(name: "\(StringsKeys.episode.localized) 10", posterUrl: "poster-movie-1",
+                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")]),
+                                          
+                                   Season(name: "\(StringsKeys.season.localized) 2",
+                                         posterImageUrl: "poster-movie-2",
+                                          episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-2",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                     Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-2",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                     Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-2",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                     Episode(name: "\(StringsKeys.episode.localized) 4", posterUrl: "poster-movie-2",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                     Episode(name: "\(StringsKeys.episode.localized) 5", posterUrl: "poster-movie-2",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                     Episode(name: "\(StringsKeys.episode.localized) 6", posterUrl: "poster-movie-2",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                     Episode(name: "\(StringsKeys.episode.localized) 7", posterUrl: "poster-movie-2",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")]),
+                                        
+                                 Season(name: "\(StringsKeys.season.localized) 3",
+                                        posterImageUrl: "poster-movie-3",
+                                        episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-3",
+                                                           youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                   Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-3",
+                                                           youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                   Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-3",
+                                                           youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")])]),
                            
-                                 Series(name: StringsKeys.avengers.localized,
-                                 posterUrl: "poster-movie-2"),
-                           
-                                 Series(name: StringsKeys.weladRizk.localized,
-                                 posterUrl: "poster-movie-3"),
-                           
-                                 Series(name: StringsKeys.batman.localized,
-                                 posterUrl: "poster-movie-4"),
-                           
-                                 Series(name: StringsKeys.blueElephant.localized,
-                                 posterUrl: "poster-movie-5")]
+                 Series(name: StringsKeys.avengers.localized,
+                        posterUrl: "poster-movie-2",
+                        seasons: [Season(name: "\(StringsKeys.season.localized) 1",
+                                         posterImageUrl: "poster-movie-1",
+                                         episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 4", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 5", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 6", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 7", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 8", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 9", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 10", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")])]),
+           
+                 Series(name: StringsKeys.weladRizk.localized,
+                        posterUrl: "poster-movie-3",
+                        seasons: [Season(name: "\(StringsKeys.season.localized) 1",
+                                         posterImageUrl: "poster-movie-1",
+                                         episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 4", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 5", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 6", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 7", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 8", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 9", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 10", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")])]),
+                  
+                 Series(name: StringsKeys.batman.localized,
+                        posterUrl: "poster-movie-4",
+                        seasons: [Season(name: "\(StringsKeys.season.localized) 1",
+                                         posterImageUrl: "poster-movie-1",
+                                         episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 4", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 5", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 6", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 7", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 8", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 9", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 10", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")])]),
+           
+                 Series(name: StringsKeys.blueElephant.localized,
+                        posterUrl: "poster-movie-5",
+                        seasons: [Season(name: "\(StringsKeys.season.localized) 1",
+                                         posterImageUrl: "poster-movie-1",
+                                         episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 4", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 5", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 6", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 7", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 8", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 9", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+                                                    Episode(name: "\(StringsKeys.episode.localized) 10", posterUrl: "poster-movie-1",
+                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")])])]
 
     
     //MARK: - lifecycle
@@ -309,24 +445,11 @@ extension SeriesVC: UICollectionViewDataSource {
     // item
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // let section = SeriesTableSections.allCases[collectionView.tag]
-        
-        if collectionView == seriesSliderCollectionView {
-            return series.count
-        }
-        
         return series.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let section = SeriesTableSections.allCases[collectionView.tag]
-        
-        if collectionView == seriesSliderCollectionView {
-            let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
-            cell3.backgroundColor = Color.secondary
-            cell3.movie = series[indexPath.item]
-            return cell3
-        }
-        
         switch section {
         case .popular, .Movies, .Series, .Plays, .anime:
             let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
@@ -346,7 +469,7 @@ extension SeriesVC: UICollectionViewDelegate {
         let section = SeriesTableSections.allCases[collectionView.tag]
         print("section : \(section.ui.sectionTitle) => \(indexPath.item)")
         
-        // movie
+        // series
         let series = series[indexPath.item]
         
         let episodesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "EpisodesVC") as! EpisodesVC
@@ -362,10 +485,6 @@ extension SeriesVC: UICollectionViewDelegate {
 extension SeriesVC: UICollectionViewDelegateFlowLayout {
     // section
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, insetForSectionAt _: Int) -> UIEdgeInsets {
-        if collectionView == seriesSliderCollectionView {
-            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        }
-        
         return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
 
@@ -380,12 +499,6 @@ extension SeriesVC: UICollectionViewDelegateFlowLayout {
     // item
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         // let section = SeriesTableSections.allCases[collectionView.tag]
-        
-        if collectionView == seriesSliderCollectionView {
-            let size = seriesSliderCollectionView.frame.size
-            return CGSize(width: size.width, height: size.height)
-        }
-        
         return collectionView.size(rows: 1, columns: 3.5)
     }
 }

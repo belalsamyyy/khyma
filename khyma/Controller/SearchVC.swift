@@ -15,30 +15,30 @@ class SearchVC: UIViewController {
     
     //MARK: - variables
     
-    var filteredMovies = [Video]()
+    var filteredVideos = [Watchable]()
     
     //MARK: - constants
     
-    let movies = [Video(name: StringsKeys.bodyGuard.localized,
-                        posterUrl: "poster-movie-1",
-                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+    let videos: [Watchable] = [Video(name: StringsKeys.bodyGuard.localized,
+                                     posterUrl: "poster-movie-1",
+                                     youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
                   
-                  Video(name: StringsKeys.avengers.localized,
-                        posterUrl: "poster-movie-2",
-                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
-                  
-                  Video(name: StringsKeys.weladRizk.localized,
-                        posterUrl: "poster-movie-3",
-                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
-                  
-                  Video(name: StringsKeys.batman.localized,
-                        posterUrl: "poster-movie-4",
-                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
-                  
-                  Video(name: StringsKeys.blueElephant.localized,
-                        posterUrl: "poster-movie-5",
-                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
-    
+                              Video(name: StringsKeys.avengers.localized,
+                                    posterUrl: "poster-movie-2",
+                                    youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
+                              
+                              Video(name: StringsKeys.weladRizk.localized,
+                                    posterUrl: "poster-movie-3",
+                                    youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
+                              
+                              Video(name: StringsKeys.batman.localized,
+                                    posterUrl: "poster-movie-4",
+                                    youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
+                              
+                              Video(name: StringsKeys.blueElephant.localized,
+                                    posterUrl: "poster-movie-5",
+                                    youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
+                
     //MARK: - lifecycle
     
     override func viewDidLoad() {
@@ -107,9 +107,9 @@ extension SearchVC: UISearchBarDelegate {
         print(searchText)
         
         if searchText.isEmpty {
-            filteredMovies = movies
+            filteredVideos = videos
         }else {
-            filteredMovies = self.movies.filter { (movie) -> Bool in
+            filteredVideos = self.videos.filter { (movie) -> Bool in
                 return (movie.name?.lowercased().contains(searchText.lowercased()))!
             }
         }
@@ -129,13 +129,13 @@ extension SearchVC: UICollectionViewDataSource {
     
     // item
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return filteredMovies.count == 0 ? movies.count : filteredMovies.count
+        return filteredVideos.count == 0 ? videos.count : filteredVideos.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeue(indexPath: indexPath) as MovieCell
         cell.backgroundColor = Color.secondary
-        cell.movie = filteredMovies.count == 0 ? movies[indexPath.item] : filteredMovies[indexPath.item]
+        cell.movie = filteredVideos.count == 0 ? videos[indexPath.item] : filteredVideos[indexPath.item]
         return cell
     }
 }
@@ -148,10 +148,10 @@ extension SearchVC: UICollectionViewDelegate {
         searchBar.isHidden = true
         searchBar.resignFirstResponder()
         
-        let movie = filteredMovies.count == 0 ? movies[indexPath.item] : filteredMovies[indexPath.item]
+        let video = filteredVideos.count == 0 ? videos[indexPath.item] : filteredVideos[indexPath.item]
         let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
         detailsVC.modalPresentationStyle = .fullScreen
-        detailsVC.video = movie
+        detailsVC.video = video
         self.navigationController?.pushViewController(detailsVC, animated: true)
     }
 }

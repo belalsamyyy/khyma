@@ -37,27 +37,7 @@ class PlaysVC: UIViewController {
     
     let customNavBar = BackNavBar()
     
-    let continueWatching = [Video(name: StringsKeys.bodyGuard.localized,
-                                  posterUrl: "poster-movie-1",
-                                  youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                            
-                            Video(name: StringsKeys.avengers.localized,
-                                  posterUrl: "poster-movie-2",
-                                  youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
-                            
-                            Video(name: StringsKeys.weladRizk.localized,
-                                  posterUrl: "poster-movie-3",
-                                  youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
-                            
-                            Video(name: StringsKeys.batman.localized,
-                                  posterUrl: "poster-movie-4",
-                                  youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
-                            
-                            Video(name: StringsKeys.blueElephant.localized,
-                                  posterUrl: "poster-movie-5",
-                                  youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
-    
-    let movies = [Video(name: StringsKeys.bodyGuard.localized,
+    let plays = [Video(name: StringsKeys.bodyGuard.localized,
                         posterUrl: "poster-movie-1",
                         youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
                   
@@ -134,7 +114,7 @@ class PlaysVC: UIViewController {
 
         // pager
         pageView.layout(X: .center(nil), W: .equal(nil, 1), Y: .top(playsSliderCollectionView, -75), H: .fixed(50))
-        pageView.numberOfPages = movies.count
+        pageView.numberOfPages = plays.count
         pageView.currentPage = 0
         
         startTimer()
@@ -165,7 +145,7 @@ class PlaysVC: UIViewController {
     }
     
     fileprivate func slideImage() {
-         if counter < movies.count {
+         if counter < plays.count {
              let index = IndexPath.init(item: counter, section: 0)
              self.playsSliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
              pageView.currentPage = counter
@@ -334,27 +314,14 @@ extension PlaysVC: UICollectionViewDataSource {
     // item
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // let section = PlaysTableSections.allCases[collectionView.tag]
-        
-        if collectionView == playsSliderCollectionView {
-            return movies.count
-        }
-        
-        return movies.count
+        return plays.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //let section = PlaysTableSections.allCases[collectionView.tag]
-        
-        if collectionView == playsSliderCollectionView {
-            let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
-            cell3.backgroundColor = Color.secondary
-            cell3.movie = movies[indexPath.item]
-            return cell3
-        }
-        
             let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
             cell1.backgroundColor = Color.secondary
-            cell1.movie = movies[indexPath.item]
+            cell1.movie = plays[indexPath.item]
             return cell1
     }
 }
@@ -368,12 +335,12 @@ extension PlaysVC: UICollectionViewDelegate {
         let section = PlaysTableSections.allCases[collectionView.tag]
         print("section : \(section.ui.sectionTitle) => \(indexPath.item)")
         
-        // movie
-        let movie = movies[indexPath.item]
+        // play
+        let play = plays[indexPath.item]
         
         let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
         detailsVC.modalPresentationStyle = .fullScreen
-        detailsVC.video = movie
+        detailsVC.video = play
         self.navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
@@ -383,10 +350,6 @@ extension PlaysVC: UICollectionViewDelegate {
 extension PlaysVC: UICollectionViewDelegateFlowLayout {
     // section
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, insetForSectionAt _: Int) -> UIEdgeInsets {
-        if collectionView == playsSliderCollectionView {
-            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        }
-        
         return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
 
@@ -401,12 +364,6 @@ extension PlaysVC: UICollectionViewDelegateFlowLayout {
     // item
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         // let section = PlaysTableSections.allCases[collectionView.tag]
-        
-        if collectionView == playsSliderCollectionView {
-            let size = playsSliderCollectionView.frame.size
-            return CGSize(width: size.width, height: size.height)
-        }
-        
         return collectionView.size(rows: 1, columns: 3.5)
     }
 }

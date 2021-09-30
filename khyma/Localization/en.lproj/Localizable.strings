@@ -31,7 +31,7 @@ add = "+ Add";
 
 //Search
 search = "Search";
-searchPlaceholder = "movies, series, plays ...";
+searchPlaceholder = "search ...";
 
 //My List
 myList = "My List";

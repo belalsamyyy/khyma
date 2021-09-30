@@ -22,14 +22,11 @@
 		41319D9C26FFE58000FCCBBC /* MoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41319D9B26FFE58000FCCBBC /* MoreVC.swift */; };
 		C9EE0CBD26ED0C0E009361A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE0CBC26ED0C0E009361A6 /* AppDelegate.swift */; };
 		C9EE0CBF26ED0C0E009361A6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE0CBE26ED0C0E009361A6 /* SceneDelegate.swift */; };
-		C9EE0CC126ED0C0E009361A6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE0CC026ED0C0E009361A6 /* ViewController.swift */; };
 		C9EE0CC426ED0C0E009361A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9EE0CC226ED0C0E009361A6 /* Main.storyboard */; };
 		C9EE0CC626ED0C10009361A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9EE0CC526ED0C10009361A6 /* Assets.xcassets */; };
 		C9EE0CC926ED0C10009361A6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9EE0CC726ED0C10009361A6 /* LaunchScreen.storyboard */; };
 		C9EE0CD426ED0C10009361A6 /* khymaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE0CD326ED0C10009361A6 /* khymaTests.swift */; };
 		C9EE0CDF26ED0C10009361A6 /* khymaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE0CDE26ED0C10009361A6 /* khymaUITests.swift */; };
-		C9EE0CEF26ED1409009361A6 /* homeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE0CEE26ED1409009361A6 /* homeViewController.swift */; };
-		C9EE0CF126ED1681009361A6 /* homeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE0CF026ED1681009361A6 /* homeCollectionViewCell.swift */; };
 		D90E6DC22700655D0064A50D /* MoviesTableSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90E6DC12700655D0064A50D /* MoviesTableSections.swift */; };
 		D90E6DC42700657F0064A50D /* SeriesTableSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90E6DC32700657F0064A50D /* SeriesTableSections.swift */; };
 		D90E6DC6270065900064A50D /* PlaysTableSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90E6DC5270065900064A50D /* PlaysTableSections.swift */; };
@@ -114,7 +111,6 @@
 		C9EE0CB926ED0C0E009361A6 /* khyma.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = khyma.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EE0CBC26ED0C0E009361A6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9EE0CBE26ED0C0E009361A6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C9EE0CC026ED0C0E009361A6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C9EE0CC326ED0C0E009361A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C9EE0CC526ED0C10009361A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C9EE0CC826ED0C10009361A6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -125,8 +121,6 @@
 		C9EE0CDA26ED0C10009361A6 /* khymaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = khymaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EE0CDE26ED0C10009361A6 /* khymaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = khymaUITests.swift; sourceTree = "<group>"; };
 		C9EE0CE026ED0C10009361A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C9EE0CEE26ED1409009361A6 /* homeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homeViewController.swift; sourceTree = "<group>"; };
-		C9EE0CF026ED1681009361A6 /* homeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homeCollectionViewCell.swift; sourceTree = "<group>"; };
 		D77ABEB214A545FFDA55348B /* Pods-khyma.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-khyma.release.xcconfig"; path = "Target Support Files/Pods-khyma/Pods-khyma.release.xcconfig"; sourceTree = "<group>"; };
 		D90E6DC12700655D0064A50D /* MoviesTableSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesTableSections.swift; sourceTree = "<group>"; };
 		D90E6DC32700657F0064A50D /* SeriesTableSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesTableSections.swift; sourceTree = "<group>"; };
@@ -238,7 +232,6 @@
 				C9EE0CBE26ED0C0E009361A6 /* SceneDelegate.swift */,
 				C9EE0CC726ED0C10009361A6 /* LaunchScreen.storyboard */,
 				C9EE0CC226ED0C0E009361A6 /* Main.storyboard */,
-				C9EE0CC026ED0C0E009361A6 /* ViewController.swift */,
 				D95CF75D26FB722A00C05C89 /* Model */,
 				D95CF75E26FB723100C05C89 /* View */,
 				D95CF75F26FB723600C05C89 /* Controller */,
@@ -369,7 +362,6 @@
 		D95CF75E26FB723100C05C89 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C9EE0CF026ED1681009361A6 /* homeCollectionViewCell.swift */,
 				D99B799F26F9E0460019B087 /* MainSliderCell.swift */,
 				D95B208126F8D8E200112079 /* MainTableCell.swift */,
 				D9125A9826F738EC00D29128 /* ContinueWatchingCell.swift */,
@@ -387,7 +379,6 @@
 			isa = PBXGroup;
 			children = (
 				D95CF76026FCC4D200C05C89 /* MainTabBar.swift */,
-				C9EE0CEE26ED1409009361A6 /* homeViewController.swift */,
 				D9125A7526F72B6A00D29128 /* MainVC.swift */,
 				D9125A9F26F7474B00D29128 /* DetailsVC.swift */,
 				D95B206226F8940E00112079 /* SearchVC.swift */,
@@ -662,7 +653,6 @@
 				D9125A9026F7384000D29128 /* MainTableSections.swift in Sources */,
 				D95CF75A26FB63B600C05C89 /* SeriesVC.swift in Sources */,
 				D9125A8626F7346F00D29128 /* UICollectionView+Extensions.swift in Sources */,
-				C9EE0CC126ED0C0E009361A6 /* ViewController.swift in Sources */,
 				D95CF74A26FB2A0F00C05C89 /* MainNavBar.swift in Sources */,
 				D90E6DDA27008E9D0064A50D /* EpisodeCell.swift in Sources */,
 				D9125A8026F7338D00D29128 /* String+Extensions.swift in Sources */,
@@ -690,13 +680,11 @@
 				D95B208226F8D8E200112079 /* MainTableCell.swift in Sources */,
 				D90E6DC22700655D0064A50D /* MoviesTableSections.swift in Sources */,
 				D9125A8426F7345C00D29128 /* UITableView+Extensions.swift in Sources */,
-				C9EE0CF126ED1681009361A6 /* homeCollectionViewCell.swift in Sources */,
 				D90E6DD7270079B00064A50D /* SeasonNavBar.swift in Sources */,
 				D95B206526F8944700112079 /* myListVC.swift in Sources */,
 				D9125A7A26F7327000D29128 /* UserDefaultsManager.swift in Sources */,
 				D95B206726F8946900112079 /* SettingsVC.swift in Sources */,
 				D90E6DCA27006A760064A50D /* EpisodesVC.swift in Sources */,
-				C9EE0CEF26ED1409009361A6 /* homeViewController.swift in Sources */,
 				41319D8426FF195400FCCBBC /* ThemeCell.swift in Sources */,
 				D90E6DD327006E090064A50D /* Season.swift in Sources */,
 				41319D9C26FFE58000FCCBBC /* MoreVC.swift in Sources */,

@@ -18,54 +18,6 @@ class EpisodesVC: UIViewController {
     
     //MARK: - constants
     
-    let seasons = [Season(name: "\(StringsKeys.season.localized) 1",
-                          posterImageUrl: "poster-movie-1",
-                          episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-1",
-                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-1",
-                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-1",
-                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 4", posterUrl: "poster-movie-1",
-                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 5", posterUrl: "poster-movie-1",
-                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 6", posterUrl: "poster-movie-1",
-                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 7", posterUrl: "poster-movie-1",
-                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 8", posterUrl: "poster-movie-1",
-                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 9", posterUrl: "poster-movie-1",
-                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 10", posterUrl: "poster-movie-1",
-                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")]),
-                          
-                   Season(name: "\(StringsKeys.season.localized) 2",
-                         posterImageUrl: "poster-movie-2",
-                          episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-2",
-                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-2",
-                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-2",
-                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 4", posterUrl: "poster-movie-2",
-                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 5", posterUrl: "poster-movie-2",
-                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 6", posterUrl: "poster-movie-2",
-                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                     Episode(name: "\(StringsKeys.episode.localized) 7", posterUrl: "poster-movie-2",
-                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")]),
-                        
-                 Season(name: "\(StringsKeys.season.localized) 3",
-                        posterImageUrl: "poster-movie-3",
-                        episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-3",
-                                           youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                   Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-3",
-                                           youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                                   Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-3",
-                                           youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")])]
     //MARK: - lifecycle
     
     override func viewDidLoad() {
@@ -163,12 +115,12 @@ extension EpisodesVC: UITableViewDataSource {
 
     // section
      func numberOfSections(in _: UITableView) -> Int {
-        return seasons.count
+         return series?.seasons?.count ?? 0
     }
     
     func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
-       let section = seasons[section]
-        return section.name
+       let season = series?.seasons?[section]
+        return season?.name
    }
 
     // row
@@ -236,15 +188,15 @@ extension EpisodesVC: UICollectionViewDataSource {
     
     // item
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let section = seasons[collectionView.tag]
-        return section.episodes?.count ?? 0
+        let season = series?.seasons?[collectionView.tag]
+        return season?.episodes?.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let section = seasons[collectionView.tag]
+            let season = series?.seasons?[collectionView.tag]
             let cell = collectionView.dequeue(indexPath: indexPath) as EpisodeCell
-            cell.posterImageView.image = UIImage(named: section.posterImageUrl ?? "")
-            cell.episode = section.episodes?[indexPath.item]
+            cell.posterImageView.image = UIImage(named: season?.posterImageUrl ?? "")
+            cell.episode = season?.episodes?[indexPath.item]
             return cell
     }
 }
@@ -255,11 +207,11 @@ extension EpisodesVC: UICollectionViewDelegate {
     // item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // section
-        let section = seasons[collectionView.tag]
-        print("season : \(section.name ?? "") => \(indexPath.item)")
+        let season = series?.seasons?[collectionView.tag]
+        print("season : \(season?.name ?? "") => \(indexPath.item)")
 
         // episode
-        let episode = section.episodes?[indexPath.item]
+        let episode = season?.episodes?[indexPath.item]
 
         let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
         detailsVC.modalPresentationStyle = .fullScreen
