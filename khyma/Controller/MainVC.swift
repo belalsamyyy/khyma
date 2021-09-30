@@ -36,6 +36,7 @@ class MainVC: UIViewController {
     
     let customNavBar = MainNavBar()
     
+    // for every ( movies / plays ) sub category 
     let videos = [Video(name: StringsKeys.bodyGuard.localized,
                         posterUrl: "poster-movie-1",
                         youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
@@ -140,7 +141,7 @@ class MainVC: UIViewController {
     fileprivate func startTimer() {
         // timer
         timerState = .playing
-        self.sliderTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(self.timerTick), userInfo: nil, repeats: true)
+        self.sliderTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.timerTick), userInfo: nil, repeats: true)
     }
     
     

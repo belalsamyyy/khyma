@@ -5,7 +5,8 @@
 //  Created by Belal Samy on 26/09/2021.
 //
 
-import UIKit
+import DesignX
+import GoogleMobileAds
 
 class EpisodesVC: UIViewController {
     
@@ -42,6 +43,7 @@ class EpisodesVC: UIViewController {
     //MARK: - functions
     
     fileprivate func setupViews() {
+
         view.backgroundColor = Color.primary
         setupNavBar()
         
@@ -97,10 +99,7 @@ class EpisodesVC: UIViewController {
         
         alertController.addAction(UIAlertAction(title: StringsKeys.cancelAlert.localized, style: .cancel ))
         present(alertController, animated: true, completion: nil)
-
     }
-    
-
     
     //MARK: - actions
     

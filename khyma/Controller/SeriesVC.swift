@@ -5,7 +5,8 @@
 //  Created by Belal Samy on 22/09/2021.
 //
 
-import UIKit
+import DesignX
+import GoogleMobileAds
 
 class SeriesVC: UIViewController {
     
@@ -19,6 +20,14 @@ class SeriesVC: UIViewController {
     @IBOutlet weak var pageView: UIPageControl!
     
     //MARK: - variables
+    
+    // The banner ad
+    private var bannerAd: GADBannerView = {
+      let banner = GADBannerView()
+      banner.adUnitID = AdUnitKeys.banner
+      banner.load(GADRequest())
+      return banner
+    }()
     
     var sliderTimer: Timer?
     var counter = 0
@@ -37,6 +46,7 @@ class SeriesVC: UIViewController {
     
     let customNavBar = BackNavBar()
     
+    // series -> seasons -> episodes
     let series = [Series(name: StringsKeys.bodyGuard.localized,
                          posterUrl: "poster-movie-1",
                          seasons: [Season(name: "\(StringsKeys.season.localized) 1",
@@ -221,7 +231,8 @@ class SeriesVC: UIViewController {
     //MARK: - functions
     
     fileprivate func setupViews() {
-        
+        loadBannerAd()
+
         // navigation bar
         navigationItem.largeTitleDisplayMode = .never
         addCustomNavBar()
@@ -252,7 +263,7 @@ class SeriesVC: UIViewController {
         startTimer()
         
         // table view
-        seriesTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(seriesSliderCollectionView, 0, nil, 0, .fixed(1600)))
+        seriesTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(seriesSliderCollectionView, 0, nil, 0, .fixed(1500)))
         seriesTableView.backgroundColor = Color.primary
         
         seriesTableView.delegate = self
@@ -320,6 +331,12 @@ class SeriesVC: UIViewController {
         let moreVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoreRootVC") as! UINavigationController
         moreVC.modalPresentationStyle = .fullScreen
         self.navigationController?.present(moreVC, animated: true, completion: nil)
+    }
+    
+    fileprivate func loadBannerAd() {
+       bannerAd.rootViewController = self
+       view.addSubview(bannerAd)
+       bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(60))
     }
     
     

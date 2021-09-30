@@ -29,7 +29,6 @@ class MainTabBar: UITabBarController {
     fileprivate func loadBannerAd() {
        bannerAd.rootViewController = self
        view.addSubview(bannerAd)
-        
        bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(self.tabBar, 0), H: .fixed(60))
     }
 

@@ -5,7 +5,8 @@
 //  Created by Belal Samy on 22/09/2021.
 //
 
-import UIKit
+import DesignX
+import GoogleMobileAds
 
 class MoviesVC: UIViewController {
     
@@ -19,6 +20,14 @@ class MoviesVC: UIViewController {
     @IBOutlet weak var pageView: UIPageControl!
     
     //MARK: - variables
+    
+    // The banner ad
+    private var bannerAd: GADBannerView = {
+      let banner = GADBannerView()
+      banner.adUnitID = AdUnitKeys.banner
+      banner.load(GADRequest())
+      return banner
+    }()
     
     var sliderTimer: Timer?
     var counter = 0
@@ -90,7 +99,8 @@ class MoviesVC: UIViewController {
     //MARK: - functions
     
     fileprivate func setupViews() {
-        
+        loadBannerAd()
+
         // navigation bar
         navigationItem.largeTitleDisplayMode = .never
         addCustomNavBar()
@@ -121,7 +131,7 @@ class MoviesVC: UIViewController {
         startTimer()
         
         // table view
-        moviesTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(moviesSliderCollectionView, 0, nil, 0, .fixed(1600)))
+        moviesTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(moviesSliderCollectionView, 0, nil, 0, .fixed(1500)))
         moviesTableView.backgroundColor = Color.primary
         
         moviesTableView.delegate = self
@@ -189,6 +199,12 @@ class MoviesVC: UIViewController {
         let moreVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoreRootVC") as! UINavigationController
         moreVC.modalPresentationStyle = .fullScreen
         self.navigationController?.present(moreVC, animated: true, completion: nil)
+    }
+    
+    fileprivate func loadBannerAd() {
+       bannerAd.rootViewController = self
+       view.addSubview(bannerAd)
+       bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(60))
     }
 
     
