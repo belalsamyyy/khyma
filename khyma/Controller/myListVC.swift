@@ -120,7 +120,7 @@ extension myListVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeue(indexPath: indexPath) as MovieCell
         cell.backgroundColor = Color.secondary
-        cell.movie = videos[indexPath.item]
+        cell.video = videos[indexPath.item]
         return cell
     }
 }

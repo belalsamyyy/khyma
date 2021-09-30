@@ -12,9 +12,9 @@ class MovieCell: UICollectionViewCell {
     
     @IBOutlet weak var posterImageView: UIImageView!
     
-     var movie: Watchable? {
+     var video: Watchable? {
          didSet {
-            posterImageView.image = UIImage(named: movie?.posterImageUrl ?? "")
+            posterImageView.image = UIImage(named: video?.posterImageUrl ?? "")
          }
      }
 

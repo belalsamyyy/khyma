@@ -445,16 +445,28 @@ extension SeriesVC: UICollectionViewDataSource {
     // item
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // let section = SeriesTableSections.allCases[collectionView.tag]
+        
+        if collectionView == seriesSliderCollectionView {
+            return series.count
+        }
+        
         return series.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let section = SeriesTableSections.allCases[collectionView.tag]
+        
+        if collectionView == seriesSliderCollectionView {
+           let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
+           cell3.backgroundColor = Color.secondary
+           cell3.video = series[indexPath.item]
+           return cell3
+        }
         switch section {
         case .popular, .Movies, .Series, .Plays, .anime:
             let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
             cell1.backgroundColor = Color.secondary
-            cell1.movie = series[indexPath.item]
+            cell1.video = series[indexPath.item]
             return cell1
         }
    
@@ -485,6 +497,9 @@ extension SeriesVC: UICollectionViewDelegate {
 extension SeriesVC: UICollectionViewDelegateFlowLayout {
     // section
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, insetForSectionAt _: Int) -> UIEdgeInsets {
+        if collectionView == seriesSliderCollectionView {
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        }
         return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
 
@@ -499,6 +514,12 @@ extension SeriesVC: UICollectionViewDelegateFlowLayout {
     // item
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         // let section = SeriesTableSections.allCases[collectionView.tag]
+        
+        if collectionView == seriesSliderCollectionView {
+               let size = seriesSliderCollectionView.frame.size
+               return CGSize(width: size.width, height: size.height)
+           }
+        
         return collectionView.size(rows: 1, columns: 3.5)
     }
 }

@@ -201,9 +201,7 @@ class MoviesVC: UIViewController {
 
 //MARK: - extensions
 
-
 //MARK: - CustomNavBar Delegate
-
 extension MoviesVC: BackNavBarDelegate {
     // custom delegation pattern
     func handleBackTapped() {
@@ -213,7 +211,6 @@ extension MoviesVC: BackNavBarDelegate {
 }
 
 //MARK: - UIScrollView Delegate
-
 extension MoviesVC: UIScrollViewDelegate {
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
        self.navigationController?.setNavigationBarHidden(velocity.y > 0, animated: true)
@@ -222,7 +219,6 @@ extension MoviesVC: UIScrollViewDelegate {
 
 
 // MARK: - UITableView Data Source
-
 extension MoviesVC: UITableViewDataSource {
 
     // section
@@ -315,14 +311,27 @@ extension MoviesVC: UICollectionViewDataSource {
     // item
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // let section = MoviesTableSections.allCases[collectionView.tag]
+        
+        if collectionView == moviesSliderCollectionView {
+            return movies.count
+        }
+
         return movies.count
         }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // let section = MoviesTableSections.allCases[collectionView.tag]
+        
+        if collectionView == moviesSliderCollectionView {
+            let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
+            cell3.backgroundColor = Color.secondary
+            cell3.video = movies[indexPath.item]
+            return cell3
+        }
+
         let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
         cell1.backgroundColor = Color.secondary
-        cell1.movie = movies[indexPath.item]
+        cell1.video = movies[indexPath.item]
         return cell1
    
     }
@@ -352,6 +361,10 @@ extension MoviesVC: UICollectionViewDelegate {
 extension MoviesVC: UICollectionViewDelegateFlowLayout {
     // section
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, insetForSectionAt _: Int) -> UIEdgeInsets {
+        if collectionView == moviesSliderCollectionView {
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        }
+        
         return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
 
@@ -366,6 +379,13 @@ extension MoviesVC: UICollectionViewDelegateFlowLayout {
     // item
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
         // let section = MoviesTableSections.allCases[collectionView.tag]
+        
+        if collectionView == moviesSliderCollectionView {
+            let size = moviesSliderCollectionView.frame.size
+            return CGSize(width: size.width, height: size.height)
+        }
+        
+      
             return collectionView.size(rows: 1, columns: 3.5)
         
     }

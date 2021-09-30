@@ -135,7 +135,7 @@ extension SearchVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeue(indexPath: indexPath) as MovieCell
         cell.backgroundColor = Color.secondary
-        cell.movie = filteredVideos.count == 0 ? videos[indexPath.item] : filteredVideos[indexPath.item]
+        cell.video = filteredVideos.count == 0 ? videos[indexPath.item] : filteredVideos[indexPath.item]
         return cell
     }
 }

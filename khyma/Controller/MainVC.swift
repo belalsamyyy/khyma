@@ -390,7 +390,7 @@ extension MainVC: UICollectionViewDataSource {
         if collectionView == sliderCollectionView {
             let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
             cell3.backgroundColor = Color.secondary
-            cell3.movie = videos[indexPath.item]
+            cell3.video = videos[indexPath.item]
             return cell3
         }
         
@@ -398,7 +398,7 @@ extension MainVC: UICollectionViewDataSource {
         case .popular, .Movies, .Series, .Plays, .anime:
             let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
             cell1.backgroundColor = Color.secondary
-            cell1.movie = videos[indexPath.item]
+            cell1.video = videos[indexPath.item]
             return cell1
             
         case .continueWatching:

@@ -112,7 +112,7 @@ extension MoreVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeue(indexPath: indexPath) as MovieCell
         cell.backgroundColor = Color.secondary
-        cell.movie = movies[indexPath.item]
+        cell.video = movies[indexPath.item]
         return cell
     }
 }
