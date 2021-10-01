@@ -223,7 +223,6 @@ class DetailsVC: UIViewController {
             }
         }
 
-        
         func updateTimeRemaining() {
             if timerState == .playing {
                 timeRemaining -= 1
@@ -311,6 +310,7 @@ class DetailsVC: UIViewController {
         func getVideoDuration() {
             self.YoutubePlayer.duration { [weak self] duration, error in
                 self?.timeRemaining = Int(duration)
+                UserDefaultsManager.shared.def.set(Float(duration), forKey: "\(self?.video?.name ?? "") duration")
             }
         }
         
@@ -446,7 +446,9 @@ extension DetailsVC: GADFullScreenContentDelegate {
     
     func adDidPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) { print("ad presented.") }
 
-    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) { print("Ad dismissed.") }
+    func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        print("Ad dismissed.")
+    }
 
     func ad(_ ad: GADFullScreenPresentingAd,didFailToPresentFullScreenContentWithError error: Error) {
       print("Ad failed to present with error: \(error.localizedDescription).")
