@@ -43,7 +43,7 @@ struct UserDefaultsManager {
         }
     }
     
-    // computed propery for deviceID
+    // computed propery for coins
     var coins: Int {
         set {
             def.set(newValue, forKey: UserDefaultsKeys.coins)
@@ -64,6 +64,18 @@ struct UserDefaultsManager {
                 return true
             }
             return def.object(forKey: UserDefaultsKeys.darkMode) as! Bool
+        }
+    }
+    
+    // computed propery for backToSettings
+    var backToSettings: Bool {
+        set {
+            def.set(newValue, forKey: UserDefaultsKeys.backToSettings)
+        } get {
+            guard def.object(forKey: UserDefaultsKeys.backToSettings) != nil else {
+                return false
+            }
+            return def.object(forKey: UserDefaultsKeys.backToSettings) as! Bool
         }
     }
     

@@ -18,7 +18,6 @@ class ThemeCell: UITableViewCell {
         darkModeLabel.layout(X: .leading(nil, 20), W: .wrapContent, Y: .top(nil, 0), H: .fixed(50))
         darkModeSwitch.layout(X: .trailing(nil, 20), W: .wrapContent, Y: .top(nil, 10), H: .fixed(50))
         darkModeSwitch.setOn(Defaults.darkMode, animated: true)
-        
         darkModeLabel.text = StringsKeys.darkMode.localized
 
     }
@@ -33,11 +32,12 @@ class ThemeCell: UITableViewCell {
         let window = (self.contentView.window?.windowScene?.delegate as? SceneDelegate)?.window
         let sb = UIStoryboard(name: "Main", bundle: nil)
         window?.rootViewController = sb.instantiateViewController(withIdentifier: "rootVC")
-        
+
         if darkModeSwitch.isOn {
             print("dark mode is on")
             window?.overrideUserInterfaceStyle = .dark
             Defaults.darkMode = true
+            Defaults.backToSettings = true
             UIView.transition(with: window!, duration: 0.5, options: .transitionCurlDown, animations: nil, completion: nil)
 
             
@@ -45,6 +45,7 @@ class ThemeCell: UITableViewCell {
             print("dark mode is off")
             window?.overrideUserInterfaceStyle = .light
             Defaults.darkMode = false
+            Defaults.backToSettings = true
             UIView.transition(with: window!, duration: 0.5, options: .transitionCurlUp, animations: nil, completion: nil)
 
         }

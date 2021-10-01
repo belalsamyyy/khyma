@@ -92,6 +92,7 @@ class SettingsVC: UIViewController {
           let window = (self.view.window?.windowScene?.delegate as? SceneDelegate)?.window
           window?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "rootVC")
           UIView.transition(with: window!, duration: 0.5, options: options, animations: nil, completion: nil)
+          Defaults.backToSettings = true
       }
     
     //MARK: - actions

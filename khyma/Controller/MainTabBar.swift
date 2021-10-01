@@ -24,6 +24,13 @@ class MainTabBar: UITabBarController {
         self.tabBar.tintColor = Color.text
         self.tabBar.unselectedItemTintColor = .darkGray
         loadBannerAd()
+        
+        if Defaults.backToSettings {
+            selectedIndex = 3
+            Defaults.backToSettings = false
+        } else {
+            selectedIndex = 0
+        }
     }
     
     fileprivate func loadBannerAd() {

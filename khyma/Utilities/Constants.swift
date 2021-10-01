@@ -15,6 +15,7 @@ struct UserDefaultsKeys {
     static let deviceID = "deviceID"
     static let coins = "coins"
     static let darkMode = "darkMode"
+    static let backToSettings = "backToSettings"
     static let myList = "myList"
     static let continueWatching = "continueWatching"
 }
