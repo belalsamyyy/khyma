@@ -17,7 +17,7 @@ class ThemeCell: UITableViewCell {
         // Initialization code
         backgroundColor = Color.secondary
 
-        darkModeLabel.layout(X: .leading(nil, 20), W: .wrapContent, Y: .top(nil, 0), H: .fixed(50))
+        darkModeLabel.layout(X: .leading(nil, 20), W: .wrapContent, Y: .top(nil, 5), H: .fixed(50))
         darkModeSwitch.layout(X: .trailing(nil, 20), W: .wrapContent, Y: .top(nil, 15), H: .fixed(50))
         darkModeSwitch.setOn(Defaults.darkMode, animated: true)
         darkModeLabel.text = StringsKeys.darkMode.localized
