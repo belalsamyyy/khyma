@@ -15,11 +15,12 @@ class ThemeCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        backgroundColor = Color.secondary
+
         darkModeLabel.layout(X: .leading(nil, 20), W: .wrapContent, Y: .top(nil, 0), H: .fixed(50))
-        darkModeSwitch.layout(X: .trailing(nil, 20), W: .wrapContent, Y: .top(nil, 10), H: .fixed(50))
+        darkModeSwitch.layout(X: .trailing(nil, 20), W: .wrapContent, Y: .top(nil, 15), H: .fixed(50))
         darkModeSwitch.setOn(Defaults.darkMode, animated: true)
         darkModeLabel.text = StringsKeys.darkMode.localized
-
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

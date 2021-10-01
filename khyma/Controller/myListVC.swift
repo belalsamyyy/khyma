@@ -18,6 +18,8 @@ class myListVC: UIViewController {
     var videos = Defaults.savedVideos()
     var indexPath = 0
     
+    let emptyImage = UIImageView()
+    
     //MARK: - constants
     
     
@@ -47,6 +49,9 @@ class myListVC: UIViewController {
         
         videos = Defaults.savedVideos()
         myListCollectionView.reloadData()
+        
+        // empty image
+        hideOrShowEmptyImage()
     }
     
     
@@ -65,6 +70,9 @@ class myListVC: UIViewController {
         myListCollectionView.dataSource = self
         myListCollectionView.register(cell: MovieCell.self)
         myListCollectionView.reloadData()
+        
+        // empty image
+        hideOrShowEmptyImage()
         
         // long press gesture
         let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
@@ -98,6 +106,14 @@ class myListVC: UIViewController {
         
         alertController.addAction(UIAlertAction(title: StringsKeys.cancelAlert.localized, style: .cancel ))
         present(alertController, animated: true, completion: nil)
+    }
+    
+    fileprivate func hideOrShowEmptyImage() {
+        view.addSubview(emptyImage)
+        emptyImage.layout(X: .center(nil), W: .fixed(200), Y: .center(nil), H: .fixed(200))
+        emptyImage.image = UIImage(named: "icon-empty")
+        emptyImage.alpha = 0.50
+        emptyImage.isHidden = videos.count == 0 ? false : true
     }
 }
 

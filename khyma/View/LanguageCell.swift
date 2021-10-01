@@ -15,6 +15,8 @@ class LanguageCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        backgroundColor = Color.secondary
+
         LanguageLabel.layout(X: .leading(nil, 20), W: .wrapContent, Y: .top(nil, 0), H: .fixed(50))
         currentLanguageLabel.layout(X: .trailing(nil, 20), W: .wrapContent, Y: .top(nil, 0), H: .fixed(50))
         
