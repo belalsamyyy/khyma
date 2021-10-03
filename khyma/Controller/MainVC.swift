@@ -175,6 +175,7 @@ class MainVC: UIViewController {
     
     
     fileprivate func endTimer() {
+        timerState = .ended
         sliderTimer?.invalidate()
         sliderTimer = nil
     }

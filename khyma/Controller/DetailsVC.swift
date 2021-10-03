@@ -166,35 +166,39 @@ class DetailsVC: UIViewController {
     
     fileprivate func addToContinueWatching() {
         
-        let continueWatching = Defaults.savedContinueWatching()
-        let isInContinueWatching = continueWatching.firstIndex(where: {$0?.name == video?.name}) != nil
-        
-        if isInContinueWatching {
-            // if it's in my contiue watching, do nothing
+        let duration = UserDefaultsManager.shared.def.object(forKey: "\(video?.name ?? "") duration") as? Float
+
+        if duration != nil {
+            let continueWatching = Defaults.savedContinueWatching()
+            let isInContinueWatching = continueWatching.firstIndex(where: {$0?.name == video?.name}) != nil
             
-        } else {
-            // add to my list ---------------------------------
-            guard let video =  self.video else { return }
+            if isInContinueWatching {
+                // if it's in my contiue watching, do nothing
+                
+            } else {
+                // add to my list ---------------------------------
+                guard let video =  self.video else { return }
+                
+                do {
+                 var listOfVideos = Defaults.savedContinueWatching()
+                    listOfVideos.append(video)
             
-            do {
-             var listOfVideos = Defaults.savedContinueWatching()
-                listOfVideos.append(video)
-        
-             // transform movie into data
-             let data = try NSKeyedArchiver.archivedData(withRootObject: listOfVideos, requiringSecureCoding: true)
-             UserDefaults.standard.set(data , forKey: UserDefaultsKeys.continueWatching)
-            
-            } catch let error {
-                print("Failed to save info into userDefaults : ", error)
+                 // transform movie into data
+                 let data = try NSKeyedArchiver.archivedData(withRootObject: listOfVideos, requiringSecureCoding: true)
+                 UserDefaults.standard.set(data , forKey: UserDefaultsKeys.continueWatching)
+                
+                } catch let error {
+                    print("Failed to save info into userDefaults : ", error)
+                }
+                // ------------------------------------------------
             }
-            // ------------------------------------------------
         }
     }
     
     fileprivate func deleteFromContinueWatching() {
         // if it's in my contiue watching, do nothing
         Defaults.deleteContinueWatching(video: video)
-        UserDefaultsManager.shared.def.set(Float(0), forKey: video?.name ?? "")
+        UserDefaultsManager.shared.def.removeObject(forKey: video?.name ?? "")
     }
     
     //MARK: - functions - Reward Timer
@@ -203,7 +207,6 @@ class DetailsVC: UIViewController {
             
             if timerState == .notStarted {
                 getVideoDuration()
-                
                 if let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: self.video?.name ?? "") {
                     YoutubePlayer.playVideo()
                     YoutubePlayer.seek(toSeconds: continueWatchingAt as! Float, allowSeekAhead: true)
@@ -215,7 +218,7 @@ class DetailsVC: UIViewController {
         }
         
         @objc func timerTick() {
-            if timeRemaining > 0 {
+            if timerState != .ended {
                 updateTimeRemaining()
                 getCurrentTime()
             } else {
@@ -314,7 +317,7 @@ class DetailsVC: UIViewController {
             }
         }
         
-        func videoDuration() -> Double {
+        func returnVideoDuration() -> Double {
             var videoDuration: Double = 0
             self.YoutubePlayer.duration { duration, error in
                 videoDuration = duration
@@ -448,6 +451,10 @@ extension DetailsVC: GADFullScreenContentDelegate {
 
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("Ad dismissed.")
+        if let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: self.video?.name ?? "") {
+            YoutubePlayer.playVideo()
+            YoutubePlayer.seek(toSeconds: continueWatchingAt as! Float, allowSeekAhead: true)
+        }
     }
 
     func ad(_ ad: GADFullScreenPresentingAd,didFailToPresentFullScreenContentWithError error: Error) {
