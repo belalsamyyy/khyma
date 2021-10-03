@@ -110,7 +110,6 @@ class MainVC: UIViewController {
         
         // scroll
         mainScrollView.create(container: scrollContainer)
-
         mainScrollView.backgroundColor = Color.primary
         scrollContainer.backgroundColor = Color.primary
         
