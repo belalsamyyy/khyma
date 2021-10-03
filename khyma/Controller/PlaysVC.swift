@@ -152,7 +152,7 @@ class PlaysVC: UIViewController {
         startTimer()
         
         // table view
-        playsTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(playsSliderCollectionView, 0, nil, 0, .fixed(1500)))
+        playsTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(playsSliderCollectionView, 0, nil, 0, .fixed(1450)))
         playsTableView.backgroundColor = Color.primary
         
         playsTableView.delegate = self

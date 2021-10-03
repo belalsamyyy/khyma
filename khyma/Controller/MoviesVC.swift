@@ -133,7 +133,7 @@ class MoviesVC: UIViewController {
         startTimer()
         
         // table view
-        moviesTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(moviesSliderCollectionView, 0, nil, 0, .fixed(1500)))
+        moviesTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(moviesSliderCollectionView, 0, nil, 0, .fixed(1450)))
         moviesTableView.backgroundColor = Color.primary
         
         moviesTableView.delegate = self

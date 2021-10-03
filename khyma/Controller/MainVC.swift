@@ -23,6 +23,7 @@ class MainVC: UIViewController {
     var sliderTimer: Timer?
     var counter = 0
     var timerState = TimerState.notStarted
+    var mainTableViewHeight = NSLayoutConstraint()
         
     //MARK: - constants
     
@@ -61,6 +62,7 @@ class MainVC: UIViewController {
     
     //MARK: - lifecycle
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -75,6 +77,7 @@ class MainVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         continueWatching = Defaults.savedContinueWatching()
         sliderCollectionView.reloadData()
+        mainTableViewHeight.constant = continueWatching.count == 0 ? 1450 : 1700
         mainTableView.reloadData()
         self.navigationController?.navigationBar.topItem?.title = ""
         addCustomNavBar()
@@ -129,9 +132,12 @@ class MainVC: UIViewController {
         startTimer()
         
         // table view
-        mainTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(sliderCollectionView, 0, nil, 0, .fixed(1700)))
         mainTableView.backgroundColor = Color.primary
-        
+        mainTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomBothToSafeArea(sliderCollectionView, 0, nil, 0))
+        mainTableViewHeight = NSLayoutConstraint(item: mainTableView!, attribute: .height, relatedBy: .equal,
+                                                 toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0)
+        mainTableView.addConstraint(mainTableViewHeight)
+                
         mainTableView.delegate = self
         mainTableView.dataSource = self
         mainScrollView.delegate = self

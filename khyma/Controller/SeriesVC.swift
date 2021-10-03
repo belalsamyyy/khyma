@@ -265,7 +265,7 @@ class SeriesVC: UIViewController {
         startTimer()
         
         // table view
-        seriesTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(seriesSliderCollectionView, 0, nil, 0, .fixed(1500)))
+        seriesTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(seriesSliderCollectionView, 0, nil, 0, .fixed(1450)))
         seriesTableView.backgroundColor = Color.primary
         
         seriesTableView.delegate = self

@@ -10,6 +10,7 @@ target 'khyma' do
   pod 'youtube-ios-player-helper'
   pod 'DesignX'
   pod 'SimpleAPI'
+  pod 'SDWebImage'
 
 
   target 'khymaTests' do
