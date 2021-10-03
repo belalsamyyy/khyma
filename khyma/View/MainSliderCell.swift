@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DesignX
 
 class MainSliderCell: UICollectionViewCell {
 
@@ -27,6 +28,7 @@ class MainSliderCell: UICollectionViewCell {
         
         self.clipsToBounds = true
         posterImageView.contentMode = .scaleAspectFill
+        posterImageView.layout(shortcut: .fillSuperView(0))
         movieNameLabel.textColor = .white
     }
     

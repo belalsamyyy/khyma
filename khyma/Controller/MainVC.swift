@@ -22,7 +22,6 @@ class MainVC: UIViewController {
     
     var sliderTimer: Timer?
     var counter = 0
-    
     var timerState = TimerState.notStarted
         
     //MARK: - constants
@@ -31,6 +30,7 @@ class MainVC: UIViewController {
     enum TimerState {
       case notStarted
       case playing
+      case delaying
       case ended
     }
     
@@ -115,6 +115,7 @@ class MainVC: UIViewController {
         sliderCollectionView.backgroundColor = Color.primary
         sliderCollectionView.delegate = self
         sliderCollectionView.dataSource = self
+        sliderCollectionView.isPagingEnabled = true
         
         sliderCollectionView.register(cell: MainSliderCell.self)
         sliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 0, mainTableView, 0, .fixed(500)))
@@ -148,6 +149,8 @@ class MainVC: UIViewController {
     @objc func timerTick() {
         if timerState == .playing {
             slideImage()
+        } else if timerState == .delaying {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) { self.timerState = .playing } // delay slide image after 10 seconds
         } else {
             endTimer()
         }
@@ -244,9 +247,12 @@ extension MainVC: MainNavBarDelegate {
 
 extension MainVC: UIScrollViewDelegate {
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        print("delay timer when end dragging")
+        timerState = .delaying
         self.navigationController?.setNavigationBarHidden(velocity.y < 0, animated: true)
     }
 }
+
 
 
 // MARK: - UITableView Data Source
@@ -393,6 +399,11 @@ extension MainVC: UICollectionViewDataSource {
             let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
             cell3.backgroundColor = Color.secondary
             cell3.video = videos[indexPath.item]
+            
+            // slide image
+            counter = indexPath.item
+            pageView.currentPage = counter
+            
             return cell3
         }
         
@@ -463,6 +474,9 @@ extension MainVC: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
+        if collectionView == sliderCollectionView {
+            return 0
+        }
         return 10 // vertical spacing
     }
 

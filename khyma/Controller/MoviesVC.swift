@@ -41,6 +41,7 @@ class MoviesVC: UIViewController {
     enum TimerState {
       case notStarted
       case playing
+      case delaying
       case ended
     }
     
@@ -118,6 +119,7 @@ class MoviesVC: UIViewController {
         moviesSliderCollectionView.backgroundColor = Color.primary
         moviesSliderCollectionView.delegate = self
         moviesSliderCollectionView.dataSource = self
+        moviesSliderCollectionView.isPagingEnabled = true
         
         moviesSliderCollectionView.register(cell: MainSliderCell.self)
         moviesSliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 0, moviesTableView, 0, .fixed(500)))
@@ -150,6 +152,8 @@ class MoviesVC: UIViewController {
     @objc func timerTick() {
         if timerState == .playing {
             slideImage()
+        } else if timerState == .delaying {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) { self.timerState = .playing } // delay slide image after 10 seconds
         } else {
             endTimer()
         }
@@ -229,6 +233,8 @@ extension MoviesVC: BackNavBarDelegate {
 //MARK: - UIScrollView Delegate
 extension MoviesVC: UIScrollViewDelegate {
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        print("delay timer when end dragging")
+        timerState = .delaying
        self.navigationController?.setNavigationBarHidden(velocity.y > 0, animated: true)
     }
 }
@@ -342,6 +348,11 @@ extension MoviesVC: UICollectionViewDataSource {
             let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
             cell3.backgroundColor = Color.secondary
             cell3.video = movies[indexPath.item]
+            
+            // slide image
+            counter = indexPath.item
+            pageView.currentPage = counter
+            
             return cell3
         }
 
@@ -385,6 +396,9 @@ extension MoviesVC: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, minimumLineSpacingForSectionAt _: Int) -> CGFloat {
+        if collectionView == moviesSliderCollectionView {
+            return 0
+        }
         return 10 // vertical spacing
     }
 
