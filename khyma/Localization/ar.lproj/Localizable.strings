@@ -5,6 +5,9 @@
   Created by Belal Samy on 19/09/2021.
 */
 
+//Connection
+noConnection = "لا يــوجد اتصال !";
+
 //Movies
 bodyGuard = "بودي جارد";
 avengers = "الافنجرز: نهاية اللعبة";

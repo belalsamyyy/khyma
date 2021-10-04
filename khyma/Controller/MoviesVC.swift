@@ -5,6 +5,7 @@
 //  Created by Belal Samy on 22/09/2021.
 //
 
+import Network
 import DesignX
 import GoogleMobileAds
 
@@ -36,6 +37,10 @@ class MoviesVC: UIViewController {
 
         
     //MARK: - constants
+    
+    // check network
+    let monitor = NWPathMonitor()
+    let queue = DispatchQueue(label: "InternetConnectionMonitor")
     
     // Timer state
     enum TimerState {
@@ -74,6 +79,9 @@ class MoviesVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         
+        // check connection
+        checkConnection()
+        
         // stop timer when application is backgrounded.
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
 
@@ -82,6 +90,9 @@ class MoviesVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        // check connection
+        checkConnection()
+        
         moviesSliderCollectionView.reloadData()
         addCustomNavBar()
         startTimer()
@@ -98,6 +109,22 @@ class MoviesVC: UIViewController {
 
     
     //MARK: - functions
+    
+    fileprivate func checkConnection() {
+        self.monitor.pathUpdateHandler = { [weak self] pathUpdateHandler in
+           if pathUpdateHandler.status == .satisfied {
+               print("Internet connection is on.")
+           } else {
+                print("There's no internet connection.")
+                DispatchQueue.main.async {
+                let noConnection = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "NoConnectionVC") as! NoConnectionVC
+                noConnection.modalPresentationStyle = .fullScreen
+                    self?.present(noConnection, animated: true)
+               }
+           }
+        }
+        self.monitor.start(queue: self.queue)
+    }
     
     fileprivate func setupViews() {
         loadBannerAd()
@@ -159,6 +186,7 @@ class MoviesVC: UIViewController {
         }
     }
     
+    
     fileprivate func slideImage() {
          if counter < movies.count {
              let index = IndexPath.init(item: counter, section: 0)
@@ -170,7 +198,6 @@ class MoviesVC: UIViewController {
              let index = IndexPath.init(item: counter, section: 0)
              self.moviesSliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
              pageView.currentPage = counter
-             counter = 1
          }
         print("movies slider => \(counter)")
     }
@@ -349,11 +376,6 @@ extension MoviesVC: UICollectionViewDataSource {
             let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
             cell3.backgroundColor = Color.secondary
             cell3.video = movies[indexPath.item]
-            
-            // slide image
-            counter = indexPath.item
-            pageView.currentPage = counter
-            
             return cell3
         }
 
@@ -368,6 +390,18 @@ extension MoviesVC: UICollectionViewDataSource {
 
 // MARK: - UICollectionView Delegate
 extension MoviesVC: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if collectionView == moviesSliderCollectionView {
+            if pageView.currentPage == indexPath.row {
+                guard let visible = moviesSliderCollectionView.visibleCells.first else { return }
+                guard let index = moviesSliderCollectionView.indexPath(for: visible)?.row else { return }
+                counter = index
+                pageView.currentPage = counter
+            }
+        }
+    }
+    
     // item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // section

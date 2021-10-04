@@ -5,6 +5,7 @@
 //  Created by Belal Samy on 19/09/2021.
 //
 
+import Network
 import DesignX
 
 class MainVC: UIViewController {
@@ -26,6 +27,10 @@ class MainVC: UIViewController {
     var mainTableViewHeight = NSLayoutConstraint()
         
     //MARK: - constants
+    
+    // check network
+    let monitor = NWPathMonitor()
+    let queue = DispatchQueue(label: "InternetConnectionMonitor")
     
     // Timer state
     enum TimerState {
@@ -66,6 +71,9 @@ class MainVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        
+        // check connection
+        checkConnection()
           
         // stop timer when application is backgrounded.
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
@@ -75,6 +83,9 @@ class MainVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        // check connection
+        checkConnection()
+        
         continueWatching = Defaults.savedContinueWatching()
         sliderCollectionView.reloadData()
         mainTableViewHeight.constant = continueWatching.count == 0 ? 1450 : 1700
@@ -99,6 +110,22 @@ class MainVC: UIViewController {
 
     
     //MARK: - functions
+    
+    fileprivate func checkConnection() {
+        self.monitor.pathUpdateHandler = { [weak self] pathUpdateHandler in
+           if pathUpdateHandler.status == .satisfied {
+               print("Internet connection is on.")
+           } else {
+                print("There's no internet connection.")
+                DispatchQueue.main.async {
+                let noConnection = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "NoConnectionVC") as! NoConnectionVC
+                noConnection.modalPresentationStyle = .fullScreen
+                    self?.present(noConnection, animated: true)
+               }
+           }
+        }
+        self.monitor.start(queue: self.queue)
+    }
     
     fileprivate func setupViews() {
         
@@ -173,7 +200,6 @@ class MainVC: UIViewController {
              let index = IndexPath.init(item: counter, section: 0)
              self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
              pageView.currentPage = counter
-             counter = 1
          }
         print("main slider => \(counter)")
     }
@@ -405,12 +431,7 @@ extension MainVC: UICollectionViewDataSource {
             let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
             cell3.backgroundColor = Color.secondary
             cell3.video = videos[indexPath.item]
-            
-            // slide image
-            counter = indexPath.item
-            pageView.currentPage = counter
-            
-            return cell3
+           return cell3
         }
         
         switch section {
@@ -433,6 +454,18 @@ extension MainVC: UICollectionViewDataSource {
 
 // MARK: - UICollectionView Delegate
 extension MainVC: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if collectionView == sliderCollectionView {
+            if pageView.currentPage == indexPath.row {
+                guard let visible = sliderCollectionView.visibleCells.first else { return }
+                guard let index = sliderCollectionView.indexPath(for: visible)?.row else { return }
+                counter = index
+                pageView.currentPage = counter
+            }
+        }
+    }
+    
     // item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // section

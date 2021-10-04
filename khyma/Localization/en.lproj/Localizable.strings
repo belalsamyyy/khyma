@@ -6,6 +6,9 @@
   
 */
 
+//Connection
+noConnection = "NO CONNECTION !";
+
 //Movies
 bodyGuard = "Body Guard";
 avengers = "Avengers: End Game";

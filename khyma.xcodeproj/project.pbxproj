@@ -63,6 +63,7 @@
 		D95CF75A26FB63B600C05C89 /* SeriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95CF75926FB63B600C05C89 /* SeriesVC.swift */; };
 		D95CF75C26FB63CB00C05C89 /* PlaysVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95CF75B26FB63CB00C05C89 /* PlaysVC.swift */; };
 		D95CF76126FCC4D400C05C89 /* MainTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95CF76026FCC4D200C05C89 /* MainTabBar.swift */; };
+		D97B225B270B14DE00A97FE8 /* NoConnectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97B225A270B14DE00A97FE8 /* NoConnectionVC.swift */; };
 		D99B79A126F9E0460019B087 /* MainSliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99B799F26F9E0460019B087 /* MainSliderCell.swift */; };
 		D99B79A226F9E0460019B087 /* MainSliderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D99B79A026F9E0460019B087 /* MainSliderCell.xib */; };
 		EF3650329F78E05222102D37 /* Pods_khyma.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6373667ECC5ED1C9FC9E6E /* Pods_khyma.framework */; };
@@ -158,6 +159,7 @@
 		D95CF75926FB63B600C05C89 /* SeriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesVC.swift; sourceTree = "<group>"; };
 		D95CF75B26FB63CB00C05C89 /* PlaysVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaysVC.swift; sourceTree = "<group>"; };
 		D95CF76026FCC4D200C05C89 /* MainTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBar.swift; sourceTree = "<group>"; };
+		D97B225A270B14DE00A97FE8 /* NoConnectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoConnectionVC.swift; sourceTree = "<group>"; };
 		D99B799F26F9E0460019B087 /* MainSliderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSliderCell.swift; sourceTree = "<group>"; };
 		D99B79A026F9E0460019B087 /* MainSliderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainSliderCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -378,6 +380,7 @@
 		D95CF75F26FB723600C05C89 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				D97B225A270B14DE00A97FE8 /* NoConnectionVC.swift */,
 				D95CF76026FCC4D200C05C89 /* MainTabBar.swift */,
 				D9125A7526F72B6A00D29128 /* MainVC.swift */,
 				D9125A9F26F7474B00D29128 /* DetailsVC.swift */,
@@ -687,6 +690,7 @@
 				D90E6DCA27006A760064A50D /* EpisodesVC.swift in Sources */,
 				41319D8426FF195400FCCBBC /* ThemeCell.swift in Sources */,
 				D90E6DD327006E090064A50D /* Season.swift in Sources */,
+				D97B225B270B14DE00A97FE8 /* NoConnectionVC.swift in Sources */,
 				41319D9C26FFE58000FCCBBC /* MoreVC.swift in Sources */,
 				41319D8826FF2E9E00FCCBBC /* LanguageCell.swift in Sources */,
 				D9125A7E26F7337C00D29128 /* Int+Extensions.swift in Sources */,

@@ -7,6 +7,7 @@
 
 import UIKit
 import DesignX
+import SDWebImage
 
 class MainSliderCell: UICollectionViewCell {
 
@@ -16,6 +17,7 @@ class MainSliderCell: UICollectionViewCell {
     
     var video: Watchable? {
        didSet {
+           //posterImageView.sd_setImage(with: URL(string: video?.posterImageUrl))
            posterImageView.image = UIImage(named: video?.posterImageUrl ?? "")
            movieNameLabel.text = video?.name
        }

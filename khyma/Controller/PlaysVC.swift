@@ -5,6 +5,7 @@
 //  Created by Belal Samy on 22/09/2021.
 //
 
+import Network
 import DesignX
 import GoogleMobileAds
 
@@ -37,6 +38,10 @@ class PlaysVC: UIViewController {
         
     //MARK: - constants
     
+    // check network
+    let monitor = NWPathMonitor()
+    let queue = DispatchQueue(label: "InternetConnectionMonitor")
+    
     // Timer state
     enum TimerState {
       case notStarted
@@ -47,27 +52,7 @@ class PlaysVC: UIViewController {
     
     let customNavBar = BackNavBar()
     
-    let continueWatching = [Video(name: StringsKeys.bodyGuard.localized,
-                                  posterUrl: "poster-movie-1",
-                                  youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                            
-                            Video(name: StringsKeys.avengers.localized,
-                                  posterUrl: "poster-movie-2",
-                                  youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
-                            
-                            Video(name: StringsKeys.weladRizk.localized,
-                                  posterUrl: "poster-movie-3",
-                                  youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
-                            
-                            Video(name: StringsKeys.batman.localized,
-                                  posterUrl: "poster-movie-4",
-                                  youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
-                            
-                            Video(name: StringsKeys.blueElephant.localized,
-                                  posterUrl: "poster-movie-5",
-                                  youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
-    
-    let movies = [Video(name: StringsKeys.bodyGuard.localized,
+    let plays = [Video(name: StringsKeys.bodyGuard.localized,
                         posterUrl: "poster-movie-1",
                         youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
                   
@@ -93,6 +78,9 @@ class PlaysVC: UIViewController {
         super.viewDidLoad()
         setupViews()
         
+        // check connection
+        checkConnection()
+        
         // stop timer when application is backgrounded.
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
 
@@ -101,6 +89,9 @@ class PlaysVC: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        // check connection
+        checkConnection()
+        
         playsSliderCollectionView.reloadData()
         addCustomNavBar()
         startTimer()
@@ -117,6 +108,22 @@ class PlaysVC: UIViewController {
 
     
     //MARK: - functions
+    
+    fileprivate func checkConnection() {
+        self.monitor.pathUpdateHandler = { [weak self] pathUpdateHandler in
+           if pathUpdateHandler.status == .satisfied {
+               print("Internet connection is on.")
+           } else {
+                print("There's no internet connection.")
+                DispatchQueue.main.async {
+                let noConnection = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "NoConnectionVC") as! NoConnectionVC
+                noConnection.modalPresentationStyle = .fullScreen
+                    self?.present(noConnection, animated: true)
+               }
+           }
+        }
+        self.monitor.start(queue: self.queue)
+    }
     
     fileprivate func setupViews() {
         loadBannerAd()
@@ -146,7 +153,7 @@ class PlaysVC: UIViewController {
 
         // pager
         pageView.layout(X: .center(nil), W: .equal(nil, 1), Y: .top(playsSliderCollectionView, -75), H: .fixed(50))
-        pageView.numberOfPages = movies.count
+        pageView.numberOfPages = plays.count
         pageView.currentPage = 0
         
         startTimer()
@@ -179,7 +186,7 @@ class PlaysVC: UIViewController {
     }
     
     fileprivate func slideImage() {
-         if counter < movies.count {
+         if counter < plays.count {
              let index = IndexPath.init(item: counter, section: 0)
              self.playsSliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
              pageView.currentPage = counter
@@ -189,9 +196,8 @@ class PlaysVC: UIViewController {
              let index = IndexPath.init(item: counter, section: 0)
              self.playsSliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
              pageView.currentPage = counter
-             counter = 1
          }
-        print("plays slider => \(counter)")
+        print("series slider => \(counter)")
     }
     
     
@@ -354,10 +360,10 @@ extension PlaysVC: UICollectionViewDataSource {
         // let section = PlaysTableSections.allCases[collectionView.tag]
         
         if collectionView == playsSliderCollectionView {
-            return movies.count
+            return plays.count
         }
         
-        return movies.count
+        return plays.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -366,18 +372,13 @@ extension PlaysVC: UICollectionViewDataSource {
         if collectionView == playsSliderCollectionView {
             let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
             cell3.backgroundColor = Color.secondary
-            cell3.video = movies[indexPath.item]
-            
-            // slide image
-            counter = indexPath.item
-            pageView.currentPage = counter
-            
+            cell3.video = plays[indexPath.item]
             return cell3
         }
         
             let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
             cell1.backgroundColor = Color.secondary
-            cell1.video = movies[indexPath.item]
+            cell1.video = plays[indexPath.item]
             return cell1
     }
 }
@@ -385,6 +386,18 @@ extension PlaysVC: UICollectionViewDataSource {
 
 // MARK: - UICollectionView Delegate
 extension PlaysVC: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if collectionView == playsSliderCollectionView {
+            if pageView.currentPage == indexPath.row {
+                guard let visible = playsSliderCollectionView.visibleCells.first else { return }
+                guard let index = playsSliderCollectionView.indexPath(for: visible)?.row else { return }
+                counter = index
+                pageView.currentPage = counter
+            }
+        }
+    }
+    
     // item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // section
@@ -392,7 +405,7 @@ extension PlaysVC: UICollectionViewDelegate {
         print("section : \(section.ui.sectionTitle) => \(indexPath.item)")
         
         // movie
-        let movie = movies[indexPath.item]
+        let movie = plays[indexPath.item]
         
         let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
         detailsVC.modalPresentationStyle = .fullScreen

@@ -139,6 +139,24 @@
             </objects>
             <point key="canvasLocation" x="2409" y="2104"/>
         </scene>
+        <!--No ConnectionVC-->
+        <scene sceneID="i3w-nu-txY">
+            <objects>
+                <viewController storyboardIdentifier="NoConnectionVC" id="EbX-DV-BUW" customClass="NoConnectionVC" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="irR-fn-fWF"/>
+                        <viewControllerLayoutGuide type="bottom" id="qZC-PI-ROF"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="iR6-Ow-yyf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OKp-Ff-Bsv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="970" y="-162"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Ovr-gH-Ubg">
             <objects>

@@ -38,6 +38,9 @@ struct Color {
 
 //MARK: - Strings
 struct StringsKeys {
+    //Connection
+    static let noConnection = "noConnection"
+    
     //Movies
     static let bodyGuard = "bodyGuard" // Body Guard
     static let avengers = "avengers" // Avengers: End Game
