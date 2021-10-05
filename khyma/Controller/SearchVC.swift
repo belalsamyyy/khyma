@@ -19,25 +19,26 @@ class SearchVC: UIViewController {
     
     //MARK: - constants
     
-    let videos: [Watchable] = [Video(name: StringsKeys.bodyGuard.localized,
-                                     posterUrl: "poster-movie-1",
-                                     youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                  
-                              Video(name: StringsKeys.avengers.localized,
-                                    posterUrl: "poster-movie-2",
-                                    youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
-                              
-                              Video(name: StringsKeys.weladRizk.localized,
-                                    posterUrl: "poster-movie-3",
-                                    youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
-                              
-                              Video(name: StringsKeys.batman.localized,
-                                    posterUrl: "poster-movie-4",
-                                    youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
-                              
-                              Video(name: StringsKeys.blueElephant.localized,
-                                    posterUrl: "poster-movie-5",
-                                    youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
+    let videos = [Watchable]()
+//    let videos: [Watchable] = [Video(name: StringsKeys.bodyGuard.localized,
+//                                     posterUrl: "poster-movie-1",
+//                                     youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+//
+//                              Video(name: StringsKeys.avengers.localized,
+//                                    posterUrl: "poster-movie-2",
+//                                    youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
+//
+//                              Video(name: StringsKeys.weladRizk.localized,
+//                                    posterUrl: "poster-movie-3",
+//                                    youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
+//
+//                              Video(name: StringsKeys.batman.localized,
+//                                    posterUrl: "poster-movie-4",
+//                                    youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
+//
+//                              Video(name: StringsKeys.blueElephant.localized,
+//                                    posterUrl: "poster-movie-5",
+//                                    youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
                 
     //MARK: - lifecycle
     
@@ -110,7 +111,7 @@ extension SearchVC: UISearchBarDelegate {
             filteredVideos = videos
         }else {
             filteredVideos = self.videos.filter { (movie) -> Bool in
-                return (movie.name?.lowercased().contains(searchText.lowercased()))!
+                return Language.currentLanguage == Lang.english.rawValue ? (movie.en_name?.lowercased().contains(searchText.lowercased()))! : (movie.ar_name?.lowercased().contains(searchText.lowercased()))!
             }
         }
         searchCollectionView.reloadData()

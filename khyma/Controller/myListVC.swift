@@ -94,7 +94,7 @@ class myListVC: UIViewController {
         let selectedMovie = self.videos[selectedIndexPath.item]
         print(selectedMovie ?? "")
         
-        let alertTitle = StringsKeys.removeAlertTitle.localized("\(selectedMovie?.name ?? "")")
+        let alertTitle = StringsKeys.removeAlertTitle.localized("\(selectedMovie?.en_name ?? "")")
         let alertController = UIAlertController(title: alertTitle, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: StringsKeys.removeAlertAction.localized, style: .destructive, handler: { (_) in
             
@@ -154,7 +154,7 @@ extension myListVC: UICollectionViewDelegate {
             let episodesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "EpisodesVC") as! EpisodesVC
             episodesVC.modalPresentationStyle = .fullScreen
             episodesVC.series = series
-            episodesVC.navigationController?.navigationBar.topItem?.title = series?.name
+            episodesVC.navigationController?.navigationBar.topItem?.title = series?.en_name
             self.navigationController?.pushViewController(episodesVC, animated: true)
             
         } else {

@@ -7,6 +7,7 @@
 
 import UIKit
 import DesignX
+import SDWebImage
 
 class MovieCell: UICollectionViewCell {
     
@@ -14,7 +15,8 @@ class MovieCell: UICollectionViewCell {
     
      var video: Watchable? {
          didSet {
-            posterImageView.image = UIImage(named: video?.posterImageUrl ?? "")
+             posterImageView.sd_setImage(with: URL(string: "\(Endpoints.image)\(video?.posterImageUrl ?? "")"))
+            //posterImageView.image = UIImage(named: video?.posterImageUrl ?? "")
          }
      }
 

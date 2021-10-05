@@ -15,7 +15,7 @@ class EpisodeCell: UICollectionViewCell {
     
     var episode: Watchable? {
         didSet {
-           episodeTitleLabel.text = episode?.name
+           episodeTitleLabel.text = Language.currentLanguage == Lang.english.rawValue ? episode?.en_name : episode?.ar_name
         }
     }
 

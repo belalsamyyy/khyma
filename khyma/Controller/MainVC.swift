@@ -7,6 +7,7 @@
 
 import Network
 import DesignX
+import SimpleAPI
 
 class MainVC: UIViewController {
 
@@ -25,6 +26,8 @@ class MainVC: UIViewController {
     var counter = 0
     var timerState = TimerState.notStarted
     var mainTableViewHeight = NSLayoutConstraint()
+    
+    var posts = [Video]()
         
     //MARK: - constants
     
@@ -42,26 +45,28 @@ class MainVC: UIViewController {
     
     let customNavBar = MainNavBar()
     
-    // for every ( movies / plays ) sub category 
-    let videos = [Video(name: StringsKeys.bodyGuard.localized,
-                        posterUrl: "poster-movie-1",
-                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                  
-                  Video(name: StringsKeys.avengers.localized,
-                        posterUrl: "poster-movie-2",
-                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
-                  
-                  Video(name: StringsKeys.weladRizk.localized,
-                        posterUrl: "poster-movie-3",
-                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
-                  
-                  Video(name: StringsKeys.batman.localized,
-                        posterUrl: "poster-movie-4",
-                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
-                  
-                  Video(name: StringsKeys.blueElephant.localized,
-                        posterUrl: "poster-movie-5",
-                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
+    // for every ( movies / plays ) sub category
+    var genres = [Genre?]()
+    var videos = [Video?]()
+//    let videos = [Video(name: StringsKeys.bodyGuard.localized,
+//                        posterUrl: "poster-movie-1",
+//                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+//
+//                  Video(name: StringsKeys.avengers.localized,
+//                        posterUrl: "poster-movie-2",
+//                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
+//
+//                  Video(name: StringsKeys.weladRizk.localized,
+//                        posterUrl: "poster-movie-3",
+//                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
+//
+//                  Video(name: StringsKeys.batman.localized,
+//                        posterUrl: "poster-movie-4",
+//                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
+//
+//                  Video(name: StringsKeys.blueElephant.localized,
+//                        posterUrl: "poster-movie-5",
+//                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
     
     var continueWatching = Defaults.savedContinueWatching()
     
@@ -74,6 +79,10 @@ class MainVC: UIViewController {
         
         // check connection
         checkConnection()
+        
+        // API
+        getGenres()
+        getVideos()
           
         // stop timer when application is backgrounded.
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
@@ -110,6 +119,37 @@ class MainVC: UIViewController {
 
     
     //MARK: - functions
+    
+    fileprivate func getGenres() {
+        Genre.endpoint = Endpoints.genres
+        API<Genre>.list { result in
+            switch result {
+            case .success(let data):
+                self.genres = data
+                data.forEach { genre in
+                    print(genre?.en_name)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    fileprivate func getVideos() {
+        Video.endpoint = Endpoints.movies
+        API<Video>.list { result in
+            switch result {
+            case .success(let data):
+                self.videos = data
+                data.forEach { video in
+                    print(video?.en_name)
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+
     
     fileprivate func checkConnection() {
         self.monitor.pathUpdateHandler = { [weak self] pathUpdateHandler in
@@ -190,18 +230,18 @@ class MainVC: UIViewController {
     
     
     fileprivate func slideImage() {
-         if counter < videos.count {
-             let index = IndexPath.init(item: counter, section: 0)
-             self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
-             pageView.currentPage = counter
-             counter += 1
-         } else {
-             counter = 0
-             let index = IndexPath.init(item: counter, section: 0)
-             self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
-             pageView.currentPage = counter
-         }
-        print("main slider => \(counter)")
+//        if counter < videos.count {
+//            let index = IndexPath.init(item: counter, section: 0)
+//            self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
+//            pageView.currentPage = counter
+//            counter += 1
+//        } else {
+//            counter = 0
+//            let index = IndexPath.init(item: counter, section: 0)
+//            self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
+//            pageView.currentPage = counter
+//        }
+//       print("main slider => \(counter)")
     }
     
     
@@ -293,16 +333,20 @@ extension MainVC: UITableViewDataSource {
 
     // section
      func numberOfSections(in _: UITableView) -> Int {
-        return MainTableSections.allCases.count
+         return 2 + genres.count
+        // return MainTableSections.allCases.count
     }
     // return continuewatching
     func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
-       let section = MainTableSections.allCases[section]
+       let currentSection = MainTableSections.allCases[section]
         
-        if section == .continueWatching {
-            return continueWatching.count == 0 ? nil : section.ui.sectionTitle
+        if section == 0 {
+            return continueWatching.count == 0 ? nil : currentSection.ui.sectionTitle
+        } else if section == 1 {
+            return StringsKeys.popular.localized
         } else {
-            return section.ui.sectionTitle
+            let genre = genres[section]
+            return Language.currentLanguage == Lang.english.rawValue ? genre?.en_name : genre?.ar_name
         }
    }
 
@@ -327,7 +371,6 @@ extension MainVC: UITableViewDataSource {
 
 // MARK: - UITableView Delegate
 extension MainVC: UITableViewDelegate {
-    
     // section
     func tableView(_: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let section = MainTableSections.allCases[section]
@@ -340,41 +383,41 @@ extension MainVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-       let currentSection = MainTableSections.allCases[section]
-        
-           switch currentSection {
-           case .continueWatching:
-            
-            let headerView = UIView()
-            let sectionLabel = UILabel()
-            headerView.addSubview(sectionLabel)
-            sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-            sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
-            sectionLabel.text = continueWatching.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
-            sectionLabel.textColor = Color.text
-            return continueWatching.count == 0 ? nil : headerView
-            
-           case .popular, .Movies, .Series, .Plays, .anime:
-            
-            let headerView = UIView()
-            let sectionLabel = UILabel()
-            headerView.addSubview(sectionLabel)
-            sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-            sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
-            sectionLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
-            sectionLabel.textColor = Color.text
-            
-             let moreBtn = UIButton()
-             headerView.addSubview(moreBtn)
-             moreBtn.layout(X: .trailing(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-             moreBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-             moreBtn.setTitle(StringsKeys.more.localized, for: .normal)
-             moreBtn.setTitleColor(Color.secondary, for: .normal)
-             moreBtn.titleLabel?.textAlignment = .center
-             moreBtn.addTarget(self, action: #selector(handleMoreTapped), for: .touchUpInside)
+        // let currentSection = MainTableSections.allCases[section]
+         
+         if section == 0 {
+             let headerView = UIView()
+             let sectionLabel = UILabel()
+             headerView.addSubview(sectionLabel)
+             sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
+             sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
+             sectionLabel.text = continueWatching.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
+             sectionLabel.textColor = Color.text
+             return continueWatching.count == 0 ? nil : headerView
+                          
+         } else {
+    
+             let headerView = UIView()
+             let sectionLabel = UILabel()
+             headerView.addSubview(sectionLabel)
+             sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
+             sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
+             sectionLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
+             sectionLabel.textColor = Color.text
+             
+              let moreBtn = UIButton()
+              headerView.addSubview(moreBtn)
+              moreBtn.layout(X: .trailing(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
+              moreBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+              moreBtn.setTitle(StringsKeys.more.localized, for: .normal)
+              moreBtn.setTitleColor(Color.secondary, for: .normal)
+              moreBtn.titleLabel?.textAlignment = .center
+              moreBtn.addTarget(self, action: #selector(handleMoreTapped), for: .touchUpInside)
 
-            return headerView
-        }
+             return headerView
+             
+         }
+
     }
     
     func tableView(_: UITableView, heightForFooterInSection _: Int) -> CGFloat {

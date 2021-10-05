@@ -10,6 +10,23 @@ import UIKit
 
 //MARK: - UserDefaults Keys
 
+let BASE_URL = "https://polar-plateau-31663.herokuapp.com"
+
+struct Endpoints {
+    
+    // images
+    static let image = "\(BASE_URL)/"
+
+    // list
+    static let movies = "\(BASE_URL)/api/movies"
+    static let genres = "\(BASE_URL)/api/genres"
+    static let categories = "\(BASE_URL)/api/categories"
+    
+    // movies from specific genre id
+    static let moviesFromSpecificGenre = "\(BASE_URL)/api/movies/genre"
+    
+}
+
 struct UserDefaultsKeys {
     static let language = "language"
     static let deviceID = "deviceID"

@@ -19,12 +19,12 @@ public protocol Model: Codable {
 
 public class API<M: Model> {
     
-    enum ObjectResult {
+    public enum ObjectResult {
         case success(M?)
         case failure(String)
     }
     
-    enum ListResult {
+    public enum ListResult {
         case success([M?])
         case failure(String)
     }
@@ -32,7 +32,7 @@ public class API<M: Model> {
     
     // object
     
-    static func object(_ method: HTTPMethod, decode: Bool = true, _ result: @escaping (_ result: ObjectResult ) -> ()) {
+    public static func object(_ method: HTTPMethod, decode: Bool = true, _ result: @escaping (_ result: ObjectResult ) -> ()) {
         
         let endPoint: String
         
@@ -81,7 +81,7 @@ public class API<M: Model> {
     
     // list
     
-    static func list(_ result: @escaping (_ result: ListResult ) -> ()) {
+    public static func list(_ result: @escaping (_ result: ListResult ) -> ()) {
         APIService.request(M.endpoint, method: .get(0), params: M.params, headers: M.headers) { response in
             switch response {
             case .success(let data):

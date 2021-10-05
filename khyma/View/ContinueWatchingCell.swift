@@ -16,9 +16,9 @@ class ContinueWatchingCell: UICollectionViewCell {
     
     var video: Watchable? {
          didSet {
-             myLabel.text = video?.name
-             let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: video?.name ?? "") as! Float
-             let duration = UserDefaultsManager.shared.def.object(forKey: "\(video?.name ?? "") duration") as! Float
+             myLabel.text = Language.currentLanguage == Lang.english.rawValue ? video?.en_name : video?.ar_name
+             let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: video?._id ?? "") as! Float
+             let duration = UserDefaultsManager.shared.def.object(forKey: "\(video?._id ?? "") duration") as! Float
              let (hours, minutes, seconds) = Int(continueWatchingAt).hoursAndMinutesAndSeconds()
              seekLabel.text = "\(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())"
              progressBar.progress = continueWatchingAt / duration

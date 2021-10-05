@@ -8,9 +8,16 @@
 import Foundation
 import UIKit
 
-protocol Watchable: Decodable {
-    var name: String? { get set }
+protocol Watchable {
+    var _id: String? { get set }
+    var categoryId: String? { get set }
+    var genreId: String? { get set }
+    var en_name: String? { get set }
+    var ar_name: String? { get set }
     var posterImageUrl: String? { get set }
     var youtubeUrl: String? { get set }
     var seasons: [Season]? { get set }
+    
+//    var posterImageUrl: String? { get set }
+//    var youtubeUrl: String? { get set }
 }

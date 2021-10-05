@@ -19,25 +19,26 @@ class MoreVC: UIViewController {
     
     let customNavBar = MoreNavBar()
     
-    let movies = [Video(name: StringsKeys.bodyGuard.localized,
-                        posterUrl: "poster-movie-1",
-                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-                  
-                  Video(name: StringsKeys.avengers.localized,
-                        posterUrl: "poster-movie-2",
-                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
-                  
-                  Video(name: StringsKeys.weladRizk.localized,
-                        posterUrl: "poster-movie-3",
-                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
-                  
-                  Video(name: StringsKeys.batman.localized,
-                        posterUrl: "poster-movie-4",
-                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
-                  
-                  Video(name: StringsKeys.blueElephant.localized,
-                        posterUrl: "poster-movie-5",
-                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
+    let movies = [Video]()
+//    let movies = [Video(name: StringsKeys.bodyGuard.localized,
+//                        posterUrl: "poster-movie-1",
+//                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
+//
+//                  Video(name: StringsKeys.avengers.localized,
+//                        posterUrl: "poster-movie-2",
+//                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
+//
+//                  Video(name: StringsKeys.weladRizk.localized,
+//                        posterUrl: "poster-movie-3",
+//                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
+//
+//                  Video(name: StringsKeys.batman.localized,
+//                        posterUrl: "poster-movie-4",
+//                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
+//
+//                  Video(name: StringsKeys.blueElephant.localized,
+//                        posterUrl: "poster-movie-5",
+//                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
     
     
     //MARK: - lifecycle

@@ -56,13 +56,13 @@ class EpisodesVC: UIViewController {
     }
     
     fileprivate func setupNavBar() {
-        self.navigationController?.navigationBar.topItem?.backButtonTitle = series?.name
+        self.navigationController?.navigationBar.topItem?.backButtonTitle = Language.currentLanguage == Lang.english.rawValue ? series?.en_name : series?.ar_name
         self.navigationController?.navigationBar.topItem?.title = ""
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
         // check if we have already saved this series in my list
         let savedSeries = Defaults.savedVideos()
-        let isInMyList = savedSeries.firstIndex(where: {$0?.name == series?.name}) != nil
+        let isInMyList = savedSeries.firstIndex(where: {$0?.en_name == series?.en_name}) != nil
         
             if isInMyList {
                 // setting up our heart icon
@@ -76,7 +76,7 @@ class EpisodesVC: UIViewController {
     
     @objc fileprivate func handleAddToMyList() {
         
-        let alertController = UIAlertController(title: series?.name, message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: Language.currentLanguage == Lang.english.rawValue ? series?.en_name : series?.ar_name, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: StringsKeys.addAlertAction.localized, style: .default, handler: { (_) in
             // add to my list ---------------------------------
             guard let video =  self.series else { return }

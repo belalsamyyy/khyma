@@ -95,7 +95,7 @@ struct UserDefaultsManager {
     func deleteVideos(video: Watchable?) {
           let videos = savedVideos()
           let filteredVideos = videos.filter { (m) -> Bool in
-              return m?.name != video?.name
+              return Language.currentLanguage == Lang.english.rawValue ?  m?.en_name != video?.en_name : m?.ar_name != video?.ar_name
           }
             
         do {
@@ -123,7 +123,7 @@ struct UserDefaultsManager {
     func deleteContinueWatching(video: Watchable?) {
           let videos = savedContinueWatching()
           let filteredVideos = videos.filter { (m) -> Bool in
-              return m?.name != video?.name
+              return Language.currentLanguage == Lang.english.rawValue ?  m?.en_name != video?.en_name : m?.ar_name != video?.ar_name
           }
         
         do {

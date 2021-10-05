@@ -111,7 +111,7 @@ class DetailsVC: UIViewController {
         YoutubePlayer.layout(XW :.leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(300))
         videoTitle.layout(XW: .leadingAndCenter(nil, 0), Y: .top(YoutubePlayer, 10), H: .fixed(50))
         videoTitle.textAlignment = .center
-        videoTitle.text = video?.name
+        videoTitle.text = video?.en_name
 
     }
     
@@ -124,7 +124,7 @@ class DetailsVC: UIViewController {
 
         // check if we have already saved this movie in my list
         let savedVideos = Defaults.savedVideos()
-        let isInMyList = savedVideos.firstIndex(where: {$0?.name == video?.name}) != nil
+        let isInMyList = savedVideos.firstIndex(where: {$0?.en_name == video?.en_name}) != nil
         
         if isInMyList {
             // setting up our heart icon
@@ -139,7 +139,7 @@ class DetailsVC: UIViewController {
     @objc fileprivate func handleAddToMyList() {
         
         
-        let alertController = UIAlertController(title: video?.name, message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: video?.en_name, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: StringsKeys.addAlertAction.localized, style: .default, handler: { (_) in
             // add to my list ---------------------------------
             guard let video =  self.video else { return }
@@ -166,11 +166,11 @@ class DetailsVC: UIViewController {
     
     fileprivate func addToContinueWatching() {
         
-        let duration = UserDefaultsManager.shared.def.object(forKey: "\(video?.name ?? "") duration") as? Float
+        let duration = UserDefaultsManager.shared.def.object(forKey: "\(video?._id ?? "") duration") as? Float
 
         if duration != nil {
             let continueWatching = Defaults.savedContinueWatching()
-            let isInContinueWatching = continueWatching.firstIndex(where: {$0?.name == video?.name}) != nil
+            let isInContinueWatching = continueWatching.firstIndex(where: {$0?.en_name == video?.en_name}) != nil
             
             if isInContinueWatching {
                 // if it's in my contiue watching, do nothing
@@ -198,7 +198,7 @@ class DetailsVC: UIViewController {
     fileprivate func deleteFromContinueWatching() {
         // if it's in my contiue watching, do nothing
         Defaults.deleteContinueWatching(video: video)
-        UserDefaultsManager.shared.def.removeObject(forKey: video?.name ?? "")
+        UserDefaultsManager.shared.def.removeObject(forKey: video?._id ?? "")
     }
     
     //MARK: - functions - Reward Timer
@@ -207,7 +207,7 @@ class DetailsVC: UIViewController {
             
             if timerState == .notStarted {
                 getVideoDuration()
-                if let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: self.video?.name ?? "") {
+                if let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: self.video?._id ?? "") {
                     YoutubePlayer.playVideo()
                     YoutubePlayer.seek(toSeconds: continueWatchingAt as! Float, allowSeekAhead: true)
                 }
@@ -313,7 +313,7 @@ class DetailsVC: UIViewController {
         func getVideoDuration() {
             self.YoutubePlayer.duration { [weak self] duration, error in
                 self?.timeRemaining = Int(duration)
-                UserDefaultsManager.shared.def.set(Float(duration), forKey: "\(self?.video?.name ?? "") duration")
+                UserDefaultsManager.shared.def.set(Float(duration), forKey: "\(self?.video?._id ?? "") duration")
             }
         }
         
@@ -329,7 +329,7 @@ class DetailsVC: UIViewController {
             if timerState == .playing {
                 self.YoutubePlayer.currentTime { [weak self] currentTime, error in
                     // save current time in user defaults
-                    UserDefaultsManager.shared.def.set(currentTime, forKey: self?.video?.name ?? "")
+                    UserDefaultsManager.shared.def.set(currentTime, forKey: self?.video?._id ?? "")
                     
                     self?.YoutubePlayer.duration { [weak self] duration, error in
                         if currentTime >= 0.95 * Float(duration) {
@@ -451,7 +451,7 @@ extension DetailsVC: GADFullScreenContentDelegate {
 
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("Ad dismissed.")
-        if let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: self.video?.name ?? "") {
+        if let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: self.video?._id ?? "") {
             YoutubePlayer.playVideo()
             YoutubePlayer.seek(toSeconds: continueWatchingAt as! Float, allowSeekAhead: true)
         }
