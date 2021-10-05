@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SimpleAPI
 
 class SearchVC: UIViewController {
     
@@ -15,11 +16,12 @@ class SearchVC: UIViewController {
     
     //MARK: - variables
     
-    var filteredVideos = [Watchable]()
+    var filteredVideos = [Video?]()
     
     //MARK: - constants
     
-    let videos = [Watchable]()
+    var videos = [Video?]()
+   //  let videos = [Watchable]()
 //    let videos: [Watchable] = [Video(name: StringsKeys.bodyGuard.localized,
 //                                     posterUrl: "poster-movie-1",
 //                                     youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
@@ -45,6 +47,7 @@ class SearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
+        getVideos()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -95,6 +98,25 @@ class SearchVC: UIViewController {
         self.navigationController?.navigationBar.topItem?.title = StringsKeys.search.localized
     }
     
+    fileprivate func getVideos() {
+        Video.endpoint = Endpoints.movies
+        API<Video>.list { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.videos = data
+                data.forEach { video in
+                    print(video?.en_name ?? "")
+                }
+                DispatchQueue.main.async {
+                    self?.searchCollectionView.reloadData()
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     
     //MARK: - actions
     
@@ -111,7 +133,7 @@ extension SearchVC: UISearchBarDelegate {
             filteredVideos = videos
         }else {
             filteredVideos = self.videos.filter { (movie) -> Bool in
-                return Language.currentLanguage == Lang.english.rawValue ? (movie.en_name?.lowercased().contains(searchText.lowercased()))! : (movie.ar_name?.lowercased().contains(searchText.lowercased()))!
+                return Language.currentLanguage == Lang.english.rawValue ? (movie?.en_name?.lowercased().contains(searchText.lowercased()))! : (movie?.ar_name?.lowercased().contains(searchText.lowercased()))!
             }
         }
         searchCollectionView.reloadData()

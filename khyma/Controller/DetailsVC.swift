@@ -111,7 +111,7 @@ class DetailsVC: UIViewController {
         YoutubePlayer.layout(XW :.leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(300))
         videoTitle.layout(XW: .leadingAndCenter(nil, 0), Y: .top(YoutubePlayer, 10), H: .fixed(50))
         videoTitle.textAlignment = .center
-        videoTitle.text = video?.en_name
+        videoTitle.text = Language.currentLanguage == Lang.english.rawValue ? video?.en_name : video?.ar_name
 
     }
     

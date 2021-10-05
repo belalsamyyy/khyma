@@ -20,6 +20,7 @@
 		41319D9526FF81A900FCCBBC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 41319D9726FF81A900FCCBBC /* Localizable.strings */; };
 		41319D9A26FFA72F00FCCBBC /* BackNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41319D9926FFA72F00FCCBBC /* BackNavBar.swift */; };
 		41319D9C26FFE58000FCCBBC /* MoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41319D9B26FFE58000FCCBBC /* MoreVC.swift */; };
+		41688384270D088200499EF1 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41688383270D088200499EF1 /* Category.swift */; };
 		C9EE0CBD26ED0C0E009361A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE0CBC26ED0C0E009361A6 /* AppDelegate.swift */; };
 		C9EE0CBF26ED0C0E009361A6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE0CBE26ED0C0E009361A6 /* SceneDelegate.swift */; };
 		C9EE0CC426ED0C0E009361A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9EE0CC226ED0C0E009361A6 /* Main.storyboard */; };
@@ -107,6 +108,7 @@
 		41319D9826FF81AD00FCCBBC /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		41319D9926FFA72F00FCCBBC /* BackNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackNavBar.swift; sourceTree = "<group>"; };
 		41319D9B26FFE58000FCCBBC /* MoreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreVC.swift; sourceTree = "<group>"; };
+		41688383270D088200499EF1 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		6721A2C4845D67214760FBA1 /* Pods_khyma_khymaUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_khyma_khymaUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F6373667ECC5ED1C9FC9E6E /* Pods_khyma.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_khyma.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72918592827959E61CF01DFE /* Pods-khymaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-khymaTests.debug.xcconfig"; path = "Target Support Files/Pods-khymaTests/Pods-khymaTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -358,6 +360,7 @@
 			isa = PBXGroup;
 			children = (
 				D90E6DD127006C780064A50D /* Protocol */,
+				41688383270D088200499EF1 /* Category.swift */,
 				D96B46CC270CA93F00317AA9 /* Genre.swift */,
 				D9125A8D26F7380900D29128 /* Video.swift */,
 				D90E6DDC2700CDF30064A50D /* Series.swift */,
@@ -676,6 +679,7 @@
 				D9125A8E26F7380900D29128 /* Video.swift in Sources */,
 				D9125AA026F7474B00D29128 /* DetailsVC.swift in Sources */,
 				41319D7D26FE620300FCCBBC /* SettingsTableSections.swift in Sources */,
+				41688384270D088200499EF1 /* Category.swift in Sources */,
 				41319D8B26FF456E00FCCBBC /* Localizer.swift in Sources */,
 				D9125A8226F7339D00D29128 /* UIViewController+Extensions.swift in Sources */,
 				D90E6DCE27006BC20064A50D /* Watchable.swift in Sources */,

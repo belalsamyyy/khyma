@@ -83,6 +83,12 @@ class MainVC: UIViewController {
         // API
         getGenres()
         getVideos()
+        
+        continueWatching = Defaults.savedContinueWatching()
+        sliderCollectionView.reloadData()
+        mainTableViewHeight.constant = continueWatching.count == 0 ? CGFloat(genres.count * 450) : CGFloat(genres.count * 450) + 250
+        mainTableView.reloadData()
+        
           
         // stop timer when application is backgrounded.
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
@@ -97,7 +103,7 @@ class MainVC: UIViewController {
         
         continueWatching = Defaults.savedContinueWatching()
         sliderCollectionView.reloadData()
-        mainTableViewHeight.constant = continueWatching.count == 0 ? 1450 : 1700
+        mainTableViewHeight.constant = continueWatching.count == 0 ? CGFloat(genres.count * 450) : CGFloat(genres.count * 450) + 250
         mainTableView.reloadData()
         self.navigationController?.navigationBar.topItem?.title = ""
         addCustomNavBar()
@@ -120,14 +126,27 @@ class MainVC: UIViewController {
     
     //MARK: - functions
     
+    fileprivate func returnTableHeight() -> CGFloat {
+        var totalHeight: CGFloat = 200
+        genres.forEach { genre in
+            totalHeight += 200
+        }
+        return totalHeight
+    }
+    
     fileprivate func getGenres() {
         Genre.endpoint = Endpoints.genres
-        API<Genre>.list { result in
+        API<Genre>.list { [weak self] result in
             switch result {
             case .success(let data):
-                self.genres = data
+                self?.genres = data
                 data.forEach { genre in
-                    print(genre?.en_name)
+                    print(genre?.en_name ?? "")
+                }
+                DispatchQueue.main.async {
+                    self?.sliderCollectionView.reloadData()
+                    self?.mainTableView.reloadData()
+                    self?.mainTableViewHeight.constant = self?.continueWatching.count == 0 ? CGFloat(self?.genres.count ?? 0 * 450) : CGFloat(self?.genres.count ?? 0 * 450) + 250
                 }
             case .failure(let error):
                 print(error)
@@ -137,12 +156,16 @@ class MainVC: UIViewController {
     
     fileprivate func getVideos() {
         Video.endpoint = Endpoints.movies
-        API<Video>.list { result in
+        API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):
-                self.videos = data
+                self?.videos = data
                 data.forEach { video in
-                    print(video?.en_name)
+                    print(video?.en_name ?? "")
+                }
+                DispatchQueue.main.async {
+                    self?.sliderCollectionView.reloadData()
+                    self?.mainTableView.reloadData()
                 }
             case .failure(let error):
                 print(error)
@@ -213,8 +236,10 @@ class MainVC: UIViewController {
     
     fileprivate func startTimer() {
         // timer
-        timerState = .playing
-        self.sliderTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.timerTick), userInfo: nil, repeats: true)
+        if counter < videos.count {
+            timerState = .playing
+            self.sliderTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.timerTick), userInfo: nil, repeats: true)
+        }
     }
     
     
@@ -230,18 +255,18 @@ class MainVC: UIViewController {
     
     
     fileprivate func slideImage() {
-//        if counter < videos.count {
-//            let index = IndexPath.init(item: counter, section: 0)
-//            self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
-//            pageView.currentPage = counter
-//            counter += 1
-//        } else {
-//            counter = 0
-//            let index = IndexPath.init(item: counter, section: 0)
-//            self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
-//            pageView.currentPage = counter
-//        }
-//       print("main slider => \(counter)")
+        if counter < videos.count {
+            let index = IndexPath.init(item: counter, section: 0)
+            self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
+            pageView.currentPage = counter
+            counter += 1
+        } else {
+            counter = 0
+            let index = IndexPath.init(item: counter, section: 0)
+            self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
+            pageView.currentPage = counter
+        }
+       print("main slider => \(counter)")
     }
     
     
@@ -336,17 +361,17 @@ extension MainVC: UITableViewDataSource {
          return 2 + genres.count
         // return MainTableSections.allCases.count
     }
-    // return continuewatching
+    
     func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
        let currentSection = MainTableSections.allCases[section]
-        
+    
         if section == 0 {
             return continueWatching.count == 0 ? nil : currentSection.ui.sectionTitle
         } else if section == 1 {
             return StringsKeys.popular.localized
         } else {
-            let genre = genres[section]
-            return Language.currentLanguage == Lang.english.rawValue ? genre?.en_name : genre?.ar_name
+            let genre = genres[section - 2]
+        return Language.currentLanguage == Lang.english.rawValue ? genre?.en_name : genre?.ar_name
         }
    }
 
@@ -383,7 +408,7 @@ extension MainVC: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        // let currentSection = MainTableSections.allCases[section]
+         let currentSection = MainTableSections.allCases[section]
          
          if section == 0 {
              let headerView = UIView()
@@ -394,9 +419,9 @@ extension MainVC: UITableViewDelegate {
              sectionLabel.text = continueWatching.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
              sectionLabel.textColor = Color.text
              return continueWatching.count == 0 ? nil : headerView
-                          
+             
          } else {
-    
+
              let headerView = UIView()
              let sectionLabel = UILabel()
              headerView.addSubview(sectionLabel)
@@ -416,7 +441,7 @@ extension MainVC: UITableViewDelegate {
 
              return headerView
              
-         }
+          }
 
     }
     
