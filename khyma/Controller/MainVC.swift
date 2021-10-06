@@ -26,8 +26,6 @@ class MainVC: UIViewController {
     var counter = 0
     var timerState = TimerState.notStarted
     var mainTableViewHeight = NSLayoutConstraint()
-    
-    var posts = [Video]()
         
     //MARK: - constants
     
@@ -48,26 +46,7 @@ class MainVC: UIViewController {
     // for every ( movies / plays ) sub category
     var genres = [Genre?]()
     var videos = [Video?]()
-//    let videos = [Video(name: StringsKeys.bodyGuard.localized,
-//                        posterUrl: "poster-movie-1",
-//                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//
-//                  Video(name: StringsKeys.avengers.localized,
-//                        posterUrl: "poster-movie-2",
-//                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
-//
-//                  Video(name: StringsKeys.weladRizk.localized,
-//                        posterUrl: "poster-movie-3",
-//                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
-//
-//                  Video(name: StringsKeys.batman.localized,
-//                        posterUrl: "poster-movie-4",
-//                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
-//
-//                  Video(name: StringsKeys.blueElephant.localized,
-//                        posterUrl: "poster-movie-5",
-//                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
-    
+    // var videosDict = [String: [Video?]]()
     var continueWatching = Defaults.savedContinueWatching()
     
     //MARK: - lifecycle
@@ -84,12 +63,6 @@ class MainVC: UIViewController {
         getGenres()
         getVideos()
         
-        continueWatching = Defaults.savedContinueWatching()
-        sliderCollectionView.reloadData()
-        mainTableViewHeight.constant = continueWatching.count == 0 ? CGFloat(genres.count * 450) : CGFloat(genres.count * 450) + 250
-        mainTableView.reloadData()
-        
-          
         // stop timer when application is backgrounded.
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
 
@@ -103,8 +76,10 @@ class MainVC: UIViewController {
         
         continueWatching = Defaults.savedContinueWatching()
         sliderCollectionView.reloadData()
+        
         mainTableViewHeight.constant = continueWatching.count == 0 ? CGFloat(genres.count * 450) : CGFloat(genres.count * 450) + 250
         mainTableView.reloadData()
+        
         self.navigationController?.navigationBar.topItem?.title = ""
         addCustomNavBar()
         startTimer()
@@ -140,13 +115,12 @@ class MainVC: UIViewController {
             switch result {
             case .success(let data):
                 self?.genres = data
-                data.forEach { genre in
-                    print(genre?.en_name ?? "")
-                }
                 DispatchQueue.main.async {
+                    self?.mainTableViewHeight.constant = self?.continueWatching.count == 0 ? CGFloat(self?.genres.count ?? 0 * 450) : CGFloat(self?.genres.count ?? 0 * 450) + 250
                     self?.sliderCollectionView.reloadData()
                     self?.mainTableView.reloadData()
-                    self?.mainTableViewHeight.constant = self?.continueWatching.count == 0 ? CGFloat(self?.genres.count ?? 0 * 450) : CGFloat(self?.genres.count ?? 0 * 450) + 250
+ 
+                    
                 }
             case .failure(let error):
                 print(error)
@@ -160,9 +134,6 @@ class MainVC: UIViewController {
             switch result {
             case .success(let data):
                 self?.videos = data
-                data.forEach { video in
-                    print(video?.en_name ?? "")
-                }
                 DispatchQueue.main.async {
                     self?.sliderCollectionView.reloadData()
                     self?.mainTableView.reloadData()
@@ -226,6 +197,15 @@ class MainVC: UIViewController {
         mainTableViewHeight = NSLayoutConstraint(item: mainTableView!, attribute: .height, relatedBy: .equal,
                                                  toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0)
         mainTableView.addConstraint(mainTableViewHeight)
+        self.mainTableView.reloadData()
+        self.mainTableView.layoutIfNeeded()
+        
+        self.view.layoutIfNeeded()
+        
+        
+        mainTableView.reloadData()
+        mainTableView.updateConstraints()
+        scrollContainer.layoutIfNeeded()
                 
         mainTableView.delegate = self
         mainTableView.dataSource = self
@@ -407,43 +387,41 @@ extension MainVC: UITableViewDelegate {
         }
     }
     
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-         let currentSection = MainTableSections.allCases[section]
+         let headerView = UIView()
+         let sectionLabel = UILabel()
+         headerView.addSubview(sectionLabel)
+         sectionLabel.layout(X: .leading(nil, 15), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
+         sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
          
-         if section == 0 {
-             let headerView = UIView()
-             let sectionLabel = UILabel()
-             headerView.addSubview(sectionLabel)
-             sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-             sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
-             sectionLabel.text = continueWatching.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
-             sectionLabel.textColor = Color.text
-             return continueWatching.count == 0 ? nil : headerView
-             
-         } else {
-
-             let headerView = UIView()
-             let sectionLabel = UILabel()
-             headerView.addSubview(sectionLabel)
-             sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-             sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
-             sectionLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
-             sectionLabel.textColor = Color.text
-             
-              let moreBtn = UIButton()
-              headerView.addSubview(moreBtn)
-              moreBtn.layout(X: .trailing(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-              moreBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-              moreBtn.setTitle(StringsKeys.more.localized, for: .normal)
-              moreBtn.setTitleColor(Color.secondary, for: .normal)
-              moreBtn.titleLabel?.textAlignment = .center
-              moreBtn.addTarget(self, action: #selector(handleMoreTapped), for: .touchUpInside)
-
-             return headerView
-             
-          }
-
+         let moreBtn = UIButton()
+         headerView.addSubview(moreBtn)
+         moreBtn.layout(X: .trailing(nil, 15), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
+         moreBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+         moreBtn.setTitle(StringsKeys.more.localized, for: .normal)
+         moreBtn.setTitleColor(Color.secondary, for: .normal)
+         moreBtn.titleLabel?.textAlignment = .center
+         moreBtn.addTarget(self, action: #selector(handleMoreTapped), for: .touchUpInside)
+         
+        switch section {
+        case 0:
+            sectionLabel.text = continueWatching.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
+            moreBtn.isHidden = continueWatching.count < 2 ? true : false
+        case 1:
+            sectionLabel.text = videos.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
+            moreBtn.isHidden = videos.count < 4 ? true : false
+        default:
+            let genre = genres[section - 2]
+            let filteredVideos = videos.filter { $0?.genreId == genre?._id }
+            sectionLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
+            moreBtn.isHidden = filteredVideos.count < 4 ? true : false
+        }
+        
+         sectionLabel.textColor = Color.text
+         return continueWatching.count == 0 ? nil : headerView
     }
+    
     
     func tableView(_: UITableView, heightForFooterInSection _: Int) -> CGFloat {
        return 0
@@ -477,24 +455,30 @@ extension MainVC: UICollectionViewDataSource {
     
     // item
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let section = MainTableSections.allCases[collectionView.tag]
+        let sectionIndex = collectionView.tag
         
         if collectionView == sliderCollectionView {
             return videos.count
         }
         
-        switch section {
-        case .continueWatching:
+        switch sectionIndex {
+        case 0:
+            // continue watching
             return continueWatching.count == 0 ? 0 : continueWatching.count
-            
-        case .popular, .Movies, .Series, .Plays, .anime:
+        case 1:
+            // popular
             return videos.count
+        default:
+            // genre
+            let genre = genres[collectionView.tag - 2]
+            let filteredVideos = videos.filter { $0?.genreId == genre?._id }
+            return filteredVideos.count == 0 ? 0 : filteredVideos.count
         }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = MainTableSections.allCases[collectionView.tag]
-        
+        let sectionIndex = collectionView.tag
+
         if collectionView == sliderCollectionView {
             let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
             cell3.backgroundColor = Color.secondary
@@ -502,20 +486,29 @@ extension MainVC: UICollectionViewDataSource {
            return cell3
         }
         
-        switch section {
-        case .popular, .Movies, .Series, .Plays, .anime:
-            let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
-            cell1.backgroundColor = Color.secondary
-            cell1.video = videos[indexPath.item]
-            return cell1
-            
-        case .continueWatching:
+        switch sectionIndex {
+        case 0:
+            // continue watching
             let cell2 = collectionView.dequeue(indexPath: indexPath) as ContinueWatchingCell
             cell2.backgroundColor = Color.secondary
             cell2.video = continueWatching[indexPath.item]
             return cell2
+        case 1:
+            // popular
+            let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
+            cell1.backgroundColor = Color.secondary
+            cell1.video = videos[indexPath.item]
+            return cell1
+        default:
+            // genre
+            let genre = genres[collectionView.tag - 2]
+            let filteredVideos = videos.filter { $0?.genreId == genre?._id }
+
+            let cell4 = collectionView.dequeue(indexPath: indexPath) as MovieCell
+            cell4.backgroundColor = Color.secondary
+            cell4.video = filteredVideos[indexPath.item]
+            return cell4
         }
-   
     }
 }
 
@@ -537,35 +530,46 @@ extension MainVC: UICollectionViewDelegate {
     // item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // section
-        let section = MainTableSections.allCases[collectionView.tag]
-        print("section : \(section.ui.sectionTitle) => \(indexPath.item)")
+        let sectionIndex = collectionView.tag
         
         if collectionView == sliderCollectionView {
+            // posters sliders
             let video = videos[indexPath.item]
             let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
             detailsVC.modalPresentationStyle = .fullScreen
             detailsVC.video = video
             self.navigationController?.pushViewController(detailsVC, animated: true)
-            
-        } else {
-            
-            switch section {
-                
-            case .continueWatching:
-                let video = continueWatching[indexPath.item]
-                let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
-                detailsVC.modalPresentationStyle = .fullScreen
-                detailsVC.video = video
-                self.navigationController?.pushViewController(detailsVC, animated: true)
-                
-            case .popular, .Movies, .Series, .Plays, .anime:
-                let video = videos[indexPath.item]
-                let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
-                detailsVC.modalPresentationStyle = .fullScreen
-                detailsVC.video = video
-                self.navigationController?.pushViewController(detailsVC, animated: true)        }
-            }
         }
+        
+        switch sectionIndex {
+        case 0:
+            // continue watching
+            print("section : \(StringsKeys.continueWatching.localized) => \(indexPath.item)")
+            let video = continueWatching[indexPath.item]
+            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+            detailsVC.modalPresentationStyle = .fullScreen
+            detailsVC.video = video
+            self.navigationController?.pushViewController(detailsVC, animated: true)
+        case 1:
+            print("section : \(StringsKeys.popular.localized) => \(indexPath.item)")
+            let video = videos[indexPath.item]
+            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+            detailsVC.modalPresentationStyle = .fullScreen
+            detailsVC.video = video
+            self.navigationController?.pushViewController(detailsVC, animated: true)
+        default:
+            // other genre from api
+            let genre = genres[collectionView.tag - 2]
+            let filteredVideos = videos.filter { $0?.genreId == genre?._id }
+            print("genre : \(genre?.en_name ?? "") => \(indexPath.item)")
+
+            let video = filteredVideos[indexPath.item]
+            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+            detailsVC.modalPresentationStyle = .fullScreen
+            detailsVC.video = video
+            self.navigationController?.pushViewController(detailsVC, animated: true)
+        }
+    }
 }
 
 

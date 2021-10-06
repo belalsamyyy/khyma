@@ -18,12 +18,15 @@ struct Endpoints {
     static let image = "\(BASE_URL)/"
 
     // list
-    static let movies = "\(BASE_URL)/api/movies"
     static let genres = "\(BASE_URL)/api/genres"
     static let categories = "\(BASE_URL)/api/categories"
     
+    static let movies = "\(BASE_URL)/api/movies"
+    static let series = "\(BASE_URL)/api/series"
+    static let plays = "\(BASE_URL)/api/plays"
+
     // movies from specific genre id
-    static let moviesFromSpecificGenre = "\(BASE_URL)/api/movies/genre"
+    static let moviesFromGenreID = "\(BASE_URL)/api/movies/genre/"
     
 }
 
