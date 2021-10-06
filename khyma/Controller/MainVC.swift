@@ -8,6 +8,7 @@
 import Network
 import DesignX
 import SimpleAPI
+import UIKit
 
 class MainVC: UIViewController {
 
@@ -26,6 +27,7 @@ class MainVC: UIViewController {
     var counter = 0
     var timerState = TimerState.notStarted
     var mainTableViewHeight = NSLayoutConstraint()
+    var currentSectionIndex = 0
         
     //MARK: - constants
     
@@ -143,7 +145,6 @@ class MainVC: UIViewController {
             }
         }
     }
-
     
     fileprivate func checkConnection() {
         self.monitor.pathUpdateHandler = { [weak self] pathUpdateHandler in
@@ -276,11 +277,17 @@ class MainVC: UIViewController {
         customNavBar.layout(X: .center(nil), W: .equal(nil, 0.9), Y: .center(nil), H: .fixed(50))
     }
     
-    @objc fileprivate func handleMoreTapped() {
-        print("more tapped ...")
-        let moreVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoreRootVC") as! UINavigationController
-        moreVC.modalPresentationStyle = .fullScreen
-        self.navigationController?.present(moreVC, animated: true, completion: nil)
+    @objc fileprivate func handleMoreTapped(sender: MoreBtn) {
+        
+        let moreRootVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoreRootVC") as! UINavigationController
+        // ========================================================================
+        let moreVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoreVC") as! MoreVC
+        print("genre id from main vc is \(sender.genreId ?? "no id")")
+        guard let genreID = sender.genreId else { return }
+        moreVC.genreID = genreID
+        // ========================================================================
+        moreRootVC.modalPresentationStyle = .fullScreen
+        self.navigationController?.present(moreRootVC, animated: true, completion: nil)
     }
 
     
@@ -395,7 +402,7 @@ extension MainVC: UITableViewDelegate {
          sectionLabel.layout(X: .leading(nil, 15), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
          sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
          
-         let moreBtn = UIButton()
+         let moreBtn = MoreBtn()
          headerView.addSubview(moreBtn)
          moreBtn.layout(X: .trailing(nil, 15), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
          moreBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
@@ -407,14 +414,15 @@ extension MainVC: UITableViewDelegate {
         switch section {
         case 0:
             sectionLabel.text = continueWatching.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
-            moreBtn.isHidden = continueWatching.count < 2 ? true : false
+            moreBtn.isHidden = true // continueWatching.count < 2 ? true : false
         case 1:
             sectionLabel.text = videos.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
-            moreBtn.isHidden = videos.count < 4 ? true : false
+            moreBtn.isHidden = true // videos.count < 4 ? true : false
         default:
             let genre = genres[section - 2]
             let filteredVideos = videos.filter { $0?.genreId == genre?._id }
             sectionLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
+            moreBtn.genreId = genre?._id
             moreBtn.isHidden = filteredVideos.count < 4 ? true : false
         }
         

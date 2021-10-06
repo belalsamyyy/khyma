@@ -64,6 +64,7 @@
 		D95CF75A26FB63B600C05C89 /* SeriesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95CF75926FB63B600C05C89 /* SeriesVC.swift */; };
 		D95CF75C26FB63CB00C05C89 /* PlaysVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95CF75B26FB63CB00C05C89 /* PlaysVC.swift */; };
 		D95CF76126FCC4D400C05C89 /* MainTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95CF76026FCC4D200C05C89 /* MainTabBar.swift */; };
+		D964E81A270DFB9400FF6287 /* MoreBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D964E819270DFB9300FF6287 /* MoreBtn.swift */; };
 		D96B46CB270C8D7C00317AA9 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96B46CA270C8D7C00317AA9 /* Response.swift */; };
 		D96B46CD270CA93F00317AA9 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96B46CC270CA93F00317AA9 /* Genre.swift */; };
 		D97B225B270B14DE00A97FE8 /* NoConnectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97B225A270B14DE00A97FE8 /* NoConnectionVC.swift */; };
@@ -163,6 +164,7 @@
 		D95CF75926FB63B600C05C89 /* SeriesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeriesVC.swift; sourceTree = "<group>"; };
 		D95CF75B26FB63CB00C05C89 /* PlaysVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaysVC.swift; sourceTree = "<group>"; };
 		D95CF76026FCC4D200C05C89 /* MainTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBar.swift; sourceTree = "<group>"; };
+		D964E819270DFB9300FF6287 /* MoreBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreBtn.swift; sourceTree = "<group>"; };
 		D96B46CA270C8D7C00317AA9 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		D96B46CC270CA93F00317AA9 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		D97B225A270B14DE00A97FE8 /* NoConnectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoConnectionVC.swift; sourceTree = "<group>"; };
@@ -315,6 +317,7 @@
 				D933888327034EB10061AA06 /* TableSections */,
 				D933888227034EA30061AA06 /* NavBar */,
 				41319D8A26FF456E00FCCBBC /* Localizer.swift */,
+				D964E819270DFB9300FF6287 /* MoreBtn.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -677,6 +680,7 @@
 				D90E6DDD2700CDF30064A50D /* Series.swift in Sources */,
 				D9125A9A26F738EC00D29128 /* ContinueWatchingCell.swift in Sources */,
 				D9125A8E26F7380900D29128 /* Video.swift in Sources */,
+				D964E81A270DFB9400FF6287 /* MoreBtn.swift in Sources */,
 				D9125AA026F7474B00D29128 /* DetailsVC.swift in Sources */,
 				41319D7D26FE620300FCCBBC /* SettingsTableSections.swift in Sources */,
 				41688384270D088200499EF1 /* Category.swift in Sources */,

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SimpleAPI
 
 class MoreVC: UIViewController {
     
@@ -14,38 +15,21 @@ class MoreVC: UIViewController {
     @IBOutlet weak var moreCollectionView: UICollectionView!
     
     //MARK: - variables
-        
+    
+    var videos = [Video?]()
+    var genreID: String?
+    
     //MARK: - constants
-    
+
     let customNavBar = MoreNavBar()
-    
-    let movies = [Video]()
-//    let movies = [Video(name: StringsKeys.bodyGuard.localized,
-//                        posterUrl: "poster-movie-1",
-//                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//
-//                  Video(name: StringsKeys.avengers.localized,
-//                        posterUrl: "poster-movie-2",
-//                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
-//
-//                  Video(name: StringsKeys.weladRizk.localized,
-//                        posterUrl: "poster-movie-3",
-//                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
-//
-//                  Video(name: StringsKeys.batman.localized,
-//                        posterUrl: "poster-movie-4",
-//                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
-//
-//                  Video(name: StringsKeys.blueElephant.localized,
-//                        posterUrl: "poster-movie-5",
-//                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
-    
     
     //MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         setupViews()
+        getVideos()
+        print("genre id is => \(genreID)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,6 +42,21 @@ class MoreVC: UIViewController {
     
     //MARK: - functions
     
+    fileprivate func getVideos() {
+        Video.endpoint = "\(Endpoints.moviesFromGenreID)/\(genreID ?? "")"
+        API<Video>.list { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.videos = data
+                DispatchQueue.main.async {
+                    self?.moreCollectionView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
     fileprivate func setupViews() {
         addCustomNavBar()
         
@@ -69,7 +68,6 @@ class MoreVC: UIViewController {
         moreCollectionView.register(cell: MovieCell.self)
         moreCollectionView.reloadData()
     }
-    
     
     fileprivate func addCustomNavBar() {
         customNavBar.delegate = self // custom delegation pattern
@@ -107,13 +105,13 @@ extension MoreVC: UICollectionViewDataSource {
     
     // item
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return movies.count
+        return videos.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeue(indexPath: indexPath) as MovieCell
         cell.backgroundColor = Color.secondary
-        cell.video = movies[indexPath.item]
+        cell.video = videos[indexPath.item]
         return cell
     }
 }
@@ -123,7 +121,7 @@ extension MoreVC: UICollectionViewDataSource {
 extension MoreVC: UICollectionViewDelegate {
     // item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let movie = movies[indexPath.item]
+        let movie = videos[indexPath.item]
         let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
         detailsVC.modalPresentationStyle = .fullScreen
         detailsVC.video = movie
