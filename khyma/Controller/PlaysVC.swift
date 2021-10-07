@@ -8,6 +8,7 @@
 import Network
 import DesignX
 import GoogleMobileAds
+import SimpleAPI
 
 class PlaysVC: UIViewController {
     
@@ -15,7 +16,7 @@ class PlaysVC: UIViewController {
     
     @IBOutlet weak var playsScrollView: UIScrollView!
     @IBOutlet weak var scrollContainer: UIView!
-    @IBOutlet weak var playsTableView: UITableView!
+    @IBOutlet weak var playsTableView: MainTableView!
     
     @IBOutlet weak var playsSliderCollectionView: UICollectionView!
     @IBOutlet weak var pageView: UIPageControl!
@@ -34,6 +35,7 @@ class PlaysVC: UIViewController {
     var counter = 0
     
     var timerState = TimerState.notStarted
+    //var playsTableViewHeight = NSLayoutConstraint()
 
         
     //MARK: - constants
@@ -52,27 +54,9 @@ class PlaysVC: UIViewController {
     
     let customNavBar = BackNavBar()
     
-      let plays = [Video]()
-//    let plays = [Video(name: StringsKeys.bodyGuard.localized,
-//                        posterUrl: "poster-movie-1",
-//                        youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//
-//                  Video(name: StringsKeys.avengers.localized,
-//                        posterUrl: "poster-movie-2",
-//                        youtubeUrl: "https://www.youtube.com/watch?v=dEiS_WpFuc0"),
-//
-//                  Video(name: StringsKeys.weladRizk.localized,
-//                        posterUrl: "poster-movie-3",
-//                        youtubeUrl: "https://www.youtube.com/watch?v=hqkSGmqx5tM"),
-//
-//                  Video(name: StringsKeys.batman.localized,
-//                        posterUrl: "poster-movie-4",
-//                        youtubeUrl: "https://www.youtube.com/watch?v=OEqLipY4new&list=PLRYXdAxk10I4rWNxWyelz7cXyGR94Q0eY"),
-//
-//                  Video(name: StringsKeys.blueElephant.localized,
-//                        posterUrl: "poster-movie-5",
-//                        youtubeUrl: "https://www.youtube.com/watch?v=miH5SCH9at8")]
-//
+    var genres = [Genre?]()
+    var plays = [Video?]()
+
     //MARK: - lifecycle
     
     override func viewDidLoad() {
@@ -81,6 +65,10 @@ class PlaysVC: UIViewController {
         
         // check connection
         checkConnection()
+        
+        // API
+        getGenres()
+        getVideos()
         
         // stop timer when application is backgrounded.
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
@@ -94,6 +82,9 @@ class PlaysVC: UIViewController {
         checkConnection()
         
         playsSliderCollectionView.reloadData()
+        //playsTableViewHeight.constant = CGFloat(genres.count * 450)
+        playsTableView.reloadData()
+        
         addCustomNavBar()
         startTimer()
     }
@@ -124,6 +115,38 @@ class PlaysVC: UIViewController {
            }
         }
         self.monitor.start(queue: self.queue)
+    }
+    
+    fileprivate func getGenres() {
+        Genre.endpoint = Endpoints.genres
+        API<Genre>.list { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.genres = data
+                DispatchQueue.main.async {
+                    self?.playsSliderCollectionView.reloadData()
+                    self?.playsTableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    fileprivate func getVideos() {
+        Video.endpoint = Endpoints.plays
+        API<Video>.list { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.plays = data
+                DispatchQueue.main.async {
+                    self?.playsSliderCollectionView.reloadData()
+                    self?.playsTableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     fileprivate func setupViews() {
@@ -160,8 +183,15 @@ class PlaysVC: UIViewController {
         startTimer()
         
         // table view
-        playsTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(playsSliderCollectionView, 0, nil, 0, .fixed(1450)))
         playsTableView.backgroundColor = Color.primary
+        playsTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomBothToSafeArea(playsSliderCollectionView, 0, nil, 0))
+        
+//        playsTableViewHeight = NSLayoutConstraint(item: playsTableView!, attribute: .height, relatedBy: .equal,
+//                                                 toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0)
+//        //playsTableView.addConstraint(playsTableViewHeight)
+        
+        self.playsTableView.reloadData()
+        self.playsTableView.layoutIfNeeded()
         
         playsTableView.delegate = self
         playsTableView.dataSource = self
@@ -171,8 +201,11 @@ class PlaysVC: UIViewController {
     
     fileprivate func startTimer() {
         // timer
-        timerState = .playing
-        self.sliderTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.timerTick), userInfo: nil, repeats: true)
+        if counter < plays.count {
+            timerState = .playing
+            self.sliderTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.timerTick), userInfo: nil, repeats: true)
+        }
+        
     }
     
     
@@ -271,12 +304,16 @@ extension PlaysVC: UITableViewDataSource {
 
     // section
      func numberOfSections(in _: UITableView) -> Int {
-        return PlaysTableSections.allCases.count
+        return 1 + genres.count
     }
     
     func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
-       let section = PlaysTableSections.allCases[section]
-        return section.ui.sectionTitle
+        if section == 0 {
+            return StringsKeys.popular.localized
+        } else {
+            let genre = genres[section - 1]
+            return Language.currentLanguage == Lang.english.rawValue ? genre?.en_name : genre?.ar_name
+        }
    }
 
     // row
@@ -302,33 +339,44 @@ extension PlaysVC: UITableViewDataSource {
 extension PlaysVC: UITableViewDelegate {
     
     // section
-    func tableView(_: UITableView, heightForHeaderInSection _: Int) -> CGFloat {
-       return 50
+    func tableView(_: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return plays.count == 0 ? CGFloat.leastNonzeroMagnitude : 50
+        } else {
+            let genre = genres[section - 1]
+            let filteredVideos = plays.filter { $0?.genreId == genre?._id }
+            return filteredVideos.count == 0 ? CGFloat.leastNonzeroMagnitude : 50
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        // let currentSection = PlaysTableSections.allCases[section]
-         let headerView = UIView()
-
-         let sectionLabel = UILabel()
-         headerView.addSubview(sectionLabel)
-
-         sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-         sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
-         sectionLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
-         sectionLabel.textColor = Color.text
-          
-          let moreBtn = UIButton()
-          headerView.addSubview(moreBtn)
-          
-          moreBtn.layout(X: .trailing(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-          moreBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-          moreBtn.setTitle(StringsKeys.more.localized, for: .normal)
-          moreBtn.setTitleColor(Color.secondary, for: .normal)
-          moreBtn.titleLabel?.textAlignment = .center
-          moreBtn.addTarget(self, action: #selector(handleMoreTapped), for: .touchUpInside)
-
-         return headerView
+        let headerView = UIView()
+        let sectionLabel = UILabel()
+        headerView.addSubview(sectionLabel)
+        sectionLabel.layout(X: .leading(nil, 15), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
+        sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        
+        let moreBtn = MoreBtn()
+        headerView.addSubview(moreBtn)
+        moreBtn.layout(X: .trailing(nil, 15), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
+        moreBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        moreBtn.setTitle(StringsKeys.more.localized, for: .normal)
+        moreBtn.setTitleColor(Color.secondary, for: .normal)
+        moreBtn.titleLabel?.textAlignment = .center
+        moreBtn.addTarget(self, action: #selector(handleMoreTapped), for: .touchUpInside)
+        
+       switch section {
+       case 0:
+           sectionLabel.text = plays.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
+           moreBtn.isHidden = plays.count < 4 ? true : false
+       default:
+           let genre = genres[section - 1]
+           let filteredVideos = plays.filter { $0?.genreId == genre?._id }
+           sectionLabel.text = filteredVideos.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
+           moreBtn.genreId = genre?._id
+           moreBtn.isHidden = filteredVideos.count < 4 ? true : false
+       }
+       return headerView
     }
     
     func tableView(_: UITableView, heightForFooterInSection _: Int) -> CGFloat {
@@ -337,8 +385,13 @@ extension PlaysVC: UITableViewDelegate {
     
      // row
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let section = PlaysTableSections.allCases[indexPath.section]
-        return section.ui.sectionHeight
+        if indexPath.section == 0 {
+            return plays.count == 0 ? CGFloat.leastNonzeroMagnitude : 200
+        } else {
+            let genre = genres[indexPath.section - 1]
+            let filteredVideos = plays.filter { $0?.genreId == genre?._id }
+            return filteredVideos.count == 0 ? CGFloat.leastNonzeroMagnitude : 200
+        }
     }
     
     func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -358,29 +411,51 @@ extension PlaysVC: UICollectionViewDataSource {
     
     // item
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // let section = PlaysTableSections.allCases[collectionView.tag]
+        let sectionIndex = collectionView.tag
         
         if collectionView == playsSliderCollectionView {
             return plays.count
         }
         
-        return plays.count
+        switch sectionIndex {
+        case 0:
+            // popular
+            return plays.count
+        default:
+            // genre
+            let genre = genres[collectionView.tag - 1]
+            let filteredVideos = plays.filter { $0?.genreId == genre?._id }
+            return filteredVideos.count == 0 ? 0 : filteredVideos.count
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        //let section = PlaysTableSections.allCases[collectionView.tag]
-        
+        let sectionIndex = collectionView.tag
+
         if collectionView == playsSliderCollectionView {
             let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
             cell3.backgroundColor = Color.secondary
             cell3.video = plays[indexPath.item]
-            return cell3
+           return cell3
         }
         
+        switch sectionIndex {
+        case 0:
+            // popular
             let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
             cell1.backgroundColor = Color.secondary
             cell1.video = plays[indexPath.item]
             return cell1
+        default:
+            // genre
+            let genre = genres[collectionView.tag - 1]
+            let filteredVideos = plays.filter { $0?.genreId == genre?._id }
+
+            let cell4 = collectionView.dequeue(indexPath: indexPath) as MovieCell
+            cell4.backgroundColor = Color.secondary
+            cell4.video = filteredVideos[indexPath.item]
+            return cell4
+        }
     }
 }
 
@@ -402,16 +477,37 @@ extension PlaysVC: UICollectionViewDelegate {
     // item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // section
-        let section = PlaysTableSections.allCases[collectionView.tag]
-        print("section : \(section.ui.sectionTitle) => \(indexPath.item)")
+        let sectionIndex = collectionView.tag
         
-        // movie
-        let movie = plays[indexPath.item]
+        if collectionView == playsSliderCollectionView {
+            // posters sliders
+            let video = plays[indexPath.item]
+            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+            detailsVC.modalPresentationStyle = .fullScreen
+            detailsVC.video = video
+            self.navigationController?.pushViewController(detailsVC, animated: true)
+        }
         
-        let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
-        detailsVC.modalPresentationStyle = .fullScreen
-        detailsVC.video = movie
-        self.navigationController?.pushViewController(detailsVC, animated: true)
+        switch sectionIndex {
+        case 0:
+            print("section : \(StringsKeys.popular.localized) => \(indexPath.item)")
+            let video = plays[indexPath.item]
+            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+            detailsVC.modalPresentationStyle = .fullScreen
+            detailsVC.video = video
+            self.navigationController?.pushViewController(detailsVC, animated: true)
+        default:
+            // other genre from api
+            let genre = genres[collectionView.tag - 1]
+            let filteredVideos = plays.filter { $0?.genreId == genre?._id }
+            print("genre : \(genre?.en_name ?? "") => \(indexPath.item)")
+
+            let video = filteredVideos[indexPath.item]
+            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+            detailsVC.modalPresentationStyle = .fullScreen
+            detailsVC.video = video
+            self.navigationController?.pushViewController(detailsVC, animated: true)
+        }
     }
 }
 

@@ -11,39 +11,44 @@ import SimpleAPI
 
 typealias Episode = Video
 
-class Season: NSObject, NSCoding, NSSecureCoding, Decodable, Model {
+class Season: Model { // NSObject, NSCoding, NSSecureCoding, Decodable, Model
     // API
     static var endpoint: String!
     static var params: Params?
     static var headers: Headers?
     
     // Properties
-    var name: String?
-    var posterImageUrl: String?
-    var youtubeUrl: String?
-    var episodes: [Episode]?
+    var _id: String?
+    var en_name: String?
+    var ar_name: String?
+    var serieId: String?
     
-    // NSSecureCoding
-    static var supportsSecureCoding: Bool = true
+//    var name: String?
+//    var posterImageUrl: String?
+//    var youtubeUrl: String?
+//    var episodes: [Episode]?
     
-    init(name: String, posterImageUrl: String, episodes: [Episode]) {
-        self.name = name
-        self.posterImageUrl = posterImageUrl
-        self.episodes = episodes
-    }
-    
-    func encode(with coder: NSCoder) {
-        // encode Movie object into data
-        coder.encode(name ?? "", forKey: "name")
-        coder.encode(posterImageUrl ?? "", forKey: "posterImageUrl")
-        coder.encode(episodes ?? [], forKey: "episodes")
-    }
-    
-    required init?(coder: NSCoder) {
-        // decode data into Movie object again
-        self.name = coder.decodeObject(forKey: "name") as? String
-        self.posterImageUrl = coder.decodeObject(forKey: "posterImageUrl") as? String
-        self.episodes = coder.decodeObject(forKey: "episodes") as? [Episode]
-    }
+//    // NSSecureCoding
+//    static var supportsSecureCoding: Bool = true
+//
+//    init(name: String, posterImageUrl: String, episodes: [Episode]) {
+//        self.name = name
+//        self.posterImageUrl = posterImageUrl
+//        self.episodes = episodes
+//    }
+//
+//    func encode(with coder: NSCoder) {
+//        // encode Movie object into data
+//        coder.encode(name ?? "", forKey: "name")
+//        coder.encode(posterImageUrl ?? "", forKey: "posterImageUrl")
+//        coder.encode(episodes ?? [], forKey: "episodes")
+//    }
+//
+//    required init?(coder: NSCoder) {
+//        // decode data into Movie object again
+//        self.name = coder.decodeObject(forKey: "name") as? String
+//        self.posterImageUrl = coder.decodeObject(forKey: "posterImageUrl") as? String
+//        self.episodes = coder.decodeObject(forKey: "episodes") as? [Episode]
+//    }
     
 }

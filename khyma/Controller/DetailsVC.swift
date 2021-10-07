@@ -8,6 +8,7 @@
 import GoogleMobileAds
 import youtube_ios_player_helper
 import DesignX
+import UIKit
 
 class DetailsVC: UIViewController {
     
@@ -17,7 +18,11 @@ class DetailsVC: UIViewController {
     //MARK: - variables
     
     // video object
+    var seriesName: String?
+    var seasonName: String?
     var video: Watchable?
+    
+    var videoTitleText = ""
     
     // The video player
     var YoutubePlayer = YTPlayerView()
@@ -111,7 +116,11 @@ class DetailsVC: UIViewController {
         YoutubePlayer.layout(XW :.leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(300))
         videoTitle.layout(XW: .leadingAndCenter(nil, 0), Y: .top(YoutubePlayer, 10), H: .fixed(50))
         videoTitle.textAlignment = .center
-        videoTitle.text = Language.currentLanguage == Lang.english.rawValue ? video?.en_name : video?.ar_name
+        
+        guard let videoName = Language.currentLanguage == Lang.english.rawValue ? video?.en_name : video?.ar_name else { return }
+        videoTitleText = video?.categoryId != CategoryID.series ? "\(seriesName ?? "") - \(seasonName ?? "") - \(videoName)" : videoName
+        videoTitle.text = videoTitleText
+        videoTitle.font = UIFont.boldSystemFont(ofSize: 18)
 
     }
     
@@ -139,13 +148,18 @@ class DetailsVC: UIViewController {
     @objc fileprivate func handleAddToMyList() {
         
         
-        let alertController = UIAlertController(title: video?.en_name, message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: videoTitleText, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: StringsKeys.addAlertAction.localized, style: .default, handler: { (_) in
             // add to my list ---------------------------------
-            guard let video =  self.video else { return }
+            guard var video =  self.video else { return }
              
             do {
              var listOfVideos = Defaults.savedVideos()
+                if Language.currentLanguage == Lang.english.rawValue {
+                    video.en_name = self.videoTitleText
+                } else {
+                    video.ar_name = self.videoTitleText
+                }
                 listOfVideos.append(video)
         
              // transform movie into data

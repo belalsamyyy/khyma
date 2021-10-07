@@ -29,7 +29,7 @@ class MoreVC: UIViewController {
         // Do any additional setup after loading the view.
         setupViews()
         getVideos()
-        print("genre id is => \(genreID)")
+        print("genre id is => \(genreID ?? "")")
     }
     
     override func viewWillAppear(_ animated: Bool) {

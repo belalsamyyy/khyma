@@ -12,22 +12,33 @@ import UIKit
 
 let BASE_URL = "https://polar-plateau-31663.herokuapp.com"
 
+struct CategoryID {
+    static let movies = "615c27d1920678e0b8e502e0"
+    static let series = "615c520085fd16ab63fc3e8d"
+    static let plays = "615c5b8785fd16ab63fc3ec5"
+}
+
 struct Endpoints {
-    
     // images
     static let image = "\(BASE_URL)/"
 
-    // list
+    // Categories and genres
     static let genres = "\(BASE_URL)/api/genres"
     static let categories = "\(BASE_URL)/api/categories"
     
-    static let movies = "\(BASE_URL)/api/movies"
-    static let series = "\(BASE_URL)/api/series"
-    static let plays = "\(BASE_URL)/api/plays"
+    // movies
+    static let movies = "\(BASE_URL)/api/movies?nameEn=&nameAr="
+    static let movie = "\(BASE_URL)/api/movies/" // with id
+    static let moviesFromGenreID = "\(BASE_URL)/api/movies/genre/" // with genre id
 
-    // movies from specific genre id
-    static let moviesFromGenreID = "\(BASE_URL)/api/movies/genre/"
+    // series
+    static let series = "\(BASE_URL)/api/series?nameEn=&nameAr="
+    static let serie = "\(BASE_URL)/api/series/" // with id
+    static let seasons = "\(BASE_URL)/api/seasons/serie/" // with series id
     
+    // plays
+    static let plays = "\(BASE_URL)/api/plays?nameEn=&nameAr="
+    static let play = "\(BASE_URL)/api/plays/" // with id
 }
 
 struct UserDefaultsKeys {

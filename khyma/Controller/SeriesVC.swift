@@ -8,6 +8,7 @@
 import Network
 import DesignX
 import GoogleMobileAds
+import SimpleAPI
 
 class SeriesVC: UIViewController {
     
@@ -15,7 +16,7 @@ class SeriesVC: UIViewController {
     
     @IBOutlet weak var seriesScrollView: UIScrollView!
     @IBOutlet weak var scrollContainer: UIView!
-    @IBOutlet weak var seriesTableView: UITableView!
+    @IBOutlet weak var seriesTableView: MainTableView!
     
     @IBOutlet weak var seriesSliderCollectionView: UICollectionView!
     @IBOutlet weak var pageView: UIPageControl!
@@ -53,158 +54,8 @@ class SeriesVC: UIViewController {
     let customNavBar = BackNavBar()
     
     // series -> seasons -> episodes
-    var series = [Series]()
-//    let series = [Series(name: StringsKeys.bodyGuard.localized,
-//                         posterUrl: "poster-movie-1",
-//                         seasons: [Season(name: "\(StringsKeys.season.localized) 1",
-//                                          posterImageUrl: "poster-movie-1",
-//                                          episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-1",
-//                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                     Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-1",
-//                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                     Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-1",
-//                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                     Episode(name: "\(StringsKeys.episode.localized) 4", posterUrl: "poster-movie-1",
-//                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                     Episode(name: "\(StringsKeys.episode.localized) 5", posterUrl: "poster-movie-1",
-//                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                     Episode(name: "\(StringsKeys.episode.localized) 6", posterUrl: "poster-movie-1",
-//                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                     Episode(name: "\(StringsKeys.episode.localized) 7", posterUrl: "poster-movie-1",
-//                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                     Episode(name: "\(StringsKeys.episode.localized) 8", posterUrl: "poster-movie-1",
-//                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                     Episode(name: "\(StringsKeys.episode.localized) 9", posterUrl: "poster-movie-1",
-//                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                     Episode(name: "\(StringsKeys.episode.localized) 10", posterUrl: "poster-movie-1",
-//                                                             youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")]),
-//
-//                                   Season(name: "\(StringsKeys.season.localized) 2",
-//                                         posterImageUrl: "poster-movie-2",
-//                                          episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-2",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                     Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-2",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                     Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-2",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                     Episode(name: "\(StringsKeys.episode.localized) 4", posterUrl: "poster-movie-2",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                     Episode(name: "\(StringsKeys.episode.localized) 5", posterUrl: "poster-movie-2",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                     Episode(name: "\(StringsKeys.episode.localized) 6", posterUrl: "poster-movie-2",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                     Episode(name: "\(StringsKeys.episode.localized) 7", posterUrl: "poster-movie-2",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")]),
-//
-//                                 Season(name: "\(StringsKeys.season.localized) 3",
-//                                        posterImageUrl: "poster-movie-3",
-//                                        episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-3",
-//                                                           youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                   Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-3",
-//                                                           youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                   Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-3",
-//                                                           youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")])]),
-//
-//                 Series(name: StringsKeys.avengers.localized,
-//                        posterUrl: "poster-movie-2",
-//                        seasons: [Season(name: "\(StringsKeys.season.localized) 1",
-//                                         posterImageUrl: "poster-movie-1",
-//                                         episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 4", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 5", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 6", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 7", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 8", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 9", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 10", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")])]),
-//
-//                 Series(name: StringsKeys.weladRizk.localized,
-//                        posterUrl: "poster-movie-3",
-//                        seasons: [Season(name: "\(StringsKeys.season.localized) 1",
-//                                         posterImageUrl: "poster-movie-1",
-//                                         episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 4", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 5", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 6", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 7", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 8", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 9", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 10", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")])]),
-//
-//                 Series(name: StringsKeys.batman.localized,
-//                        posterUrl: "poster-movie-4",
-//                        seasons: [Season(name: "\(StringsKeys.season.localized) 1",
-//                                         posterImageUrl: "poster-movie-1",
-//                                         episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 4", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 5", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 6", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 7", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 8", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 9", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 10", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")])]),
-//
-//                 Series(name: StringsKeys.blueElephant.localized,
-//                        posterUrl: "poster-movie-5",
-//                        seasons: [Season(name: "\(StringsKeys.season.localized) 1",
-//                                         posterImageUrl: "poster-movie-1",
-//                                         episodes: [Episode(name: "\(StringsKeys.episode.localized) 1", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 2", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 3", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 4", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 5", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 6", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 7", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 8", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 9", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk"),
-//                                                    Episode(name: "\(StringsKeys.episode.localized) 10", posterUrl: "poster-movie-1",
-//                                                            youtubeUrl: "https://www.youtube.com/watch?v=x_me3xsvDgk")])])]
-
+    var genres = [Genre?]()
+    var series = [Series?]()
     
     //MARK: - lifecycle
     
@@ -214,6 +65,10 @@ class SeriesVC: UIViewController {
         
         // check connection
         checkConnection()
+        
+        // API
+        getGenres()
+        getVideos()
         
         // stop timer when application is backgrounded.
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
@@ -225,7 +80,6 @@ class SeriesVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         // check connection
         checkConnection()
-        
         seriesSliderCollectionView.reloadData()
         addCustomNavBar()
         startTimer()
@@ -257,6 +111,38 @@ class SeriesVC: UIViewController {
            }
         }
         self.monitor.start(queue: self.queue)
+    }
+    
+    fileprivate func getGenres() {
+        Genre.endpoint = Endpoints.genres
+        API<Genre>.list { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.genres = data
+                DispatchQueue.main.async {
+                    self?.seriesSliderCollectionView.reloadData()
+                    self?.seriesTableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    fileprivate func getVideos() {
+        Series.endpoint = Endpoints.series
+        API<Series>.list { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.series = data
+                DispatchQueue.main.async {
+                    self?.seriesSliderCollectionView.reloadData()
+                    self?.seriesTableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     fileprivate func setupViews() {
@@ -293,7 +179,7 @@ class SeriesVC: UIViewController {
         startTimer()
         
         // table view
-        seriesTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomToSafeAreaAndHeight(seriesSliderCollectionView, 0, nil, 0, .fixed(1450)))
+        seriesTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomBothToSafeArea(seriesSliderCollectionView, 0, nil, 0))
         seriesTableView.backgroundColor = Color.primary
         
         seriesTableView.delegate = self
@@ -304,10 +190,11 @@ class SeriesVC: UIViewController {
     
     fileprivate func startTimer() {
         // timer
-        timerState = .playing
-        self.sliderTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.timerTick), userInfo: nil, repeats: true)
+        if counter < series.count {
+            timerState = .playing
+            self.sliderTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.timerTick), userInfo: nil, repeats: true)
+        }
     }
-    
     
     @objc func timerTick() {
         if timerState == .playing {
@@ -333,7 +220,6 @@ class SeriesVC: UIViewController {
          }
         print("series slider => \(counter)")
     }
-    
     
     fileprivate func endTimer() {
         timerState = .ended
@@ -374,7 +260,6 @@ class SeriesVC: UIViewController {
     
     //MARK: - actions
     
-    
 }
 
 
@@ -408,12 +293,16 @@ extension SeriesVC: UITableViewDataSource {
 
     // section
      func numberOfSections(in _: UITableView) -> Int {
-        return SeriesTableSections.allCases.count
+        return 1 + genres.count
     }
     
     func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
-       let section = SeriesTableSections.allCases[section]
-        return section.ui.sectionTitle
+        if section == 0 {
+            return StringsKeys.popular.localized
+        } else {
+            let genre = genres[section - 1]
+            return Language.currentLanguage == Lang.english.rawValue ? genre?.en_name : genre?.ar_name
+        }
    }
 
     // row
@@ -439,33 +328,44 @@ extension SeriesVC: UITableViewDataSource {
 extension SeriesVC: UITableViewDelegate {
     
     // section
-    func tableView(_: UITableView, heightForHeaderInSection _: Int) -> CGFloat {
-       return 50
+    func tableView(_: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return series.count == 0 ? CGFloat.leastNonzeroMagnitude : 50
+        } else {
+            let genre = genres[section - 1]
+            let filteredVideos = series.filter { $0?.genreId == genre?._id }
+            return filteredVideos.count == 0 ? CGFloat.leastNonzeroMagnitude : 50
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-       //  let currentSection = SeriesTableSections.allCases[section]
-         let headerView = UIView()
-
-         let sectionLabel = UILabel()
-         headerView.addSubview(sectionLabel)
-
-         sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-         sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
-         sectionLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
-         sectionLabel.textColor = Color.text
-          
-          let moreBtn = UIButton()
-          headerView.addSubview(moreBtn)
-          
-          moreBtn.layout(X: .trailing(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-          moreBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-          moreBtn.setTitle(StringsKeys.more.localized, for: .normal)
-          moreBtn.setTitleColor(Color.secondary, for: .normal)
-          moreBtn.titleLabel?.textAlignment = .center
-          moreBtn.addTarget(self, action: #selector(handleMoreTapped), for: .touchUpInside)
-
-         return headerView
+        let headerView = UIView()
+        let sectionLabel = UILabel()
+        headerView.addSubview(sectionLabel)
+        sectionLabel.layout(X: .leading(nil, 15), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
+        sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        
+        let moreBtn = MoreBtn()
+        headerView.addSubview(moreBtn)
+        moreBtn.layout(X: .trailing(nil, 15), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
+        moreBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        moreBtn.setTitle(StringsKeys.more.localized, for: .normal)
+        moreBtn.setTitleColor(Color.secondary, for: .normal)
+        moreBtn.titleLabel?.textAlignment = .center
+        moreBtn.addTarget(self, action: #selector(handleMoreTapped), for: .touchUpInside)
+        
+       switch section {
+       case 0:
+           sectionLabel.text = series.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
+           moreBtn.isHidden = series.count < 4 ? true : false
+       default:
+           let genre = genres[section - 1]
+           let filteredVideos = series.filter { $0?.genreId == genre?._id }
+           sectionLabel.text = filteredVideos.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
+           moreBtn.genreId = genre?._id
+           moreBtn.isHidden = filteredVideos.count < 4 ? true : false
+       }
+       return headerView
     }
     
     func tableView(_: UITableView, heightForFooterInSection _: Int) -> CGFloat {
@@ -474,8 +374,13 @@ extension SeriesVC: UITableViewDelegate {
     
      // row
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let section = SeriesTableSections.allCases[indexPath.section]
-        return section.ui.sectionHeight
+        if indexPath.section == 0 {
+            return series.count == 0 ? CGFloat.leastNonzeroMagnitude : 200
+        } else {
+            let genre = genres[indexPath.section - 1]
+            let filteredVideos = series.filter { $0?.genreId == genre?._id }
+            return filteredVideos.count == 0 ? CGFloat.leastNonzeroMagnitude : 200
+        }
     }
     
     func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -495,33 +400,51 @@ extension SeriesVC: UICollectionViewDataSource {
     
     // item
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // let section = SeriesTableSections.allCases[collectionView.tag]
+        let sectionIndex = collectionView.tag
         
         if collectionView == seriesSliderCollectionView {
             return series.count
         }
         
-        return series.count
+        switch sectionIndex {
+        case 0:
+            // popular
+            return series.count
+        default:
+            // genre
+            let genre = genres[collectionView.tag - 1]
+            let filteredVideos = series.filter { $0?.genreId == genre?._id }
+            return filteredVideos.count == 0 ? 0 : filteredVideos.count
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let section = SeriesTableSections.allCases[collectionView.tag]
-        
+        let sectionIndex = collectionView.tag
+
         if collectionView == seriesSliderCollectionView {
-           let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
-           cell3.backgroundColor = Color.secondary
-           cell3.video = series[indexPath.item]
+            let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
+            cell3.backgroundColor = Color.secondary
+            cell3.video = series[indexPath.item]
            return cell3
         }
         
-        switch section {
-        case .popular, .Movies, .Series, .Plays, .anime:
+        switch sectionIndex {
+        case 0:
+            // popular
             let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
             cell1.backgroundColor = Color.secondary
             cell1.video = series[indexPath.item]
             return cell1
+        default:
+            // genre
+            let genre = genres[collectionView.tag - 1]
+            let filteredVideos = series.filter { $0?.genreId == genre?._id }
+
+            let cell4 = collectionView.dequeue(indexPath: indexPath) as MovieCell
+            cell4.backgroundColor = Color.secondary
+            cell4.video = filteredVideos[indexPath.item]
+            return cell4
         }
-   
     }
 }
 
@@ -542,17 +465,41 @@ extension SeriesVC: UICollectionViewDelegate {
     // item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // section
-        let section = SeriesTableSections.allCases[collectionView.tag]
-        print("section : \(section.ui.sectionTitle) => \(indexPath.item)")
+        let sectionIndex = collectionView.tag
         
-        // series
-        let series = series[indexPath.item]
+        if collectionView == seriesSliderCollectionView {
+            // posters sliders
+            let series = series[indexPath.item]
+            let episodesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "EpisodesVC") as! EpisodesVC
+            episodesVC.modalPresentationStyle = .fullScreen
+            episodesVC.series = series
+            episodesVC.navigationController?.navigationBar.topItem?.title = Language.currentLanguage == Lang.english.rawValue ? series?.en_name : series?.ar_name
+            self.navigationController?.pushViewController(episodesVC, animated: true)
+        }
         
-        let episodesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "EpisodesVC") as! EpisodesVC
-        episodesVC.modalPresentationStyle = .fullScreen
-        episodesVC.series = series
-        episodesVC.navigationController?.navigationBar.topItem?.title = Language.currentLanguage == Lang.english.rawValue ? series.en_name : series.ar_name
-        self.navigationController?.pushViewController(episodesVC, animated: true)
+        switch sectionIndex {
+        case 0:
+            print("section : \(StringsKeys.popular.localized) => \(indexPath.item)")
+            let series = series[indexPath.item]
+            let episodesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "EpisodesVC") as! EpisodesVC
+            episodesVC.modalPresentationStyle = .fullScreen
+            episodesVC.series = series
+            episodesVC.navigationController?.navigationBar.topItem?.title = Language.currentLanguage == Lang.english.rawValue ? series?.en_name : series?.ar_name
+            self.navigationController?.pushViewController(episodesVC, animated: true)
+            
+        default:
+            // other genre from api
+            let genre = genres[collectionView.tag - 1]
+            let filteredVideos = series.filter { $0?.genreId == genre?._id }
+            print("genre : \(genre?.en_name ?? "") => \(indexPath.item)")
+
+            let series = filteredVideos[indexPath.item]
+            let episodesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "EpisodesVC") as! EpisodesVC
+            episodesVC.modalPresentationStyle = .fullScreen
+            episodesVC.series = series
+            episodesVC.navigationController?.navigationBar.topItem?.title = Language.currentLanguage == Lang.english.rawValue ? series?.en_name : series?.ar_name
+            self.navigationController?.pushViewController(episodesVC, animated: true)
+        }
     }
 }
 

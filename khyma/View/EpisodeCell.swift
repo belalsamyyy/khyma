@@ -15,6 +15,7 @@ class EpisodeCell: UICollectionViewCell {
     
     var episode: Watchable? {
         didSet {
+           posterImageView.sd_setImage(with: URL(string: "\(Endpoints.image)\(episode?.posterImageUrl ?? "")"))
            episodeTitleLabel.text = Language.currentLanguage == Lang.english.rawValue ? episode?.en_name : episode?.ar_name
         }
     }
@@ -27,6 +28,7 @@ class EpisodeCell: UICollectionViewCell {
         posterImageView.contentMode = .scaleAspectFill
         posterImageView.layer.masksToBounds = true
         posterImageView.layer.cornerRadius = 10
+        posterImageView.backgroundColor = Color.secondary
         
         episodeTitleLabel.layout(X: .center(nil), W: .wrapContent, Y: .top(posterImageView, 1), H: .wrapContent)
         episodeTitleLabel.font = UIFont.systemFont(ofSize: 18)

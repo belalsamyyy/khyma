@@ -7,6 +7,7 @@
 
 import DesignX
 import GoogleMobileAds
+import SimpleAPI
 
 class EpisodesVC: UIViewController {
     
@@ -16,6 +17,9 @@ class EpisodesVC: UIViewController {
     //MARK: - variables
     
     var series: Watchable?
+    var seasons = [Season?]()
+    var episodes = [String: [Watchable?]]()
+    
     
     //MARK: - constants
     
@@ -24,7 +28,10 @@ class EpisodesVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        setupViews()        
+        setupViews()
+        print("series id is => \(series?._id ?? "id ")")
+        // API
+        getSeasons()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -41,6 +48,41 @@ class EpisodesVC: UIViewController {
     
     
     //MARK: - functions
+    
+    fileprivate func getSeasons() {
+        Season.endpoint = "\(Endpoints.seasons)\(series?._id ?? "no series id")"
+        API<Season>.list { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.seasons = data
+                data.forEach { season in
+                    print(season?.ar_name ?? "")
+                    self?.getEpisodes(seasonID: season?._id ?? "")
+                }
+                DispatchQueue.main.async {
+                    self?.seasonsTableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    fileprivate func getEpisodes(seasonID: String) {
+        Episode.endpoint = "\(BASE_URL)/api/episodes/serie/\(series?._id ?? "")/season/\(seasonID)"
+        API<Episode>.list { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.episodes[seasonID] = data
+                DispatchQueue.main.async {
+                    self?.seasonsTableView.reloadData()
+
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
     
     fileprivate func setupViews() {
 
@@ -113,12 +155,12 @@ extension EpisodesVC: UITableViewDataSource {
 
     // section
      func numberOfSections(in _: UITableView) -> Int {
-         return series?.seasons?.count ?? 0
+         return seasons.count
     }
     
     func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
-       let season = series?.seasons?[section]
-        return season?.name
+       let season = seasons[section]
+       return Language.currentLanguage == Lang.english.rawValue ? season?.en_name : season?.ar_name
    }
 
     // row
@@ -186,15 +228,15 @@ extension EpisodesVC: UICollectionViewDataSource {
     
     // item
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let season = series?.seasons?[collectionView.tag]
-        return season?.episodes?.count ?? 0
+        let season = seasons[collectionView.tag]
+        return episodes[season?._id ?? ""]?.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let season = series?.seasons?[collectionView.tag]
+            let season = seasons[collectionView.tag]
+            let episodes = episodes[season?._id ?? ""]
             let cell = collectionView.dequeue(indexPath: indexPath) as EpisodeCell
-            cell.posterImageView.image = UIImage(named: season?.posterImageUrl ?? "")
-            cell.episode = season?.episodes?[indexPath.item]
+            cell.episode = episodes?[indexPath.item]
             return cell
     }
 }
@@ -204,16 +246,14 @@ extension EpisodesVC: UICollectionViewDataSource {
 extension EpisodesVC: UICollectionViewDelegate {
     // item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // section
-        let season = series?.seasons?[collectionView.tag]
-        print("season : \(season?.name ?? "") => \(indexPath.item)")
-
-        // episode
-        let episode = season?.episodes?[indexPath.item]
-
+        let season = seasons[collectionView.tag]
+        let episodes = episodes[season?._id ?? ""]
+        
         let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
         detailsVC.modalPresentationStyle = .fullScreen
-        detailsVC.video = episode
+        detailsVC.video = episodes?[indexPath.item]
+        detailsVC.seasonName = Language.currentLanguage == Lang.english.rawValue ? season?.en_name : season?.ar_name
+        detailsVC.seriesName = Language.currentLanguage == Lang.english.rawValue ? series?.en_name : series?.ar_name
         self.navigationController?.pushViewController(detailsVC, animated: true)
     }
 }
