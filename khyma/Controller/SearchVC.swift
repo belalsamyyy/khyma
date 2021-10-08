@@ -14,9 +14,12 @@ class SearchVC: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var searchCollectionView: UICollectionView!
     
+    var filterBtn = UIButton(type: .custom)
+    
     //MARK: - variables
     
     var filteredVideos = [Video?]()
+    var categoryName = CategoryName.movies
     
     //MARK: - constants
     
@@ -27,7 +30,7 @@ class SearchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        getVideos()
+        getVideos(categoryName: CategoryName.movies, nameEn: "", nameAr: "")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,15 +54,24 @@ class SearchVC: UIViewController {
         // nav bar
         setupNavBar()
         
+        // filter Button
+        view.addSubview(filterBtn)
+        filterBtn.layout(XW: .leadingAndTrailingAndWidth(searchBar, 0, nil, 7, .fixed(30)), Y: .topToSafeArea(nil, 20), H: .fixed(35))
+        
+        let image = UIImage(named: "icon-filter")?.withRenderingMode(.alwaysTemplate)
+        filterBtn.setImage(image, for: .normal)
+        filterBtn.tintColor = Color.text
+        filterBtn.addTarget(self, action: #selector(handleFilterBtnTapped), for: .touchUpInside)
+        
         // search bar
         searchBar.delegate = self
         
-        searchBar.placeholder = StringsKeys.searchPlaceholder.localized
+        searchBar.placeholder = "\(StringsKeys.searchPlaceholder.localized)\(StringsKeys.movies.localized) ..."
         searchBar.barTintColor = Color.primary
         searchBar.layer.borderColor = Color.primary.cgColor
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = Color.secondary
         
-        searchBar.layout(XW: .leadingAndCenter(nil, 5), Y: .topToSafeArea(nil, 0), H: .fixed(75))
+        searchBar.layout(XW: .leadingAndTrailing(nil, 5, filterBtn, 1), Y: .topToSafeArea(nil, 0), H: .fixed(75))
         
         //collectionView
         searchCollectionView.delegate = self
@@ -72,14 +84,43 @@ class SearchVC: UIViewController {
     
     }
     
+    @objc fileprivate func handleFilterBtnTapped() {
+        let alertController = UIAlertController(title: StringsKeys.searchPlaceholder.localized, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: StringsKeys.movies.localized, style: .default, handler: { (_) in
+            print("filter by movies")
+            self.categoryName = CategoryName.movies
+            self.getVideos(categoryName: self.categoryName , nameEn: "", nameAr: "")
+            self.searchBar.placeholder = "\(StringsKeys.searchPlaceholder.localized)\(StringsKeys.movies.localized) ..."
+
+        }))
+        
+        alertController.addAction(UIAlertAction(title: StringsKeys.series.localized, style: .default, handler: { (_) in
+            print("filter by series")
+            self.categoryName = CategoryName.series
+            self.getVideos(categoryName: self.categoryName , nameEn: "", nameAr: "")
+            self.searchBar.placeholder = "\(StringsKeys.searchPlaceholder.localized)\(StringsKeys.series.localized) ..."
+            
+        }))
+        
+        alertController.addAction(UIAlertAction(title: StringsKeys.plays.localized, style: .default, handler: { (_) in
+            print("filter by plays")
+            self.categoryName = CategoryName.plays
+            self.getVideos(categoryName: self.categoryName , nameEn: "", nameAr: "")
+            self.searchBar.placeholder = "\(StringsKeys.searchPlaceholder.localized)\(StringsKeys.plays.localized) ..."
+        }))
+        
+        alertController.addAction(UIAlertAction(title: StringsKeys.cancelAlert.localized, style: .cancel ))
+        present(alertController, animated: true, completion: nil)
+    }
+    
     fileprivate func setupNavBar() {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationController?.navigationBar.topItem?.title = StringsKeys.search.localized
     }
     
-    fileprivate func getVideos() {
-        Video.endpoint = Endpoints.movies
+    fileprivate func getVideos(categoryName: String, nameEn: String, nameAr: String) {
+        Video.endpoint = "\(BASE_URL)/api/\(categoryName)?nameEn=\(nameEn)&nameAr=\(nameAr)"
         API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):
@@ -109,14 +150,24 @@ extension SearchVC: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print(searchText)
         
-        if searchText.isEmpty {
-            filteredVideos = videos
-        }else {
-            filteredVideos = self.videos.filter { (movie) -> Bool in
-                return Language.currentLanguage == Lang.english.rawValue ? (movie?.en_name?.lowercased().contains(searchText.lowercased()))! : (movie?.ar_name?.lowercased().contains(searchText.lowercased()))!
-            }
+        self.categoryName = CategoryName.movies
+        if Language.currentLanguage == Lang.english.rawValue {
+            self.getVideos(categoryName: self.categoryName , nameEn: searchText, nameAr: "")
+            searchCollectionView.reloadData()
+        } else {
+            self.getVideos(categoryName: self.categoryName , nameEn: "", nameAr: searchText)
+            searchCollectionView.reloadData()
         }
-        searchCollectionView.reloadData()
+        
+//        if searchText.isEmpty {
+//            getVideos(categoryName: categoryName , nameEn: "", nameAr: "")
+//            filteredVideos = videos
+//        }else {
+//            filteredVideos = self.videos.filter { (movie) -> Bool in
+//                return Language.currentLanguage == Lang.english.rawValue ? (movie?.en_name?.lowercased().contains(searchText.lowercased()))! : (movie?.ar_name?.lowercased().contains(searchText.lowercased()))!
+//            }
+//        }
+//        searchCollectionView.reloadData()
     }
 }
 

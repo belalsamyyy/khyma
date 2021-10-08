@@ -33,7 +33,7 @@ add = "+ اضافة";
 
 //Search
 search = "البحث";
-searchPlaceholder = "بـحث ...";
+searchPlaceholder = "بحـث عن ";
 
 //My List
 myList = "قائمتي";

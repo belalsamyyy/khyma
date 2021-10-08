@@ -34,7 +34,7 @@ add = "+ Add";
 
 //Search
 search = "Search";
-searchPlaceholder = "search ...";
+searchPlaceholder = "search for ";
 
 //My List
 myList = "My List";
