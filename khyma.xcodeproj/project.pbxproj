@@ -21,6 +21,7 @@
 		41319D9A26FFA72F00FCCBBC /* BackNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41319D9926FFA72F00FCCBBC /* BackNavBar.swift */; };
 		41319D9C26FFE58000FCCBBC /* MoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41319D9B26FFE58000FCCBBC /* MoreVC.swift */; };
 		41688384270D088200499EF1 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41688383270D088200499EF1 /* Category.swift */; };
+		4181A32C271045DB0009DEA0 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4181A32B271045DB0009DEA0 /* MainNavigationController.swift */; };
 		C9EE0CBD26ED0C0E009361A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE0CBC26ED0C0E009361A6 /* AppDelegate.swift */; };
 		C9EE0CBF26ED0C0E009361A6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE0CBE26ED0C0E009361A6 /* SceneDelegate.swift */; };
 		C9EE0CC426ED0C0E009361A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9EE0CC226ED0C0E009361A6 /* Main.storyboard */; };
@@ -65,7 +66,6 @@
 		D95CF75C26FB63CB00C05C89 /* PlaysVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95CF75B26FB63CB00C05C89 /* PlaysVC.swift */; };
 		D95CF76126FCC4D400C05C89 /* MainTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95CF76026FCC4D200C05C89 /* MainTabBar.swift */; };
 		D964E81A270DFB9400FF6287 /* MoreBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = D964E819270DFB9300FF6287 /* MoreBtn.swift */; };
-		D96B46CB270C8D7C00317AA9 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96B46CA270C8D7C00317AA9 /* Response.swift */; };
 		D96B46CD270CA93F00317AA9 /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = D96B46CC270CA93F00317AA9 /* Genre.swift */; };
 		D97B225B270B14DE00A97FE8 /* NoConnectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D97B225A270B14DE00A97FE8 /* NoConnectionVC.swift */; };
 		D994B54C270EFC3600C851D0 /* MainTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D994B54B270EFC3500C851D0 /* MainTableView.swift */; };
@@ -111,6 +111,7 @@
 		41319D9926FFA72F00FCCBBC /* BackNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackNavBar.swift; sourceTree = "<group>"; };
 		41319D9B26FFE58000FCCBBC /* MoreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreVC.swift; sourceTree = "<group>"; };
 		41688383270D088200499EF1 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		4181A32B271045DB0009DEA0 /* MainNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainNavigationController.swift; sourceTree = "<group>"; };
 		6721A2C4845D67214760FBA1 /* Pods_khyma_khymaUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_khyma_khymaUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F6373667ECC5ED1C9FC9E6E /* Pods_khyma.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_khyma.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72918592827959E61CF01DFE /* Pods-khymaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-khymaTests.debug.xcconfig"; path = "Target Support Files/Pods-khymaTests/Pods-khymaTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -166,7 +167,6 @@
 		D95CF75B26FB63CB00C05C89 /* PlaysVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaysVC.swift; sourceTree = "<group>"; };
 		D95CF76026FCC4D200C05C89 /* MainTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBar.swift; sourceTree = "<group>"; };
 		D964E819270DFB9300FF6287 /* MoreBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoreBtn.swift; sourceTree = "<group>"; };
-		D96B46CA270C8D7C00317AA9 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		D96B46CC270CA93F00317AA9 /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		D97B225A270B14DE00A97FE8 /* NoConnectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoConnectionVC.swift; sourceTree = "<group>"; };
 		D994B54B270EFC3500C851D0 /* MainTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableView.swift; sourceTree = "<group>"; };
@@ -321,6 +321,7 @@
 				41319D8A26FF456E00FCCBBC /* Localizer.swift */,
 				D964E819270DFB9300FF6287 /* MoreBtn.swift */,
 				D994B54B270EFC3500C851D0 /* MainTableView.swift */,
+				4181A32B271045DB0009DEA0 /* MainNavigationController.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -368,10 +369,9 @@
 				D90E6DD127006C780064A50D /* Protocol */,
 				41688383270D088200499EF1 /* Category.swift */,
 				D96B46CC270CA93F00317AA9 /* Genre.swift */,
-				D9125A8D26F7380900D29128 /* Video.swift */,
 				D90E6DDC2700CDF30064A50D /* Series.swift */,
 				D90E6DD227006E090064A50D /* Season.swift */,
-				D96B46CA270C8D7C00317AA9 /* Response.swift */,
+				D9125A8D26F7380900D29128 /* Video.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -668,11 +668,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4181A32C271045DB0009DEA0 /* MainNavigationController.swift in Sources */,
 				D9125A9026F7384000D29128 /* MainTableSections.swift in Sources */,
 				D95CF75A26FB63B600C05C89 /* SeriesVC.swift in Sources */,
 				D9125A8626F7346F00D29128 /* UICollectionView+Extensions.swift in Sources */,
 				D95CF74A26FB2A0F00C05C89 /* MainNavBar.swift in Sources */,
-				D96B46CB270C8D7C00317AA9 /* Response.swift in Sources */,
 				D90E6DDA27008E9D0064A50D /* EpisodeCell.swift in Sources */,
 				D9125A8026F7338D00D29128 /* String+Extensions.swift in Sources */,
 				D95CF75C26FB63CB00C05C89 /* PlaysVC.swift in Sources */,

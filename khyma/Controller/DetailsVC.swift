@@ -21,7 +21,8 @@ class DetailsVC: UIViewController {
     var seriesName: String?
     var seasonName: String?
     var video: Watchable?
-    
+    var watchableType: WatchableType?
+
     var videoTitleText = ""
     
     // The video player
@@ -117,9 +118,15 @@ class DetailsVC: UIViewController {
         videoTitle.layout(XW: .leadingAndCenter(nil, 0), Y: .top(YoutubePlayer, 10), H: .fixed(50))
         videoTitle.textAlignment = .center
         
-        guard let videoName = Language.currentLanguage == Lang.english.rawValue ? video?.en_name : video?.ar_name else { return }
-        videoTitleText = video?.categoryId != CategoryID.series ? "\(seriesName ?? "") - \(seasonName ?? "") - \(videoName)" : videoName
-        videoTitle.text = videoTitleText
+        let name = UserDefaultsManager.shared.def.object(forKey: "\(video?._id ?? "") name") as? String
+        if name != nil {
+            videoTitleText = name ?? ""
+            videoTitle.text = videoTitleText
+        } else {
+            guard let videoName = Language.currentLanguage == Lang.english.rawValue ? video?.en_name : video?.ar_name else { return }
+            videoTitleText = watchableType == .episode ? "\(seriesName ?? "") - \(seasonName ?? "") - \(videoName)" : videoName
+            videoTitle.text = videoTitleText
+        }
         videoTitle.font = UIFont.boldSystemFont(ofSize: 18)
 
     }
@@ -134,7 +141,7 @@ class DetailsVC: UIViewController {
         // check if we have already saved this movie in my list
         let savedVideos = Defaults.savedVideos()
         let isInMyList = savedVideos.firstIndex(where: {$0?.en_name == video?.en_name}) != nil
-        
+                
         if isInMyList {
             // setting up our heart icon
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icon-favourite").withRenderingMode(.alwaysOriginal), style: .plain, target: nil, action: nil)
@@ -196,6 +203,8 @@ class DetailsVC: UIViewController {
                 do {
                  var listOfVideos = Defaults.savedContinueWatching()
                     listOfVideos.append(video)
+                    UserDefaultsManager.shared.def.set(videoTitleText, forKey: "\(self.video?._id ?? "") name")
+
             
                  // transform movie into data
                  let data = try NSKeyedArchiver.archivedData(withRootObject: listOfVideos, requiringSecureCoding: true)

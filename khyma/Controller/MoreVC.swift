@@ -17,7 +17,9 @@ class MoreVC: UIViewController {
     //MARK: - variables
     
     var videos = [Video?]()
+    var categoryName: String?
     var genreID: String?
+    var genreName: String?
     
     //MARK: - constants
 
@@ -43,7 +45,7 @@ class MoreVC: UIViewController {
     //MARK: - functions
     
     fileprivate func getVideos() {
-        Video.endpoint = "\(Endpoints.moviesFromGenreID)/\(genreID ?? "")"
+        Video.endpoint = "\(BASE_URL)/api/\(categoryName ?? "")/genre/\(genreID ?? "")"
         API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):
@@ -71,7 +73,9 @@ class MoreVC: UIViewController {
     
     fileprivate func addCustomNavBar() {
         customNavBar.delegate = self // custom delegation pattern
-        customNavBar.moreLabel.text = StringsKeys.more.localized
+        customNavBar.moreLabel.text = genreName // StringsKeys.more.localized
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+        self.navigationItem.setHidesBackButton(true, animated: true)
         let navBar = navigationController?.navigationBar
         navBar?.addSubview(customNavBar)
         customNavBar.layout(X: .center(nil), W: .equal(nil, 0.9), Y: .center(nil), H: .fixed(50))
@@ -90,7 +94,7 @@ extension MoreVC: MoreNavBarDelegate {
     // custom delegation pattern
     func handleCancelTapped() {
         print("cancel tapped here from more vc")
-        self.navigationController?.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

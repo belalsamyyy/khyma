@@ -17,7 +17,12 @@ class MainSliderCell: UICollectionViewCell {
     
     var video: Watchable? {
        didSet {
-           posterImageView.sd_setImage(with: URL(string: "\(Endpoints.image)\(video?.posterImageUrl ?? "")"))
+           posterImageView.sd_setImage(with: URL(string: "\(Endpoints.image)\(video?.posterImageUrl ?? "")"),
+                                       placeholderImage: UIImage(named: "poster-movie-2"),
+                                       options: .progressiveLoad,
+                                       context: nil)
+           
+           // posterImageView.sd_setImage(with: URL(string: "\(Endpoints.image)\(video?.posterImageUrl ?? "")"))
            //posterImageView.image = UIImage(named: video?.posterImageUrl ?? "")
            movieNameLabel.text = Language.currentLanguage == Lang.english.rawValue ? video?.en_name : video?.ar_name
        }

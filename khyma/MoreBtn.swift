@@ -10,4 +10,5 @@ import UIKit
 
 class MoreBtn: UIButton {
     var genreId: String?
+    var genreName: String?
 }

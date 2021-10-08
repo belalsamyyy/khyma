@@ -84,9 +84,9 @@ class PlaysVC: UIViewController {
         playsSliderCollectionView.reloadData()
         //playsTableViewHeight.constant = CGFloat(genres.count * 450)
         playsTableView.reloadData()
-        
-        addCustomNavBar()
         startTimer()
+
+        addCustomNavBar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -140,7 +140,9 @@ class PlaysVC: UIViewController {
             case .success(let data):
                 self?.plays = data
                 DispatchQueue.main.async {
+                    self?.pageView.numberOfPages = self?.plays.count ?? 0
                     self?.playsSliderCollectionView.reloadData()
+                    self?.startTimer()
                     self?.playsTableView.reloadData()
                 }
             case .failure(let error):
@@ -179,9 +181,7 @@ class PlaysVC: UIViewController {
         pageView.layout(X: .center(nil), W: .equal(nil, 1), Y: .top(playsSliderCollectionView, -75), H: .fixed(50))
         pageView.numberOfPages = plays.count
         pageView.currentPage = 0
-        
-        startTimer()
-        
+                
         // table view
         playsTableView.backgroundColor = Color.primary
         playsTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomBothToSafeArea(playsSliderCollectionView, 0, nil, 0))
@@ -201,11 +201,8 @@ class PlaysVC: UIViewController {
     
     fileprivate func startTimer() {
         // timer
-        if counter < plays.count {
             timerState = .playing
             self.sliderTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.timerTick), userInfo: nil, repeats: true)
-        }
-        
     }
     
     
@@ -213,7 +210,7 @@ class PlaysVC: UIViewController {
         if timerState == .playing {
             slideImage()
         } else if timerState == .delaying {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) { self.timerState = .playing } // delay slide image after 10 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { self.timerState = .playing }
         } else {
             endTimer()
         }
@@ -258,11 +255,17 @@ class PlaysVC: UIViewController {
         customNavBar.layout(X: .center(nil), W: .equal(nil, 0.9), Y: .center(nil), H: .fixed(50))
     }
     
-    @objc fileprivate func handleMoreTapped() {
+    @objc fileprivate func handleMoreTapped(sender: MoreBtn) {
         print("more tapped ...")
-        let moreVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoreRootVC") as! UINavigationController
+        let genreID = sender.genreId
+        let genreName = sender.genreName
+
+        let moreVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoreVC") as! MoreVC
         moreVC.modalPresentationStyle = .fullScreen
-        self.navigationController?.present(moreVC, animated: true, completion: nil)
+        moreVC.genreID = genreID
+        moreVC.genreName = genreName
+        moreVC.categoryName = CategoryName.plays
+        self.navigationController?.pushViewController(moreVC, animated: true)
     }
 
     fileprivate func loadBannerAd() {
@@ -374,6 +377,7 @@ extension PlaysVC: UITableViewDelegate {
            let filteredVideos = plays.filter { $0?.genreId == genre?._id }
            sectionLabel.text = filteredVideos.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
            moreBtn.genreId = genre?._id
+           moreBtn.genreName = Language.currentLanguage == Lang.english.rawValue ? genre?.en_name : genre?.ar_name
            moreBtn.isHidden = filteredVideos.count < 4 ? true : false
        }
        return headerView
@@ -485,28 +489,31 @@ extension PlaysVC: UICollectionViewDelegate {
             let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
             detailsVC.modalPresentationStyle = .fullScreen
             detailsVC.video = video
+            detailsVC.watchableType = .play
             self.navigationController?.pushViewController(detailsVC, animated: true)
-        }
-        
-        switch sectionIndex {
-        case 0:
-            print("section : \(StringsKeys.popular.localized) => \(indexPath.item)")
-            let video = plays[indexPath.item]
-            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
-            detailsVC.modalPresentationStyle = .fullScreen
-            detailsVC.video = video
-            self.navigationController?.pushViewController(detailsVC, animated: true)
-        default:
-            // other genre from api
-            let genre = genres[collectionView.tag - 1]
-            let filteredVideos = plays.filter { $0?.genreId == genre?._id }
-            print("genre : \(genre?.en_name ?? "") => \(indexPath.item)")
+        } else {
+            switch sectionIndex {
+            case 0:
+                print("section : \(StringsKeys.popular.localized) => \(indexPath.item)")
+                let video = plays[indexPath.item]
+                let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+                detailsVC.modalPresentationStyle = .fullScreen
+                detailsVC.video = video
+                detailsVC.watchableType = .play
+                self.navigationController?.pushViewController(detailsVC, animated: true)
+            default:
+                // other genre from api
+                let genre = genres[collectionView.tag - 1]
+                let filteredVideos = plays.filter { $0?.genreId == genre?._id }
+                print("genre : \(genre?.en_name ?? "") => \(indexPath.item)")
 
-            let video = filteredVideos[indexPath.item]
-            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
-            detailsVC.modalPresentationStyle = .fullScreen
-            detailsVC.video = video
-            self.navigationController?.pushViewController(detailsVC, animated: true)
+                let video = filteredVideos[indexPath.item]
+                let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+                detailsVC.modalPresentationStyle = .fullScreen
+                detailsVC.video = video
+                detailsVC.watchableType = .play
+                self.navigationController?.pushViewController(detailsVC, animated: true)
+            }
         }
     }
 }

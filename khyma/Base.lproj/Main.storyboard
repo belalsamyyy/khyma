@@ -155,12 +155,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OKp-Ff-Bsv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="970" y="-162"/>
+            <point key="canvasLocation" x="-228" y="518"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Main Nav Controller-->
         <scene sceneID="Ovr-gH-Ubg">
             <objects>
-                <navigationController storyboardIdentifier="rootVC" automaticallyAdjustsScrollViewInsets="NO" id="xK5-fo-vcw" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="rootVC" automaticallyAdjustsScrollViewInsets="NO" id="xK5-fo-vcw" customClass="MainNavController" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="6OR-sy-Tw1">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -370,7 +370,7 @@
         <!--Home-->
         <scene sceneID="Zrt-Xe-hoD">
             <objects>
-                <navigationController storyboardIdentifier="MoviesRootVC" automaticallyAdjustsScrollViewInsets="NO" id="7Iq-zG-FiP" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="MoviesRootVC" automaticallyAdjustsScrollViewInsets="NO" id="7Iq-zG-FiP" customClass="MainNavController" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Home" image="icon-home" id="yIS-lx-Ft2"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="W1t-7G-c0Z">
@@ -470,18 +470,19 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="CRv-5e-Ybc"/>
                     <connections>
                         <outlet property="seasonsTableView" destination="TCG-XB-3rs" id="yjh-lQ-CM1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Eby-Rs-vUr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6372" y="1333"/>
+            <point key="canvasLocation" x="7393" y="1333"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Main Nav Controller-->
         <scene sceneID="wLz-Bk-it0">
             <objects>
-                <navigationController storyboardIdentifier="SeriesRootVC" automaticallyAdjustsScrollViewInsets="NO" id="PvO-ef-WZE" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="SeriesRootVC" automaticallyAdjustsScrollViewInsets="NO" id="PvO-ef-WZE" customClass="MainNavController" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="RPr-cQ-3Jy">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -560,10 +561,10 @@
             </objects>
             <point key="canvasLocation" x="5255" y="2074"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Main Nav Controller-->
         <scene sceneID="t0z-bk-cWj">
             <objects>
-                <navigationController storyboardIdentifier="PlaysRootVC" automaticallyAdjustsScrollViewInsets="NO" id="jF1-lF-5fU" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="PlaysRootVC" automaticallyAdjustsScrollViewInsets="NO" id="jF1-lF-5fU" customClass="MainNavController" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="fwL-Yh-goN">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -578,10 +579,10 @@
             </objects>
             <point key="canvasLocation" x="4341" y="2073"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Main Nav Controller-->
         <scene sceneID="OfX-fE-TEE">
             <objects>
-                <navigationController storyboardIdentifier="MoreRootVC" automaticallyAdjustsScrollViewInsets="NO" id="Lwm-65-xDj" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="MoreRootVC" automaticallyAdjustsScrollViewInsets="NO" id="Lwm-65-xDj" customClass="MainNavController" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="DAz-9Y-0vg">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -595,6 +596,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yKE-qS-ggn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1677" y="2104"/>
+        </scene>
+        <!--Main Nav Controller-->
+        <scene sceneID="LBj-iQ-lA8">
+            <objects>
+                <navigationController storyboardIdentifier="EpisodesRootVC" automaticallyAdjustsScrollViewInsets="NO" id="oLg-g3-Nmc" customClass="MainNavController" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Tek-nL-HpB">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="qwB-13-Eim" kind="relationship" relationship="rootViewController" id="rTl-CS-DZ7"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8KI-cw-on6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6588" y="1333"/>
         </scene>
     </scenes>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

@@ -18,7 +18,7 @@ class EpisodesVC: UIViewController {
     
     var series: Watchable?
     var seasons = [Season?]()
-    var episodes = [String: [Watchable?]]()
+    var episodes = [String: [Episode?]]()
     
     
     //MARK: - constants
@@ -254,6 +254,7 @@ extension EpisodesVC: UICollectionViewDelegate {
         detailsVC.video = episodes?[indexPath.item]
         detailsVC.seasonName = Language.currentLanguage == Lang.english.rawValue ? season?.en_name : season?.ar_name
         detailsVC.seriesName = Language.currentLanguage == Lang.english.rawValue ? series?.en_name : series?.ar_name
+        detailsVC.watchableType = .episode
         self.navigationController?.pushViewController(detailsVC, animated: true)
     }
 }

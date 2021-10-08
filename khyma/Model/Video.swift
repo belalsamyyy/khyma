@@ -9,6 +9,11 @@ import Foundation
 import UIKit
 import SimpleAPI
 
+
+typealias Movie = Video
+typealias Play = Video
+typealias Episode = Video
+
 class Video: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
     // API
     static var endpoint: String!
@@ -24,17 +29,14 @@ class Video: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
     var posterImageUrl: String?
     var youtubeUrl: String?
     
+    var genre: Genre?
+    var category: Category?
+    
     // just to confirm watchable
     var seasons: [Season]?
     
     // NSSecureCoding
     static var supportsSecureCoding: Bool = true
-    
-//    init(name: String, posterUrl: String, youtubeUrl: String) {
-//        self.name = Language.currentLanguage == Lang.english.rawValue ? en_name : ar_name
-//        self.youtubeUrl = youtubeUrl
-//        self.posterImageUrl = posterUrl
-//    }
     
     func encode(with coder: NSCoder) {
         // encode Movie object into data
@@ -46,6 +48,9 @@ class Video: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
         coder.encode(posterImageUrl ?? "", forKey: "posterImageUrl")
         coder.encode(youtubeUrl ?? "", forKey: "youtubeUrl")
         coder.encode(seasons ?? [], forKey: "seasons")
+        //
+        //coder.encode(genre ?? "", forKey: "genre")
+        //coder.encode(category ?? [], forKey: "category")
     }
     
     required init?(coder: NSCoder) {
@@ -58,6 +63,10 @@ class Video: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
         self.posterImageUrl = coder.decodeObject(forKey: "posterImageUrl") as? String
         self.youtubeUrl = coder.decodeObject(forKey: "youtubeUrl") as? String
         self.seasons = coder.decodeObject(forKey: "seasons") as? [Season]
+        //
+        //self.genre = coder.decodeObject(forKey: "genre") as? Genre
+        //self.category = coder.decodeObject(forKey: "category") as? Category
+
     }
     
 }

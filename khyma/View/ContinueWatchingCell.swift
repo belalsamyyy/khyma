@@ -16,7 +16,10 @@ class ContinueWatchingCell: UICollectionViewCell {
     
     var video: Watchable? {
          didSet {
-             myLabel.text = Language.currentLanguage == Lang.english.rawValue ? video?.en_name : video?.ar_name
+             let name = UserDefaultsManager.shared.def.object(forKey: "\(video?._id ?? "") name") as? String
+             myLabel.text = name
+             // myLabel.text = Language.currentLanguage == Lang.english.rawValue ? video?.en_name : video?.ar_name
+             
              let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: video?._id ?? "") as! Float
              let duration = UserDefaultsManager.shared.def.object(forKey: "\(video?._id ?? "") duration") as! Float
              let (hours, minutes, seconds) = Int(continueWatchingAt).hoursAndMinutesAndSeconds()
@@ -31,7 +34,8 @@ class ContinueWatchingCell: UICollectionViewCell {
          
          self.backgroundColor = Color.secondary
          
-         myLabel.layout(XW: .leadingAndCenter(nil, 0), Y: .center(nil), H: .fixed(50))
+         myLabel.layout(XW: .leadingAndCenter(nil, 0), Y:.top(nil, 45), H: .wrapContent)
+         myLabel.numberOfLines = 0
          myLabel.textColor = .white
          myLabel.textAlignment = .center
          myLabel.font = UIFont.systemFont(ofSize: 25)

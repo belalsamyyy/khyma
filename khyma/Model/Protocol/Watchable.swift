@@ -8,6 +8,12 @@
 import Foundation
 import UIKit
 
+enum WatchableType {
+    case movie
+    case play
+    case episode
+}
+
 protocol Watchable {
     var _id: String? { get set }
     var categoryId: String? { get set }
@@ -18,6 +24,7 @@ protocol Watchable {
     var youtubeUrl: String? { get set }
     var seasons: [Season]? { get set }
     
-//    var posterImageUrl: String? { get set }
-//    var youtubeUrl: String? { get set }
+    //var genre: Genre? { get set }
+    //var category: Category? { get set }
+
 }

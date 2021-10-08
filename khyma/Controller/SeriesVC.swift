@@ -81,8 +81,9 @@ class SeriesVC: UIViewController {
         // check connection
         checkConnection()
         seriesSliderCollectionView.reloadData()
-        addCustomNavBar()
         startTimer()
+
+        addCustomNavBar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -136,7 +137,9 @@ class SeriesVC: UIViewController {
             case .success(let data):
                 self?.series = data
                 DispatchQueue.main.async {
+                    self?.pageView.numberOfPages = self?.series.count ?? 0
                     self?.seriesSliderCollectionView.reloadData()
+                    self?.startTimer()
                     self?.seriesTableView.reloadData()
                 }
             case .failure(let error):
@@ -175,9 +178,7 @@ class SeriesVC: UIViewController {
         pageView.layout(X: .center(nil), W: .equal(nil, 1), Y: .top(seriesSliderCollectionView, -75), H: .fixed(50))
         pageView.numberOfPages = series.count
         pageView.currentPage = 0
-        
-        startTimer()
-        
+                
         // table view
         seriesTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomBothToSafeArea(seriesSliderCollectionView, 0, nil, 0))
         seriesTableView.backgroundColor = Color.primary
@@ -190,17 +191,15 @@ class SeriesVC: UIViewController {
     
     fileprivate func startTimer() {
         // timer
-        if counter < series.count {
             timerState = .playing
             self.sliderTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.timerTick), userInfo: nil, repeats: true)
-        }
     }
     
     @objc func timerTick() {
         if timerState == .playing {
             slideImage()
         } else if timerState == .delaying {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) { self.timerState = .playing } // delay slide image after 10 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { self.timerState = .playing }
         } else {
             endTimer()
         }
@@ -244,11 +243,17 @@ class SeriesVC: UIViewController {
         customNavBar.layout(X: .center(nil), W: .equal(nil, 0.9), Y: .center(nil), H: .fixed(50))
     }
 
-    @objc fileprivate func handleMoreTapped() {
+    @objc fileprivate func handleMoreTapped(sender: MoreBtn) {
         print("more tapped ...")
-        let moreVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoreRootVC") as! UINavigationController
+        let genreID = sender.genreId
+        let genreName = sender.genreName
+
+        let moreVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoreVC") as! MoreVC
         moreVC.modalPresentationStyle = .fullScreen
-        self.navigationController?.present(moreVC, animated: true, completion: nil)
+        moreVC.genreID = genreID
+        moreVC.genreName = genreName
+        moreVC.categoryName = CategoryName.series
+        self.navigationController?.pushViewController(moreVC, animated: true)
     }
     
     fileprivate func loadBannerAd() {
@@ -473,32 +478,32 @@ extension SeriesVC: UICollectionViewDelegate {
             let episodesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "EpisodesVC") as! EpisodesVC
             episodesVC.modalPresentationStyle = .fullScreen
             episodesVC.series = series
-            episodesVC.navigationController?.navigationBar.topItem?.title = Language.currentLanguage == Lang.english.rawValue ? series?.en_name : series?.ar_name
+            guard navigationController?.topViewController == self else { return }
             self.navigationController?.pushViewController(episodesVC, animated: true)
-        }
-        
-        switch sectionIndex {
-        case 0:
-            print("section : \(StringsKeys.popular.localized) => \(indexPath.item)")
-            let series = series[indexPath.item]
-            let episodesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "EpisodesVC") as! EpisodesVC
-            episodesVC.modalPresentationStyle = .fullScreen
-            episodesVC.series = series
-            episodesVC.navigationController?.navigationBar.topItem?.title = Language.currentLanguage == Lang.english.rawValue ? series?.en_name : series?.ar_name
-            self.navigationController?.pushViewController(episodesVC, animated: true)
-            
-        default:
-            // other genre from api
-            let genre = genres[collectionView.tag - 1]
-            let filteredVideos = series.filter { $0?.genreId == genre?._id }
-            print("genre : \(genre?.en_name ?? "") => \(indexPath.item)")
+        } else {
+            switch sectionIndex {
+            case 0:
+                print("section : \(StringsKeys.popular.localized) => \(indexPath.item)")
+                let series = series[indexPath.item]
+                let episodesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "EpisodesVC") as! EpisodesVC
+                episodesVC.modalPresentationStyle = .fullScreen
+                episodesVC.series = series
+                guard navigationController?.topViewController == self else { return }
+                self.navigationController?.pushViewController(episodesVC, animated: true)
+                
+            default:
+                // other genre from api
+                let genre = genres[collectionView.tag - 1]
+                let filteredVideos = series.filter { $0?.genreId == genre?._id }
+                print("genre : \(genre?.en_name ?? "") => \(indexPath.item)")
 
-            let series = filteredVideos[indexPath.item]
-            let episodesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "EpisodesVC") as! EpisodesVC
-            episodesVC.modalPresentationStyle = .fullScreen
-            episodesVC.series = series
-            episodesVC.navigationController?.navigationBar.topItem?.title = Language.currentLanguage == Lang.english.rawValue ? series?.en_name : series?.ar_name
-            self.navigationController?.pushViewController(episodesVC, animated: true)
+                let series = filteredVideos[indexPath.item]
+                let episodesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "EpisodesVC") as! EpisodesVC
+                episodesVC.modalPresentationStyle = .fullScreen
+                episodesVC.series = series
+                guard navigationController?.topViewController == self else { return }
+                self.navigationController?.pushViewController(episodesVC, animated: true)
+            }
         }
     }
 }

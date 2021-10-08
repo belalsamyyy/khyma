@@ -12,6 +12,12 @@ import UIKit
 
 let BASE_URL = "https://polar-plateau-31663.herokuapp.com"
 
+struct CategoryName {
+    static let movies = "movies"
+    static let series = "series"
+    static let plays = "plays"
+}
+
 struct CategoryID {
     static let movies = "615c27d1920678e0b8e502e0"
     static let series = "615c520085fd16ab63fc3e8d"

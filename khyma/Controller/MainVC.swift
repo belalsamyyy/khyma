@@ -46,7 +46,7 @@ class MainVC: UIViewController {
     
     // for every ( movies / plays ) sub category
     var genres = [Genre?]()
-    var videos = [Watchable?]()
+    var videos = [Video?]()
     var continueWatching = Defaults.savedContinueWatching()
     
     //MARK: - lifecycle
@@ -76,13 +76,12 @@ class MainVC: UIViewController {
         
         continueWatching = Defaults.savedContinueWatching()
         sliderCollectionView.reloadData()
+        startTimer()
         
         //mainTableViewHeight.constant = continueWatching.count == 0 ? CGFloat(genres.count * 450) : CGFloat(genres.count * 450) + 250
         mainTableView.reloadData()
-        
         self.navigationController?.navigationBar.topItem?.title = ""
         addCustomNavBar()
-        startTimer()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -124,7 +123,9 @@ class MainVC: UIViewController {
             case .success(let data):
                 self?.videos = data
                 DispatchQueue.main.async {
+                    self?.pageView.numberOfPages = self?.videos.count ?? 0
                     self?.sliderCollectionView.reloadData()
+                    self?.startTimer()
                     self?.mainTableView.reloadData()
                 }
             case .failure(let error):
@@ -174,11 +175,10 @@ class MainVC: UIViewController {
 
         // pager
         pageView.layout(X: .center(nil), W: .equal(nil, 1), Y: .top(sliderCollectionView, -75), H: .fixed(50))
-        pageView.numberOfPages = videos.count
+        // pageView.numberOfPages = videos.count
         pageView.currentPage = 0
-        
-        startTimer()
-        
+        pageView.currentPageIndicatorTintColor = .white
+                
         // table view
         mainTableView.backgroundColor = Color.primary
         mainTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomBothToSafeArea(sliderCollectionView, 0, nil, 0))
@@ -215,7 +215,7 @@ class MainVC: UIViewController {
         if timerState == .playing {
             slideImage()
         } else if timerState == .delaying {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) { self.timerState = .playing } // delay slide image after 10 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { self.timerState = .playing } 
         } else {
             endTimer()
         }
@@ -255,7 +255,6 @@ class MainVC: UIViewController {
         timerState = .playing
     }
     
-    
     fileprivate func addCustomNavBar() {
         customNavBar.delegate = self // custom delegation pattern
         self.navigationController?.setNavigationBarHidden(true, animated: true)
@@ -265,16 +264,16 @@ class MainVC: UIViewController {
     }
     
     @objc fileprivate func handleMoreTapped(sender: MoreBtn) {
-        
-        let moreRootVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoreRootVC") as! UINavigationController
-        // ========================================================================
+        print("more tapped ...")
+        let genreID = sender.genreId
+        let genreName = sender.genreName
+
         let moreVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoreVC") as! MoreVC
-        print("genre id from main vc is \(sender.genreId ?? "no id")")
-        guard let genreID = sender.genreId else { return }
+        moreVC.modalPresentationStyle = .fullScreen
         moreVC.genreID = genreID
-        // ========================================================================
-        moreRootVC.modalPresentationStyle = .fullScreen
-        self.navigationController?.present(moreRootVC, animated: true, completion: nil)
+        moreVC.genreName = genreName
+        moreVC.categoryName = CategoryName.movies
+        self.navigationController?.pushViewController(moreVC, animated: true)
     }
 
     
@@ -294,21 +293,21 @@ extension MainVC: MainNavBarDelegate {
     
     func handleMoviesTapped() {
         print("movies tapped here from main vc")
-        let moviesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoviesRootVC") as! UINavigationController
+        let moviesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoviesRootVC") as! MainNavController
         moviesVC.modalPresentationStyle = .fullScreen
         self.navigationController?.present(moviesVC, animated: true, completion: nil)
     }
     
     func handleSeriesTapped() {
         print("series tapped here from main vc")
-        let seriesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "SeriesRootVC") as! UINavigationController
+        let seriesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "SeriesRootVC") as! MainNavController
         seriesVC.modalPresentationStyle = .fullScreen
         self.navigationController?.present(seriesVC, animated: true, completion: nil)
     }
     
     func handlePlaysTapped() {
         print("plays tapped here from main vc")
-        let playsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "PlaysRootVC") as! UINavigationController
+        let playsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "PlaysRootVC") as! MainNavController
         playsVC.modalPresentationStyle = .fullScreen
         self.navigationController?.present(playsVC, animated: true, completion: nil)
     }
@@ -404,12 +403,13 @@ extension MainVC: UITableViewDelegate {
            moreBtn.isHidden = true
        case 1:
            sectionLabel.text = videos.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
-           moreBtn.isHidden = videos.count < 4 ? true : false
+           moreBtn.isHidden = true
        default:
            let genre = genres[section - 2]
            let filteredVideos = videos.filter { $0?.genreId == genre?._id }
            sectionLabel.text = filteredVideos.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
            moreBtn.genreId = genre?._id
+           moreBtn.genreName = Language.currentLanguage == Lang.english.rawValue ? genre?.en_name : genre?.ar_name
            moreBtn.isHidden = filteredVideos.count < 4 ? true : false
        }
        return headerView
@@ -533,40 +533,46 @@ extension MainVC: UICollectionViewDelegate {
             let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
             detailsVC.modalPresentationStyle = .fullScreen
             detailsVC.video = video
+            detailsVC.watchableType = .movie
             self.navigationController?.pushViewController(detailsVC, animated: true)
-        }
-        
-        switch sectionIndex {
-        case 0:
-            // continue watching
-            print("section : \(StringsKeys.continueWatching.localized) => \(indexPath.item)")
-            if continueWatching.count != 0 {
-                let video = continueWatching[indexPath.item]
+        } else {
+            switch sectionIndex {
+            case 0:
+                // continue watching
+                print("section : \(StringsKeys.continueWatching.localized) => \(indexPath.item)")
+                if continueWatching.count != 0 {
+                    let video = continueWatching[indexPath.item]
+                    let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+                    detailsVC.modalPresentationStyle = .fullScreen
+                    detailsVC.video = video
+                    detailsVC.watchableType = .movie
+                    self.navigationController?.pushViewController(detailsVC, animated: true)
+                }
+                
+            case 1:
+                print("section : \(StringsKeys.popular.localized) => \(indexPath.item)")
+                let video = videos[indexPath.item]
                 let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
                 detailsVC.modalPresentationStyle = .fullScreen
                 detailsVC.video = video
+                detailsVC.watchableType = .movie
+                self.navigationController?.pushViewController(detailsVC, animated: true)
+            default:
+                // other genre from api
+                let genre = genres[collectionView.tag - 2]
+                let filteredVideos = videos.filter { $0?.genreId == genre?._id }
+                print("genre : \(genre?.en_name ?? "") => \(indexPath.item)")
+
+                let video = filteredVideos[indexPath.item]
+                let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+                detailsVC.modalPresentationStyle = .fullScreen
+                detailsVC.video = video
+                detailsVC.watchableType = .movie
                 self.navigationController?.pushViewController(detailsVC, animated: true)
             }
-            
-        case 1:
-            print("section : \(StringsKeys.popular.localized) => \(indexPath.item)")
-            let video = videos[indexPath.item]
-            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
-            detailsVC.modalPresentationStyle = .fullScreen
-            detailsVC.video = video
-            self.navigationController?.pushViewController(detailsVC, animated: true)
-        default:
-            // other genre from api
-            let genre = genres[collectionView.tag - 2]
-            let filteredVideos = videos.filter { $0?.genreId == genre?._id }
-            print("genre : \(genre?.en_name ?? "") => \(indexPath.item)")
-
-            let video = filteredVideos[indexPath.item]
-            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
-            detailsVC.modalPresentationStyle = .fullScreen
-            detailsVC.video = video
-            self.navigationController?.pushViewController(detailsVC, animated: true)
         }
+        
+
     }
 }
 
