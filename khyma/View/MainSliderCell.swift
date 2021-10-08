@@ -18,7 +18,7 @@ class MainSliderCell: UICollectionViewCell {
     var video: Watchable? {
        didSet {
            posterImageView.sd_setImage(with: URL(string: "\(Endpoints.image)\(video?.posterImageUrl ?? "")"),
-                                       placeholderImage: UIImage(named: "poster-movie-2"),
+                                       placeholderImage: UIImage(named: "poster-movie-1"),
                                        options: .progressiveLoad,
                                        context: nil)
            

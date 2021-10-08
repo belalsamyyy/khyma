@@ -17,8 +17,6 @@ class SearchVC: UIViewController {
     var filterBtn = UIButton(type: .custom)
     
     //MARK: - variables
-    
-    var filteredVideos = [Video?]()
     var categoryName = CategoryName.movies
     
     //MARK: - constants
@@ -36,11 +34,7 @@ class SearchVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
     }
-    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        self.navigationController?.navigationBar.topItem?.title = ""
-//    }
-    
+
     override func viewDidLayoutSubviews() {
         setupNavBar()
         searchBar.isHidden = false
@@ -56,7 +50,7 @@ class SearchVC: UIViewController {
         
         // filter Button
         view.addSubview(filterBtn)
-        filterBtn.layout(XW: .leadingAndTrailingAndWidth(searchBar, 0, nil, 7, .fixed(30)), Y: .topToSafeArea(nil, 20), H: .fixed(35))
+        filterBtn.layout(X: .trailing(nil, 7), W: .fixed(30), Y: .topToSafeArea(nil, 20), H: .fixed(35))
         
         let image = UIImage(named: "icon-filter")?.withRenderingMode(.alwaysTemplate)
         filterBtn.setImage(image, for: .normal)
@@ -126,7 +120,7 @@ class SearchVC: UIViewController {
             case .success(let data):
                 self?.videos = data
                 data.forEach { video in
-                    print(video?.en_name ?? "")
+                    print(Language.currentLanguage == Lang.english.rawValue ? video?.en_name ?? "" : video?.ar_name ?? "")
                 }
                 DispatchQueue.main.async {
                     self?.searchCollectionView.reloadData()
@@ -155,19 +149,12 @@ extension SearchVC: UISearchBarDelegate {
             self.getVideos(categoryName: self.categoryName , nameEn: searchText, nameAr: "")
             searchCollectionView.reloadData()
         } else {
-            self.getVideos(categoryName: self.categoryName , nameEn: "", nameAr: searchText)
+            // allow arabic characters in urls
+            let arabicSearchText = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+            self.getVideos(categoryName: self.categoryName , nameEn: "", nameAr: arabicSearchText)
             searchCollectionView.reloadData()
         }
-        
-//        if searchText.isEmpty {
-//            getVideos(categoryName: categoryName , nameEn: "", nameAr: "")
-//            filteredVideos = videos
-//        }else {
-//            filteredVideos = self.videos.filter { (movie) -> Bool in
-//                return Language.currentLanguage == Lang.english.rawValue ? (movie?.en_name?.lowercased().contains(searchText.lowercased()))! : (movie?.ar_name?.lowercased().contains(searchText.lowercased()))!
-//            }
-//        }
-//        searchCollectionView.reloadData()
+
     }
 }
 
@@ -183,13 +170,13 @@ extension SearchVC: UICollectionViewDataSource {
     
     // item
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return filteredVideos.count == 0 ? videos.count : filteredVideos.count
+        return videos.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeue(indexPath: indexPath) as MovieCell
         cell.backgroundColor = Color.secondary
-        cell.video = filteredVideos.count == 0 ? videos[indexPath.item] : filteredVideos[indexPath.item]
+        cell.video = videos[indexPath.item]
         return cell
     }
 }
@@ -202,7 +189,7 @@ extension SearchVC: UICollectionViewDelegate {
         searchBar.isHidden = true
         searchBar.resignFirstResponder()
         
-        let video = filteredVideos.count == 0 ? videos[indexPath.item] : filteredVideos[indexPath.item]
+        let video = videos[indexPath.item] 
         let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
         detailsVC.modalPresentationStyle = .fullScreen
         detailsVC.video = video

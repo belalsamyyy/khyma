@@ -112,7 +112,7 @@ struct UserDefaultsManager {
         do {
             guard let savedVideossData = UserDefaults.standard.data(forKey: UserDefaultsKeys.continueWatching) else { return [] }
             guard let savedVideos = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(savedVideossData) as? [Watchable?] else { return [] }
-            return savedVideos
+            return savedVideos.reversed()
         } catch {
             return []
         }
