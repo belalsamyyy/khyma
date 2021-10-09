@@ -154,7 +154,6 @@ extension myListVC: UICollectionViewDelegate {
             let episodesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "EpisodesVC") as! EpisodesVC
             episodesVC.modalPresentationStyle = .fullScreen
             episodesVC.series = series
-            episodesVC.navigationController?.navigationBar.topItem?.title = series?.en_name
             self.navigationController?.pushViewController(episodesVC, animated: true)
             
         } else {

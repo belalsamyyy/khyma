@@ -22,6 +22,7 @@ class SearchVC: UIViewController {
     //MARK: - constants
     
     var videos = [Video?]()
+    var series = [Series?]()
                 
     //MARK: - lifecycle
     
@@ -91,7 +92,7 @@ class SearchVC: UIViewController {
         alertController.addAction(UIAlertAction(title: StringsKeys.series.localized, style: .default, handler: { (_) in
             print("filter by series")
             self.categoryName = CategoryName.series
-            self.getVideos(categoryName: self.categoryName , nameEn: "", nameAr: "")
+            self.getSeries(nameEn: "", nameAr: "")
             self.searchBar.placeholder = "\(StringsKeys.searchPlaceholder.localized)\(StringsKeys.series.localized) ..."
             
         }))
@@ -133,6 +134,28 @@ class SearchVC: UIViewController {
     }
     
     
+    fileprivate func getSeries(nameEn: String, nameAr: String) {
+        Series.endpoint = "\(BASE_URL)/api/series?nameEn=\(nameEn)&nameAr=\(nameAr)"
+        API<Series>.list { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.series = Array(data.prefix(20))
+                data.forEach { serie in
+                    print(Language.currentLanguage == Lang.english.rawValue ? serie?.en_name ?? "" : serie?.ar_name ?? "")
+                }
+                DispatchQueue.main.async {
+                    self?.searchCollectionView.reloadData()
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    
+    
+    
     //MARK: - actions
     
 }
@@ -170,13 +193,13 @@ extension SearchVC: UICollectionViewDataSource {
     
     // item
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return videos.count
+        return categoryName == CategoryName.series ? series.count : videos.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeue(indexPath: indexPath) as MovieCell
         cell.backgroundColor = Color.secondary
-        cell.video = videos[indexPath.item]
+        cell.video = categoryName == CategoryName.series ? series[indexPath.item] : videos[indexPath.item]
         return cell
     }
 }
@@ -188,12 +211,29 @@ extension SearchVC: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         searchBar.isHidden = true
         searchBar.resignFirstResponder()
+//
+//        let video = videos[indexPath.item]
+//        let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+//        detailsVC.modalPresentationStyle = .fullScreen
+//        detailsVC.video = video
+//        self.navigationController?.pushViewController(detailsVC, animated: true)
         
-        let video = videos[indexPath.item] 
-        let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
-        detailsVC.modalPresentationStyle = .fullScreen
-        detailsVC.video = video
-        self.navigationController?.pushViewController(detailsVC, animated: true)
+        
+        if categoryName == CategoryName.series {
+            // series
+            let series = series[indexPath.item]
+            let episodesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "EpisodesVC") as! EpisodesVC
+            episodesVC.modalPresentationStyle = .fullScreen
+            episodesVC.series = series
+            self.navigationController?.pushViewController(episodesVC, animated: true)
+            
+        } else {
+            let video = videos[indexPath.item]
+            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+            detailsVC.modalPresentationStyle = .fullScreen
+            detailsVC.video = video
+            self.navigationController?.pushViewController(detailsVC, animated: true)
+        }
     }
 }
 

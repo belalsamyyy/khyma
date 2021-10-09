@@ -101,7 +101,8 @@ class EpisodesVC: UIViewController {
         self.navigationController?.navigationBar.topItem?.backButtonTitle = Language.currentLanguage == Lang.english.rawValue ? series?.en_name : series?.ar_name
         self.navigationController?.navigationBar.topItem?.title = ""
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        
+        navigationItem.largeTitleDisplayMode = .never
+
         // check if we have already saved this series in my list
         let savedSeries = Defaults.savedVideos()
         let isInMyList = savedSeries.firstIndex(where: {$0?.en_name == series?.en_name}) != nil
