@@ -18,13 +18,14 @@ class DetailsVC: UIViewController {
     //MARK: - variables
     
     // video object
-    var seriesName: String?
-    var seasonName: String?
+    var series: Watchable?
+    var season: Season?
     var video: Watchable?
+   
     var watchableType: WatchableType?
+    var videoTitleTextEN: String?
+    var videoTitleTextAR: String?
 
-    var videoTitleText = ""
-    
     // The video player
     var YoutubePlayer = YTPlayerView()
     var timerState = TimerState.notStarted
@@ -116,19 +117,38 @@ class DetailsVC: UIViewController {
         view.addSubview(YoutubePlayer)
         YoutubePlayer.layout(XW :.leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(300))
         videoTitle.layout(XW: .leadingAndCenter(nil, 0), Y: .top(YoutubePlayer, 10), H: .fixed(50))
+        videoTitle.font = UIFont.boldSystemFont(ofSize: 18)
         videoTitle.textAlignment = .center
         
-        let name = UserDefaultsManager.shared.def.object(forKey: "\(video?._id ?? "") name") as? String
-        if name != nil {
-            videoTitleText = name ?? ""
-            videoTitle.text = videoTitleText
+        setupVideoTitle()
+        
+    }
+    
+    fileprivate func setupVideoTitle() {
+        // English
+        let nameEN = UserDefaultsManager.shared.def.object(forKey: "\(video?._id ?? "") nameEN") as? String
+        if nameEN != nil {
+            videoTitleTextEN = nameEN
+            videoTitle.text = videoTitleTextEN
         } else {
-            guard let videoName = Language.currentLanguage == Lang.english.rawValue ? video?.en_name : video?.ar_name else { return }
-            videoTitleText = watchableType == .episode ? "\(seriesName ?? "") - \(seasonName ?? "") - \(videoName)" : videoName
-            videoTitle.text = videoTitleText
+            let seriesNameEN = series?.en_name ?? ""
+            let seasonNameEN = season?.en_name ?? ""
+            let videoNameEN = video?.en_name ?? ""
+            videoTitleTextEN = watchableType == .episode ? "\(seriesNameEN) - \(seasonNameEN) - \(videoNameEN)" : videoNameEN
         }
-        videoTitle.font = UIFont.boldSystemFont(ofSize: 18)
-
+        
+        // Arabic
+        let nameAR = UserDefaultsManager.shared.def.object(forKey: "\(video?._id ?? "") nameAR") as? String
+        if nameAR != nil {
+            videoTitleTextAR = nameAR
+        } else {
+            let seriesNameAR = series?.ar_name ?? ""
+            let seasonNameAR = season?.ar_name ?? ""
+            let videoNameAR = video?.ar_name ?? ""
+            videoTitleTextAR = watchableType == .episode ? "\(seriesNameAR) - \(seasonNameAR) - \(videoNameAR)" : videoNameAR
+        }
+        
+        videoTitle.text = Language.currentLanguage == Lang.english.rawValue ? videoTitleTextEN : videoTitleTextAR
     }
     
     fileprivate func setupNavBar() {
@@ -144,7 +164,9 @@ class DetailsVC: UIViewController {
                 
         if isInMyList {
             // setting up our heart icon
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icon-favourite").withRenderingMode(.alwaysOriginal), style: .plain, target: nil, action: nil)
+            let heartIcon = #imageLiteral(resourceName: "icon-favourite").withRenderingMode(.alwaysTemplate)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: heartIcon, style: .plain, target: nil, action: nil)
+            
         } else {
             navigationItem.rightBarButtonItems = [
                 UIBarButtonItem(title: StringsKeys.add.localized, style: .plain, target: self, action: #selector(handleAddToMyList)),
@@ -154,19 +176,12 @@ class DetailsVC: UIViewController {
     
     @objc fileprivate func handleAddToMyList() {
         
-        
-        let alertController = UIAlertController(title: videoTitleText, message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: Language.currentLanguage == Lang.english.rawValue ? videoTitleTextEN : videoTitleTextAR, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: StringsKeys.addAlertAction.localized, style: .default, handler: { (_) in
             // add to my list ---------------------------------
-            guard var video =  self.video else { return }
-             
+            guard let video =  self.video else { return }
             do {
              var listOfVideos = Defaults.savedVideos()
-                if Language.currentLanguage == Lang.english.rawValue {
-                    video.en_name = self.videoTitleText
-                } else {
-                    video.ar_name = self.videoTitleText
-                }
                 listOfVideos.append(video)
         
              // transform movie into data
@@ -203,7 +218,8 @@ class DetailsVC: UIViewController {
                 do {
                  var listOfVideos = Defaults.savedContinueWatching()
                     listOfVideos.append(video)
-                    UserDefaultsManager.shared.def.set(videoTitleText, forKey: "\(self.video?._id ?? "") name")
+                    UserDefaultsManager.shared.def.set(videoTitleTextEN, forKey: "\(self.video?._id ?? "") nameEN")
+                    UserDefaultsManager.shared.def.set(videoTitleTextAR, forKey: "\(self.video?._id ?? "") nameAR")
 
             
                  // transform movie into data

@@ -16,9 +16,9 @@ class ContinueWatchingCell: UICollectionViewCell {
     
     var video: Watchable? {
          didSet {
-             let name = UserDefaultsManager.shared.def.object(forKey: "\(video?._id ?? "") name") as? String
-             myLabel.text = name
-             // myLabel.text = Language.currentLanguage == Lang.english.rawValue ? video?.en_name : video?.ar_name
+             let nameEN = UserDefaultsManager.shared.def.object(forKey: "\(video?._id ?? "") nameEN") as? String
+             let nameAR = UserDefaultsManager.shared.def.object(forKey: "\(video?._id ?? "") nameAR") as? String
+             myLabel.text = Language.currentLanguage == Lang.english.rawValue ? nameEN : nameAR
              
              let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: video?._id ?? "") as! Float
              let duration = UserDefaultsManager.shared.def.object(forKey: "\(video?._id ?? "") duration") as! Float

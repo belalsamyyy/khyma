@@ -15,6 +15,7 @@ class MainNavController: UINavigationController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.backgroundColor = Color.primary
+        navigationBar.tintColor = Color.text
     }
     
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {

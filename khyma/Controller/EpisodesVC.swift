@@ -108,7 +108,8 @@ class EpisodesVC: UIViewController {
         
             if isInMyList {
                 // setting up our heart icon
-                navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icon-favourite").withRenderingMode(.alwaysOriginal), style: .plain, target: nil, action: nil)
+                let heartIcon = #imageLiteral(resourceName: "icon-favourite").withRenderingMode(.alwaysTemplate)
+                navigationItem.rightBarButtonItem = UIBarButtonItem(image: heartIcon, style: .plain, target: nil, action: nil)
             } else {
                 navigationItem.rightBarButtonItems = [
                     UIBarButtonItem(title: StringsKeys.add.localized, style: .plain, target: self, action: #selector(handleAddToMyList)),
@@ -195,7 +196,7 @@ extension EpisodesVC: UITableViewDelegate {
         let sectionLabel = UILabel()
         headerView.addSubview(sectionLabel)
 
-        sectionLabel.layout(X: .leading(nil, 8), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
+        sectionLabel.layout(X: .leading(nil, 15), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
         sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
         sectionLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
         sectionLabel.textColor = Color.text
@@ -252,8 +253,8 @@ extension EpisodesVC: UICollectionViewDelegate {
         let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
         detailsVC.modalPresentationStyle = .fullScreen
         detailsVC.video = episodes?[indexPath.item]
-        detailsVC.seasonName = Language.currentLanguage == Lang.english.rawValue ? season?.en_name : season?.ar_name
-        detailsVC.seriesName = Language.currentLanguage == Lang.english.rawValue ? series?.en_name : series?.ar_name
+        detailsVC.series = series
+        detailsVC.season = season
         detailsVC.watchableType = .episode
         self.navigationController?.pushViewController(detailsVC, animated: true)
     }

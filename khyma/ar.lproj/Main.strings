@@ -2,23 +2,14 @@
 /* Class = "UITabBarItem"; title = "Settings"; ObjectID = "Cuf-9g-ue7"; */
 "Cuf-9g-ue7.title" = "الاعدادات";
 
-/* Class = "UILabel"; text = "Label"; ObjectID = "DlJ-hk-KgA"; */
-"DlJ-hk-KgA.text" = "Label";
-
-/* Class = "UIButton"; normalTitle = "Main"; ObjectID = "Ds7-RS-vM1"; */
-"Ds7-RS-vM1.normalTitle" = "Main";
-
 /* Class = "UITabBarItem"; title = "Home"; ObjectID = "JT5-6n-OMf"; */
 "JT5-6n-OMf.title" = "الرئيسية";
 
 /* Class = "UITabBarItem"; title = "Search"; ObjectID = "XZ5-1I-7kj"; */
 "XZ5-1I-7kj.title" = "البحث";
 
-/* Class = "UIButton"; normalTitle = "Start"; ObjectID = "YBn-21-Js5"; */
-"YBn-21-Js5.normalTitle" = "Start";
-
 /* Class = "UILabel"; text = "Time remaining: 00:00:00"; ObjectID = "ee6-dT-MfI"; */
-"ee6-dT-MfI.text" = "Time remaining: 00:00:00";
+"ee6-dT-MfI.text" = "عنوان الفيديو";
 
 /* Class = "UITabBarItem"; title = "My List"; ObjectID = "p7g-5t-HAw"; */
 "p7g-5t-HAw.title" = "قائمتي";

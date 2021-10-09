@@ -59,7 +59,7 @@ class NoConnectionVC: UIViewController {
                    print("Internet connection is on.")
                    DispatchQueue.main.async {
                        self?.noConnectionImage.isHidden =  true
-                       self?.gradientLayer = self?.view.fill(gradient: [.color(.green), .color(.clear)], locations: [0, 0.03], opacity: 1) ?? CAGradientLayer()
+                       self?.gradientLayer = self?.view.fill(gradient: [.color(.green), .color(.clear)], locations: [0, 0.06], opacity: 1) ?? CAGradientLayer()
                        self?.dismiss(animated: true)
                    }
                    
@@ -67,7 +67,7 @@ class NoConnectionVC: UIViewController {
                    print("There's no internet connection.")
                    DispatchQueue.main.async {
                        self?.noConnectionImage.isHidden =  false
-                       self?.gradientLayer = self?.view.fill(gradient: [.color(.red), .color(.clear)], locations: [0, 0.03], opacity: 1) ?? CAGradientLayer()
+                       self?.gradientLayer = self?.view.fill(gradient: [.color(.red), .color(.clear)], locations: [0, 0.06], opacity: 1) ?? CAGradientLayer()
                    }
                }
             }
