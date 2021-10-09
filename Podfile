@@ -11,8 +11,7 @@ target 'khyma' do
   pod 'DesignX'
   pod 'SimpleAPI'
   pod 'SDWebImage'
-
-
+  
   target 'khymaTests' do
     inherit! :search_paths
     # Pods for testing

@@ -6,9 +6,9 @@
 //
 
 import Network
+import UIKit
 import DesignX
 import SimpleAPI
-import UIKit
 
 class MainVC: UIViewController {
 
@@ -47,6 +47,7 @@ class MainVC: UIViewController {
     // for every ( movies / plays ) sub category
     var genres = [Genre?]()
     var videos = [Video?]()
+    var sliderVideos = [Video?]()
     var continueWatching = Defaults.savedContinueWatching()
     
     //MARK: - lifecycle
@@ -121,9 +122,10 @@ class MainVC: UIViewController {
         API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):
-                self?.videos = data
+                self?.videos = Array(data.prefix(20))
+                self?.sliderVideos = Array(data.shuffled().prefix(5))
                 DispatchQueue.main.async {
-                    self?.pageView.numberOfPages = self?.videos.count ?? 0
+                    self?.pageView.numberOfPages = self?.sliderVideos.count ?? 0
                     self?.sliderCollectionView.reloadData()
                     self?.startTimer()
                     self?.mainTableView.reloadData()
@@ -204,7 +206,7 @@ class MainVC: UIViewController {
     
     fileprivate func startTimer() {
         // timer
-        if counter < videos.count {
+        if counter < sliderVideos.count {
             timerState = .playing
             self.sliderTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.timerTick), userInfo: nil, repeats: true)
         }
@@ -223,7 +225,7 @@ class MainVC: UIViewController {
     
     
     fileprivate func slideImage() {
-        if counter < videos.count {
+        if counter < sliderVideos.count {
             let index = IndexPath.init(item: counter, section: 0)
             self.sliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
             pageView.currentPage = counter
@@ -453,7 +455,7 @@ extension MainVC: UICollectionViewDataSource {
         let sectionIndex = collectionView.tag
         
         if collectionView == sliderCollectionView {
-            return videos.count
+            return sliderVideos.count
         }
         
         switch sectionIndex {
@@ -477,7 +479,7 @@ extension MainVC: UICollectionViewDataSource {
         if collectionView == sliderCollectionView {
             let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
             cell3.backgroundColor = Color.secondary
-            cell3.video = videos[indexPath.item]
+            cell3.video = sliderVideos[indexPath.item]
            return cell3
         }
         
@@ -529,7 +531,7 @@ extension MainVC: UICollectionViewDelegate {
         
         if collectionView == sliderCollectionView {
             // posters sliders
-            let video = videos[indexPath.item]
+            let video = sliderVideos[indexPath.item]
             let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
             detailsVC.modalPresentationStyle = .fullScreen
             detailsVC.video = video

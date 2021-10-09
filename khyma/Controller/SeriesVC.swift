@@ -56,6 +56,7 @@ class SeriesVC: UIViewController {
     // series -> seasons -> episodes
     var genres = [Genre?]()
     var series = [Series?]()
+    var sliderVideos = [Series?]()
     
     //MARK: - lifecycle
     
@@ -135,9 +136,10 @@ class SeriesVC: UIViewController {
         API<Series>.list { [weak self] result in
             switch result {
             case .success(let data):
-                self?.series = data
+                self?.series = Array(data.prefix(20))
+                self?.sliderVideos = Array(data.shuffled().prefix(5))
                 DispatchQueue.main.async {
-                    self?.pageView.numberOfPages = self?.series.count ?? 0
+                    self?.pageView.numberOfPages = self?.sliderVideos.count ?? 0
                     self?.seriesSliderCollectionView.reloadData()
                     self?.startTimer()
                     self?.seriesTableView.reloadData()
@@ -191,8 +193,10 @@ class SeriesVC: UIViewController {
     
     fileprivate func startTimer() {
         // timer
+        if counter < sliderVideos.count {
             timerState = .playing
             self.sliderTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.timerTick), userInfo: nil, repeats: true)
+        }
     }
     
     @objc func timerTick() {
@@ -206,7 +210,7 @@ class SeriesVC: UIViewController {
     }
     
     fileprivate func slideImage() {
-         if counter < series.count {
+         if counter < sliderVideos.count {
              let index = IndexPath.init(item: counter, section: 0)
              self.seriesSliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: true)
              pageView.currentPage = counter
@@ -408,7 +412,7 @@ extension SeriesVC: UICollectionViewDataSource {
         let sectionIndex = collectionView.tag
         
         if collectionView == seriesSliderCollectionView {
-            return series.count
+            return sliderVideos.count
         }
         
         switch sectionIndex {
@@ -429,7 +433,7 @@ extension SeriesVC: UICollectionViewDataSource {
         if collectionView == seriesSliderCollectionView {
             let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
             cell3.backgroundColor = Color.secondary
-            cell3.video = series[indexPath.item]
+            cell3.video = sliderVideos[indexPath.item]
            return cell3
         }
         
@@ -474,7 +478,7 @@ extension SeriesVC: UICollectionViewDelegate {
         
         if collectionView == seriesSliderCollectionView {
             // posters sliders
-            let series = series[indexPath.item]
+            let series = sliderVideos[indexPath.item]
             let episodesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "EpisodesVC") as! EpisodesVC
             episodesVC.modalPresentationStyle = .fullScreen
             episodesVC.series = series

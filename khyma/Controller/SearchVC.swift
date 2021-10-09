@@ -118,7 +118,7 @@ class SearchVC: UIViewController {
         API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):
-                self?.videos = data
+                self?.videos = Array(data.prefix(20))
                 data.forEach { video in
                     print(Language.currentLanguage == Lang.english.rawValue ? video?.en_name ?? "" : video?.ar_name ?? "")
                 }
