@@ -376,7 +376,7 @@ extension PlaysVC: UITableViewDelegate {
        switch section {
        case 0:
            sectionLabel.text = plays.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
-           moreBtn.isHidden = plays.count < 4 ? true : false
+           moreBtn.isHidden = true
        default:
            let genre = genres[section - 1]
            let filteredVideos = plays.filter { $0?.genreId == genre?._id }

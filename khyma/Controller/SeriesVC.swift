@@ -366,7 +366,7 @@ extension SeriesVC: UITableViewDelegate {
        switch section {
        case 0:
            sectionLabel.text = series.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
-           moreBtn.isHidden = series.count < 4 ? true : false
+           moreBtn.isHidden = true
        default:
            let genre = genres[section - 1]
            let filteredVideos = series.filter { $0?.genreId == genre?._id }
