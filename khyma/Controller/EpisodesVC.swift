@@ -98,6 +98,7 @@ class EpisodesVC: UIViewController {
     }
     
     fileprivate func setupNavBar() {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationController?.navigationBar.topItem?.backButtonTitle = Language.currentLanguage == Lang.english.rawValue ? series?.en_name : series?.ar_name
         self.navigationController?.navigationBar.topItem?.title = ""
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
