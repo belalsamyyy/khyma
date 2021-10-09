@@ -48,6 +48,7 @@ struct Endpoints {
 }
 
 struct UserDefaultsKeys {
+    static let firstTime = "firstTime"
     static let language = "language"
     static let deviceID = "deviceID"
     static let coins = "coins"
@@ -107,7 +108,9 @@ struct StringsKeys {
     
     // My List
     static let myList = "myList"
-    static let removeAlertTitle = "removeAlertTitle"
+    static let removeFromMyList = "removeFromMyList"
+    static let removeFromContinueWatching = "removeFromContinueWatching"
+
     static let cancelAlert = "cancelAlert"
     static let removeAlertAction = "removeAlertAction"
     static let addAlertAction = "addAlertAction"

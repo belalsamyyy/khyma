@@ -122,7 +122,7 @@ class MainVC: UIViewController {
         API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):
-                self?.videos = Array(data.prefix(20))
+                self?.videos = Array(data.prefix(50))
                 self?.sliderVideos = Array(data.shuffled().prefix(5))
                 DispatchQueue.main.async {
                     self?.pageView.numberOfPages = self?.sliderVideos.count ?? 0
@@ -315,6 +315,24 @@ extension MainVC: MainNavBarDelegate {
     }
 }
 
+//MARK: - ContinueWatching Delegate
+
+extension MainVC: ContinueWatchingCellDelegate {
+    func handleLongPressed(video: Watchable) {
+        print("Captured Long Press \(video.ar_name ?? "no video")")
+        let alertTitle = StringsKeys.removeFromContinueWatching.localized
+        let alertController = UIAlertController(title: alertTitle, message: nil, preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: StringsKeys.removeAlertAction.localized, style: .destructive, handler: { (_) in
+            Defaults.deleteContinueWatching(video: video)
+            UserDefaultsManager.shared.def.removeObject(forKey: video._id ?? "")
+            self.mainTableView.reloadData()
+        }))
+
+        alertController.addAction(UIAlertAction(title: StringsKeys.cancelAlert.localized, style: .cancel ))
+        present(alertController, animated: true, completion: nil)
+    }
+}
+
 //MARK: - UIScrollView Delegate
 
 extension MainVC: UIScrollViewDelegate {
@@ -489,6 +507,7 @@ extension MainVC: UICollectionViewDataSource {
             let cell2 = collectionView.dequeue(indexPath: indexPath) as ContinueWatchingCell
             cell2.backgroundColor = Color.secondary
             cell2.video = continueWatching[indexPath.item]
+            cell2.delegate = self // so i can handle long press with delegation design pattern from main vc
             return cell2
         case 1:
             // popular
@@ -573,8 +592,6 @@ extension MainVC: UICollectionViewDelegate {
                 self.navigationController?.pushViewController(detailsVC, animated: true)
             }
         }
-        
-
     }
 }
 

@@ -37,7 +37,9 @@ searchPlaceholder = "بحـث عن ";
 
 //My List
 myList = "قائمتي";
-removeAlertTitle = "ازالة من قائمتي ؟";
+removeAlertTitle = "";
+removeFromMyList = "ازالة من قائمتي ؟";
+removeFromContinueWatching = "ازالة من استكمال المشاهدة ؟";
 cancelAlert = "الغاء";
 removeAlertAction = "ازالة";
 addAlertAction = "اضافة الي قائمتي";

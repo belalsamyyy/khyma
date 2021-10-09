@@ -38,7 +38,8 @@ searchPlaceholder = "search for ";
 
 //My List
 myList = "My List";
-removeAlertTitle = "Remove from your list ?!";
+removeFromMyList = "Remove from your list ?!";
+removeFromContinueWatching = "Remove from Continue Watching ?!";
 cancelAlert = "Cancel";
 removeAlertAction = "Remove";
 addAlertAction = "Add to my list";

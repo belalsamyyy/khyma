@@ -19,6 +19,18 @@ struct UserDefaultsManager {
     
     //MARK: - computed properties
     
+    // computed propery for backToSettings
+    var firstTime: Bool {
+        set {
+            def.set(newValue, forKey: UserDefaultsKeys.firstTime)
+        } get {
+            guard def.object(forKey: UserDefaultsKeys.firstTime) != nil else {
+                return true
+            }
+            return def.object(forKey: UserDefaultsKeys.firstTime) as! Bool
+        }
+    }
+    
     // computed propery for language
         var language: String {
             set {

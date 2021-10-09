@@ -94,7 +94,7 @@ class myListVC: UIViewController {
         let selectedMovie = self.videos[selectedIndexPath.item]
         print(selectedMovie ?? "")
         
-        let alertTitle = StringsKeys.removeAlertTitle.localized("\(selectedMovie?.en_name ?? "")")
+        let alertTitle = StringsKeys.removeFromMyList.localized
         let alertController = UIAlertController(title: alertTitle, message: nil, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: StringsKeys.removeAlertAction.localized, style: .destructive, handler: { (_) in
             

@@ -140,7 +140,7 @@ class PlaysVC: UIViewController {
         API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):
-                self?.plays = Array(data.prefix(20))
+                self?.plays = Array(data.prefix(50))
                 self?.sliderVideos = Array(data.shuffled().prefix(5))
                 DispatchQueue.main.async {
                     self?.pageView.numberOfPages = self?.sliderVideos.count ?? 0

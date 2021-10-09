@@ -8,7 +8,14 @@
 import UIKit
 import DesignX
 
+protocol ContinueWatchingCellDelegate: AnyObject {
+    func handleLongPressed(video: Watchable)
+}
+
 class ContinueWatchingCell: UICollectionViewCell {
+    
+    // delegate
+    weak var delegate: ContinueWatchingCellDelegate?
         
     @IBOutlet weak var myLabel: UILabel!
     let seekLabel = UILabel()
@@ -31,6 +38,8 @@ class ContinueWatchingCell: UICollectionViewCell {
 
      override func awakeFromNib() {
          super.awakeFromNib()
+         let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressed))
+         self.addGestureRecognizer(gesture)
          
          self.backgroundColor = Color.secondary
          
@@ -57,4 +66,7 @@ class ContinueWatchingCell: UICollectionViewCell {
      }
     
     
+    @objc func handleLongPressed(gesture: UILongPressGestureRecognizer ) {
+        delegate?.handleLongPressed(video: video!)
+    }
  }
