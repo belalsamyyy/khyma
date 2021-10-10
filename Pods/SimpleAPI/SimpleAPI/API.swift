@@ -38,13 +38,13 @@ public class API<M: Model> {
         
         switch method {
         case .get(let id):
-            endPoint = "\(M.endpoint!)/\(id)"
+            endPoint = "\(M.endpoint!)\(id)"
         case .post:
             endPoint = M.endpoint
         case .put(let id):
-            endPoint = "\(M.endpoint!)/\(id)"
+            endPoint = "\(M.endpoint!)\(id)"
         case .delete(let id):
-            endPoint = "\(M.endpoint!)/\(id)"
+            endPoint = "\(M.endpoint!)\(id)"
         }
         
         APIService.request(endPoint, method: method, params: M.params, headers: M.headers) { response in
@@ -82,7 +82,7 @@ public class API<M: Model> {
     // list
     
     public static func list(_ result: @escaping (_ result: ListResult ) -> ()) {
-        APIService.request(M.endpoint, method: .get(0), params: M.params, headers: M.headers) { response in
+        APIService.request(M.endpoint, method: .get(""), params: M.params, headers: M.headers) { response in
             switch response {
             case .success(let data):
                 

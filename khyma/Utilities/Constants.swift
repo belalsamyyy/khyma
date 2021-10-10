@@ -34,17 +34,17 @@ struct Endpoints {
     
     // movies
     static let movies = "\(BASE_URL)/api/movies?nameEn=&nameAr="
-    static let movie = "\(BASE_URL)/api/movies/" // with id
+    static let movieFromID = "\(BASE_URL)/api/movies/" // with id
     static let moviesFromGenreID = "\(BASE_URL)/api/movies/genre/" // with genre id
 
     // series
     static let series = "\(BASE_URL)/api/series?nameEn=&nameAr="
-    static let serie = "\(BASE_URL)/api/series/" // with id
+    static let serieFromID = "\(BASE_URL)/api/series/" // with id
     static let seasons = "\(BASE_URL)/api/seasons/serie/" // with series id
     
     // plays
     static let plays = "\(BASE_URL)/api/plays?nameEn=&nameAr="
-    static let play = "\(BASE_URL)/api/plays/" // with id
+    static let playFromID = "\(BASE_URL)/api/plays/" // with id
 }
 
 struct UserDefaultsKeys {

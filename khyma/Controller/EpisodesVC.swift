@@ -29,6 +29,8 @@ class EpisodesVC: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         setupViews()
+        increaseViews(id: series?._id ?? "")
+        
         print("series id is => \(series?._id ?? "id ")")
         // API
         getSeasons()
@@ -81,6 +83,13 @@ class EpisodesVC: UIViewController {
             case .failure(let error):
                 print(error)
             }
+        }
+    }
+    
+    fileprivate func increaseViews(id: String) {
+        Series.endpoint = Endpoints.serieFromID
+        API<Series>.object(.get(id)) { result in
+            // add view for current series
         }
     }
     

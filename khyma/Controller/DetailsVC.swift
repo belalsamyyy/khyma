@@ -9,6 +9,7 @@ import GoogleMobileAds
 import youtube_ios_player_helper
 import DesignX
 import UIKit
+import SimpleAPI
 
 class DetailsVC: UIViewController {
     
@@ -74,6 +75,10 @@ class DetailsVC: UIViewController {
         // setup Views
         setupViews()
         
+        if watchableType == .movie || watchableType == .play {
+            increaseViews(categoryName: watchableType?.categoryName ?? "", id: video?._id ?? "")
+        }
+        
         // youtube video player
         let youtubeID = video?.youtubeUrl?.youtubeID ?? ""
         loadYoutubeVideo(from: youtubeID)
@@ -116,12 +121,20 @@ class DetailsVC: UIViewController {
         
         view.addSubview(YoutubePlayer)
         YoutubePlayer.layout(XW :.leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(300))
-        videoTitle.layout(XW: .leadingAndCenter(nil, 0), Y: .top(YoutubePlayer, 10), H: .fixed(50))
+        videoTitle.layout(XW: .leadingAndCenter(nil, 20), Y: .top(YoutubePlayer, 10), H: .wrapContent)
+        videoTitle.numberOfLines = 0
         videoTitle.font = UIFont.boldSystemFont(ofSize: 18)
         videoTitle.textAlignment = .center
         
         setupVideoTitle()
         
+    }
+    
+    fileprivate func increaseViews(categoryName: String, id: String) {
+        Video.endpoint = "\(BASE_URL)/api/\(categoryName)/"
+        API<Video>.object(.get(id)) { result in
+            // add view for current vidoe
+        }
     }
     
     fileprivate func setupVideoTitle() {

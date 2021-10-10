@@ -35,6 +35,10 @@ class SearchVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.topItem?.title = ""
+    }
 
     override func viewDidLayoutSubviews() {
         setupNavBar()
@@ -52,8 +56,8 @@ class SearchVC: UIViewController {
         // filter Button
         view.addSubview(filterBtn)
         filterBtn.layout(X: .trailing(nil, 7), W: .fixed(30), Y: .topToSafeArea(nil, 20), H: .fixed(35))
-        
         let image = UIImage(named: "icon-filter")?.withRenderingMode(.alwaysTemplate)
+
         filterBtn.setImage(image, for: .normal)
         filterBtn.tintColor = Color.text
         filterBtn.addTarget(self, action: #selector(handleFilterBtnTapped), for: .touchUpInside)

@@ -26,7 +26,7 @@ class Video: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
     var genreId: String?
     var en_name: String?
     var ar_name: String?
-    var posterImageUrl: String?
+    var posterImageLink: String?
     var youtubeUrl: String?
     
     var genre: Genre?
@@ -45,7 +45,7 @@ class Video: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
         coder.encode(genreId ?? "", forKey: "genreId")
         coder.encode(en_name ?? "", forKey: "en_name")
         coder.encode(ar_name ?? "", forKey: "ar_name")
-        coder.encode(posterImageUrl ?? "", forKey: "posterImageUrl")
+        coder.encode(posterImageLink ?? "", forKey: "posterImageUrl")
         coder.encode(youtubeUrl ?? "", forKey: "youtubeUrl")
         coder.encode(seasons ?? [], forKey: "seasons")
         //
@@ -60,15 +60,13 @@ class Video: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
         self.genreId = coder.decodeObject(forKey: "genreId") as? String
         self.en_name = coder.decodeObject(forKey: "en_name") as? String
         self.ar_name = coder.decodeObject(forKey: "ar_name") as? String
-        self.posterImageUrl = coder.decodeObject(forKey: "posterImageUrl") as? String
+        self.posterImageLink = coder.decodeObject(forKey: "posterImageUrl") as? String
         self.youtubeUrl = coder.decodeObject(forKey: "youtubeUrl") as? String
         self.seasons = coder.decodeObject(forKey: "seasons") as? [Season]
         //
         //self.genre = coder.decodeObject(forKey: "genre") as? Genre
         //self.category = coder.decodeObject(forKey: "category") as? Category
-
     }
-    
 }
 
 

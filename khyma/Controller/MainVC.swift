@@ -482,6 +482,7 @@ extension MainVC: UICollectionViewDataSource {
             return continueWatching.count == 0 ? 0 : continueWatching.count
         case 1:
             // popular
+            
             return videos.count
         default:
             // genre

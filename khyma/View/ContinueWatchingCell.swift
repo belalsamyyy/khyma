@@ -50,7 +50,8 @@ class ContinueWatchingCell: UICollectionViewCell {
          myLabel.font = UIFont.systemFont(ofSize: 25)
          
          addSubview(seekLabel)
-         seekLabel.layout(XW: .leadingAndCenter(nil, 0), Y: .top(myLabel, 5), H: .fixed(50))
+         seekLabel.layout(XW: .leadingAndCenter(nil, 0), Y: .top(myLabel, 1), H: .wrapContent)
+         seekLabel.numberOfLines = 0
          seekLabel.textColor = .white
          seekLabel.textAlignment = .center
          seekLabel.font = UIFont.systemFont(ofSize: 25)

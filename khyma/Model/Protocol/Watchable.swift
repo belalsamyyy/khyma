@@ -12,6 +12,17 @@ enum WatchableType {
     case movie
     case play
     case episode
+    
+    var categoryName: String {
+        switch self {
+        case .movie:
+            return "movies"
+        case .play:
+            return "plays"
+        case .episode:
+            return "series"
+        }
+    }
 }
 
 protocol Watchable {
@@ -20,7 +31,7 @@ protocol Watchable {
     var genreId: String? { get set }
     var en_name: String? { get set }
     var ar_name: String? { get set }
-    var posterImageUrl: String? { get set }
+    var posterImageLink: String? { get set }
     var youtubeUrl: String? { get set }
     var seasons: [Season]? { get set }
     

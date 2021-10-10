@@ -15,11 +15,11 @@ class EpisodeCell: UICollectionViewCell {
     
     var episode: Watchable? {
         didSet {
-            posterImageView.sd_setImage(with: URL(string: "\(Endpoints.image)\(episode?.posterImageUrl ?? "")"),
-                                        placeholderImage: UIImage(named: "poster-movie-1"),
+            let placeHolderImage = UIImage(named: "logo-khyma-transparent")?.withRenderingMode(.automatic).withTintColor(Defaults.darkMode ? .lightGray : .darkGray)
+            posterImageView.sd_setImage(with: URL(string: "\(episode?.posterImageLink ?? "")"),
+                                        placeholderImage: placeHolderImage,
                                         options: .progressiveLoad,
                                         context: nil)
-           // posterImageView.sd_setImage(with: URL(string: "\(Endpoints.image)\(episode?.posterImageUrl ?? "")"))
            episodeTitleLabel.text = Language.currentLanguage == Lang.english.rawValue ? episode?.en_name : episode?.ar_name
         }
     }

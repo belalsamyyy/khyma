@@ -8,10 +8,10 @@
 import Foundation
 
 public enum HTTPMethod {
-    case get(_ id: Int)
+    case get(_ id: String)
     case post
-    case put(_ id: Int)
-    case delete(_ id: Int)
+    case put(_ id: String)
+    case delete(_ id: String)
     
     var name: String {
         switch self {

@@ -15,12 +15,12 @@ class MovieCell: UICollectionViewCell {
     
      var video: Watchable? {
          didSet {
-             posterImageView.sd_setImage(with: URL(string: "\(Endpoints.image)\(video?.posterImageUrl ?? "")"),
-                                         placeholderImage: UIImage(named: "poster-movie-1"),
+             let placeHolderImage = UIImage(named: "logo-khyma-transparent")?.withRenderingMode(.automatic).withTintColor(Defaults.darkMode ? .lightGray : .darkGray) 
+             
+             posterImageView.sd_setImage(with: URL(string: "\(video?.posterImageLink ?? "")"),
+                                         placeholderImage: placeHolderImage,
                                          options: .progressiveLoad,
                                          context: nil)
-            //posterImageView.sd_setImage(with: URL(string: "\(Endpoints.image)\(video?.posterImageUrl ?? "")"))
-            //posterImageView.image = UIImage(named: video?.posterImageUrl ?? "")
          }
      }
 
