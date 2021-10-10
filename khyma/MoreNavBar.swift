@@ -34,6 +34,7 @@ class MoreNavBar: UIView {
     }
     
     fileprivate func setupViews() {
+        self.backgroundColor = Color.primary
         self.addSubviews([stackView, moreLabel, cancelBtn])
         
         // back label

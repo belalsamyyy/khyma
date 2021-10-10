@@ -32,7 +32,7 @@ class SettingsVC: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.navigationBar.topItem?.title = ""
+        //self.navigationController?.navigationBar.topItem?.title = ""
     }
     
     override func viewDidLayoutSubviews() {
