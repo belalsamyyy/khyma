@@ -33,9 +33,6 @@ protocol Watchable {
     var ar_name: String? { get set }
     var posterImageLink: String? { get set }
     var youtubeUrl: String? { get set }
-    var seasons: [Season]? { get set }
-    
-    //var genre: Genre? { get set }
-    //var category: Category? { get set }
-
+    var price: Int? { get set }
+    var frequency: Int? { get set }
 }

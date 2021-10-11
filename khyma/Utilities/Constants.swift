@@ -11,6 +11,7 @@ import UIKit
 //MARK: - UserDefaults Keys
 
 let BASE_URL = "https://polar-plateau-31663.herokuapp.com"
+let ConfigID = "61641f9fa2ee6a208c57990c"
 
 struct CategoryName {
     static let movies = "movies"
@@ -27,7 +28,8 @@ struct CategoryID {
 struct Endpoints {
     // images
     static let image = "\(BASE_URL)/"
-
+    static let config = "\(BASE_URL)/api/configs/"
+    
     // Categories and genres
     static let genres = "\(BASE_URL)/api/genres"
     static let categories = "\(BASE_URL)/api/categories"
@@ -78,21 +80,14 @@ struct Color {
 struct StringsKeys {
     //Connection
     static let noConnection = "noConnection"
-    
-    //Movies
-    static let bodyGuard = "bodyGuard" // Body Guard
-    static let avengers = "avengers" // Avengers: End Game
-    static let weladRizk = "weladRizk" // Welad Rizk 2
-    static let batman = "batman" // Batman Hush
-    static let blueElephant = "blueElephant" // Blue Elephant 2
-    
+    static let update = "update"
+
     //Main
     static let continueWatching = "continueWatching"
     static let popular = "popular"
     static let movies = "movies"
     static let series = "series"
     static let plays = "plays"
-    static let anime = "anime"
     static let more = "more"
     
     // Series

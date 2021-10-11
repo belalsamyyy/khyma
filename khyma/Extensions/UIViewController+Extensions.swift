@@ -9,10 +9,9 @@ import Foundation
 import UIKit
 
 extension UIViewController {
-    func showToast(message : String, font: UIFont) {
-
+    func showToast(color: UIColor, message : String, font: UIFont) {
         let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 75, y: self.view.frame.size.height-100, width: 150, height: 35))
-        toastLabel.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+        toastLabel.backgroundColor = color
         toastLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         toastLabel.font = font
         toastLabel.textAlignment = .center;

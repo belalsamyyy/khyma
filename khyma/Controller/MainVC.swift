@@ -26,10 +26,23 @@ class MainVC: UIViewController {
     var sliderTimer: Timer?
     var counter = 0
     var timerState = TimerState.notStarted
-    //var mainTableViewHeight = NSLayoutConstraint()
+    
+    var config: Config? {
+        didSet {
+            guard let updateScreen = config?.updateScreen else { return }
+            print("config change for update screen : \(updateScreen)")
+            if updateScreen {
+                DispatchQueue.main.async {
+                let updateScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "UpdateScreenVC") as! UpdateScreenVC
+                    updateScreen.modalPresentationStyle = .fullScreen
+                    self.present(updateScreen, animated: true)
+               }
+            }
+        }
+    }
         
     //MARK: - constants
-    
+        
     // check network
     let monitor = NWPathMonitor()
     let queue = DispatchQueue(label: "InternetConnectionMonitor")
@@ -44,7 +57,6 @@ class MainVC: UIViewController {
     
     let customNavBar = MainNavBar()
     
-    // for every ( movies / plays ) sub category
     var genres = [Genre?]()
     var videos = [Video?]()
     var sliderVideos = [Video?]()
@@ -56,9 +68,10 @@ class MainVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        
+                
         // check connection
         checkConnection()
+        getConfiguration()
         
         // API
         getGenres()
@@ -74,12 +87,12 @@ class MainVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         // check connection
         checkConnection()
+        getConfiguration()
         
         continueWatching = Defaults.savedContinueWatching()
         sliderCollectionView.reloadData()
         startTimer()
         
-        //mainTableViewHeight.constant = continueWatching.count == 0 ? CGFloat(genres.count * 450) : CGFloat(genres.count * 450) + 250
         mainTableView.reloadData()
         self.navigationController?.navigationBar.topItem?.title = ""
         addCustomNavBar()
@@ -100,6 +113,18 @@ class MainVC: UIViewController {
 
     
     //MARK: - functions
+    
+    fileprivate func getConfiguration() {
+        Config.endpoint = Endpoints.config
+        API<Config>.object(.get(ConfigID)) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.config = data
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
 
     fileprivate func getGenres() {
         Genre.endpoint = Endpoints.genres
@@ -184,9 +209,6 @@ class MainVC: UIViewController {
         // table view
         mainTableView.backgroundColor = Color.primary
         mainTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomBothToSafeArea(sliderCollectionView, 0, nil, 0))
-//        mainTableViewHeight = NSLayoutConstraint(item: mainTableView!, attribute: .height, relatedBy: .equal,
-//                                                 toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0)
-//        mainTableView.addConstraint(mainTableViewHeight)
         self.mainTableView.reloadData()
         self.mainTableView.layoutIfNeeded()
         
@@ -352,7 +374,6 @@ extension MainVC: UITableViewDataSource {
     // section
      func numberOfSections(in _: UITableView) -> Int {
          return 2 + genres.count
-        // return MainTableSections.allCases.count
     }
     
     func tableView(_: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -372,7 +393,6 @@ extension MainVC: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // let section = TableSections.allCases[indexPath.section]
         var cell = tableView.dequeueReusableCell(withIdentifier: MainTableCell.identifier) as? MainTableCell
         
         if cell == nil {
@@ -623,20 +643,18 @@ extension MainVC: UICollectionViewDelegateFlowLayout {
     
     // item
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        let section = MainTableSections.allCases[collectionView.tag]
-        
+        let sectionIndex = collectionView.tag
+
         if collectionView == sliderCollectionView {
             let size = sliderCollectionView.frame.size
             return CGSize(width: size.width, height: size.height)
         }
         
-        switch section {
-        case .continueWatching:
+        switch sectionIndex {
+        case 0:
             return collectionView.size(rows: 1, columns: 1.25)
-      
-        case .popular, .Movies, .Series, .Plays, .anime:
+        default:
             return collectionView.size(rows: 1, columns: 3.5)
         }
-        
     }
 }

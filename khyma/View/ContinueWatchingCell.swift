@@ -32,7 +32,6 @@ class ContinueWatchingCell: UICollectionViewCell {
              let (hours, minutes, seconds) = Int(continueWatchingAt).hoursAndMinutesAndSeconds()
              seekLabel.text = "\(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())"
              progressBar.progress = continueWatchingAt / duration
-
          }
      }
 

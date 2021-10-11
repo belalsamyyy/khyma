@@ -38,6 +38,17 @@ class DetailsVC: UIViewController {
     var pauseDate: Date?
     var previousFireDate: Date?
     
+    var isHalfHourAdsEnabled: Bool?
+    
+    var config: Config? {
+        didSet {
+            self.isHalfHourAdsEnabled = config?.halfHourAdds
+            DispatchQueue.main.async {
+                print("config change for halfhourads : \(self.isHalfHourAdsEnabled ?? false)")
+            }
+        }
+    }
+    
     // The banner ad
     private var bannerAd: GADBannerView = {
       let banner = GADBannerView()
@@ -74,6 +85,7 @@ class DetailsVC: UIViewController {
         
         // setup Views
         setupViews()
+        getConfiguration()
         
         if watchableType == .movie || watchableType == .play {
             increaseViews(categoryName: watchableType?.categoryName ?? "", id: video?._id ?? "")
@@ -101,6 +113,7 @@ class DetailsVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
+        getConfiguration()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -128,6 +141,18 @@ class DetailsVC: UIViewController {
         
         setupVideoTitle()
         
+    }
+    
+    fileprivate func getConfiguration() {
+        Config.endpoint = Endpoints.config
+        API<Config>.object(.get(ConfigID)) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.config = data
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     fileprivate func increaseViews(categoryName: String, id: String) {
@@ -285,12 +310,26 @@ class DetailsVC: UIViewController {
                 print("remaining => \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())")
                 
                 // reward the user every "n" seconds with "n" coins
+                guard let rewardFrequency = video?.frequency else { return }
+                guard let rewardValue = video?.price else { return }
+        
                 if seconds % rewardFrequency == 0 {
-                    earnCoins(rewardValue)
+                    loseCoins(rewardValue)
                 }
+                
+                if isHalfHourAdsEnabled == true {
+                    if seconds % 1800 == 0 { // every 30 mins
+                        if Int.random(in: 1...10) % 2 == 0 {
+                            presentRewardVideo()
+                        } else {
+                            presentinterstitialAd()
+                        }
+                    }
+                }
+                
             }
         }
-        
+    
         func endTimer() {
             timerState = .ended
             print("The timer ends !")
@@ -478,15 +517,20 @@ class DetailsVC: UIViewController {
     
     //MARK: - functions - coins
       
+    // #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+    
       fileprivate func earnCoins(_ coins: NSInteger) {
           print("Reward received with \(coins) coins")
           Defaults.coins += coins
-          let rewardMessage = coins == 1 ? " +\(coins) coin" : " +\(coins) coins"
-          self.showToast(message: rewardMessage, font: .systemFont(ofSize: 18))
+          let message = coins == 1 ? " +\(coins) coin" : " +\(coins) coins"
+          self.showToast(color: .green, message: message, font: .systemFont(ofSize: 18))
       }
         
      fileprivate func loseCoins(_ coins: NSInteger) {
-        Defaults.coins -= coins
+         print("lose \(coins) coins")
+         Defaults.coins -= coins
+         let message = coins == 1 ? " -\(coins) coin" : " -\(coins) coins"
+         self.showToast(color: .red, message: message, font: .systemFont(ofSize: 18))
      }
     
     //MARK: - actions
@@ -499,10 +543,13 @@ class DetailsVC: UIViewController {
 // Admob ads
 extension DetailsVC: GADFullScreenContentDelegate {
     
-    func adDidPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) { print("ad presented.") }
+    func adDidPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        print("ad presented.")
+    }
 
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("Ad dismissed.")
+        earnCoins(500)
         if let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: self.video?._id ?? "") {
             YoutubePlayer.playVideo()
             YoutubePlayer.seek(toSeconds: continueWatchingAt as! Float, allowSeekAhead: true)

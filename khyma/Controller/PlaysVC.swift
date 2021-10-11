@@ -35,8 +35,6 @@ class PlaysVC: UIViewController {
     var counter = 0
     
     var timerState = TimerState.notStarted
-    //var playsTableViewHeight = NSLayoutConstraint()
-
         
     //MARK: - constants
     
@@ -55,8 +53,8 @@ class PlaysVC: UIViewController {
     let customNavBar = BackNavBar()
     
     var genres = [Genre?]()
-    var plays = [Video?]()
-    var sliderVideos = [Video?]()
+    var plays = [Play?]()
+    var sliderVideos = [Play?]()
 
 
     //MARK: - lifecycle
@@ -84,7 +82,6 @@ class PlaysVC: UIViewController {
         checkConnection()
         
         playsSliderCollectionView.reloadData()
-        //playsTableViewHeight.constant = CGFloat(genres.count * 450)
         playsTableView.reloadData()
         startTimer()
 
@@ -136,8 +133,8 @@ class PlaysVC: UIViewController {
     }
     
     fileprivate func getVideos() {
-        Video.endpoint = Endpoints.plays
-        API<Video>.list { [weak self] result in
+        Play.endpoint = Endpoints.plays
+        API<Play>.list { [weak self] result in
             switch result {
             case .success(let data):
                 self?.plays = Array(data.prefix(50))
@@ -188,11 +185,6 @@ class PlaysVC: UIViewController {
         // table view
         playsTableView.backgroundColor = Color.primary
         playsTableView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomBothToSafeArea(playsSliderCollectionView, 0, nil, 0))
-        
-//        playsTableViewHeight = NSLayoutConstraint(item: playsTableView!, attribute: .height, relatedBy: .equal,
-//                                                 toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 0)
-//        //playsTableView.addConstraint(playsTableViewHeight)
-        
         self.playsTableView.reloadData()
         self.playsTableView.layoutIfNeeded()
         
@@ -551,7 +543,6 @@ extension PlaysVC: UICollectionViewDelegateFlowLayout {
     
     // item
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        // let section = PlaysTableSections.allCases[collectionView.tag]
         
         if collectionView == playsSliderCollectionView {
             let size = playsSliderCollectionView.frame.size

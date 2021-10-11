@@ -22,18 +22,12 @@ class Series: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
     var ar_name: String?
     var posterImageLink: String?
     var youtubeUrl: String?
-    var seasons: [Season]?
+    var price: Int?
+    var frequency: Int?
     
     // NSSecureCoding
     static var supportsSecureCoding: Bool = true
-    
-//    init(name: String, posterUrl: String, seasons: [Season]) {
-//        self.name = Language.currentLanguage == Lang.english.rawValue ? en_name : ar_name
-//        self.youtubeUrl = ""
-//        self.posterImageUrl = posterUrl
-//        self.seasons = seasons
-//    }
-    
+
     func encode(with coder: NSCoder) {
         // encode Movie object into data
         coder.encode(_id ?? "", forKey: "_id")
@@ -43,7 +37,8 @@ class Series: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
         coder.encode(ar_name ?? "", forKey: "ar_name")
         coder.encode(posterImageLink ?? "", forKey: "posterImageUrl")
         coder.encode(youtubeUrl ?? "", forKey: "youtubeUrl")
-        coder.encode(seasons ?? [], forKey: "seasons")
+        coder.encode(price ?? "", forKey: "price")
+        coder.encode(frequency ?? "", forKey: "frequency")
     }
     
     required init?(coder: NSCoder) {
@@ -55,6 +50,7 @@ class Series: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
         self.ar_name = coder.decodeObject(forKey: "ar_name") as? String
         self.posterImageLink = coder.decodeObject(forKey: "posterImageUrl") as? String
         self.youtubeUrl = coder.decodeObject(forKey: "youtubeUrl") as? String
-        self.seasons = coder.decodeObject(forKey: "seasons") as? [Season]
+        self.price = coder.decodeObject(forKey: "price") as? Int
+        self.frequency = coder.decodeObject(forKey: "frequency") as? Int
     }
 }

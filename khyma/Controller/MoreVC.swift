@@ -72,6 +72,7 @@ class MoreVC: UIViewController {
     }
     
     fileprivate func addCustomNavBar() {
+        navigationController?.navigationBar.barTintColor = Color.primary
         customNavBar.delegate = self // custom delegation pattern
         customNavBar.moreLabel.text = genreName // StringsKeys.more.localized
         self.navigationController?.setNavigationBarHidden(false, animated: true)

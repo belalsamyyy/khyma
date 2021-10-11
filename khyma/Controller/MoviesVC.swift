@@ -53,8 +53,8 @@ class MoviesVC: UIViewController {
     let customNavBar = BackNavBar()
     
     var genres = [Genre?]()
-    var movies = [Video?]()
-    var sliderVideos = [Video?]()
+    var movies = [Movie?]()
+    var sliderVideos = [Movie?]()
 
     
     //MARK: - lifecycle
@@ -133,8 +133,8 @@ class MoviesVC: UIViewController {
     }
     
     fileprivate func getVideos() {
-        Video.endpoint = Endpoints.movies
-        API<Video>.list { [weak self] result in
+        Movie.endpoint = Endpoints.movies
+        API<Movie>.list { [weak self] result in
             switch result {
             case .success(let data):
                 self?.movies = Array(data.prefix(50))

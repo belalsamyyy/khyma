@@ -19,7 +19,7 @@ struct UserDefaultsManager {
     
     //MARK: - computed properties
     
-    // computed propery for backToSettings
+    // computed propery for firstTime
     var firstTime: Bool {
         set {
             def.set(newValue, forKey: UserDefaultsKeys.firstTime)

@@ -28,10 +28,11 @@ class EpisodesVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        print("series id is => \(series?._id ?? "id ")")
+
         setupViews()
         increaseViews(id: series?._id ?? "")
         
-        print("series id is => \(series?._id ?? "id ")")
         // API
         getSeasons()
     }

@@ -34,7 +34,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
            
            if Defaults.deviceID != UIDevice.current.identifierForVendor!.uuidString {
                Defaults.deviceID = UIDevice.current.identifierForVendor!.uuidString
-               Defaults.coins = 30
+               Defaults.coins = 3000
            }
 
         guard let _ = (scene as? UIWindowScene) else { return }

@@ -6,18 +6,19 @@
 //
 
 import UIKit
+import SimpleAPI
 
 // preventing navController from pushing twice
 class MainNavController: UINavigationController {
     var isPushing = false
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.backgroundColor = Color.primary
-        navigationBar.tintColor = Color.text
+        navigationBar.tintColor = Color.text        
     }
-    
+
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         if !isPushing {
             isPushing = true

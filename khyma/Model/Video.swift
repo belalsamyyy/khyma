@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 import SimpleAPI
 
-
 typealias Movie = Video
 typealias Play = Video
 typealias Episode = Video
@@ -28,12 +27,8 @@ class Video: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
     var ar_name: String?
     var posterImageLink: String?
     var youtubeUrl: String?
-    
-    var genre: Genre?
-    var category: Category?
-    
-    // just to confirm watchable
-    var seasons: [Season]?
+    var price: Int?
+    var frequency: Int?
     
     // NSSecureCoding
     static var supportsSecureCoding: Bool = true
@@ -47,10 +42,8 @@ class Video: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
         coder.encode(ar_name ?? "", forKey: "ar_name")
         coder.encode(posterImageLink ?? "", forKey: "posterImageUrl")
         coder.encode(youtubeUrl ?? "", forKey: "youtubeUrl")
-        coder.encode(seasons ?? [], forKey: "seasons")
-        //
-        //coder.encode(genre ?? "", forKey: "genre")
-        //coder.encode(category ?? [], forKey: "category")
+        coder.encode(price ?? "", forKey: "price")
+        coder.encode(frequency ?? "", forKey: "frequency")
     }
     
     required init?(coder: NSCoder) {
@@ -62,10 +55,8 @@ class Video: NSObject, Watchable, NSCoding, NSSecureCoding, Model {
         self.ar_name = coder.decodeObject(forKey: "ar_name") as? String
         self.posterImageLink = coder.decodeObject(forKey: "posterImageUrl") as? String
         self.youtubeUrl = coder.decodeObject(forKey: "youtubeUrl") as? String
-        self.seasons = coder.decodeObject(forKey: "seasons") as? [Season]
-        //
-        //self.genre = coder.decodeObject(forKey: "genre") as? Genre
-        //self.category = coder.decodeObject(forKey: "category") as? Category
+        self.price = coder.decodeObject(forKey: "price") as? Int
+        self.frequency = coder.decodeObject(forKey: "frequency") as? Int
     }
 }
 
