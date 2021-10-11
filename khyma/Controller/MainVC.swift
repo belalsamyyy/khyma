@@ -482,8 +482,8 @@ extension MainVC: UICollectionViewDataSource {
             return continueWatching.count == 0 ? 0 : continueWatching.count
         case 1:
             // popular
-            
-            return videos.count
+            let popularVideos = Array(videos.prefix(20))
+            return popularVideos.count
         default:
             // genre
             let genre = genres[collectionView.tag - 2]
@@ -512,9 +512,10 @@ extension MainVC: UICollectionViewDataSource {
             return cell2
         case 1:
             // popular
+            let popularVideos = Array(videos.prefix(20))
             let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
             cell1.backgroundColor = Color.secondary
-            cell1.video = videos[indexPath.item]
+            cell1.video = popularVideos[indexPath.item]
             return cell1
         default:
             // genre
@@ -572,8 +573,9 @@ extension MainVC: UICollectionViewDelegate {
                 }
                 
             case 1:
+                let popularVideos = Array(videos.prefix(20))
                 print("section : \(StringsKeys.popular.localized) => \(indexPath.item)")
-                let video = videos[indexPath.item]
+                let video = popularVideos[indexPath.item]
                 let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
                 detailsVC.modalPresentationStyle = .fullScreen
                 detailsVC.video = video

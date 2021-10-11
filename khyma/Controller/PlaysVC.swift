@@ -429,7 +429,8 @@ extension PlaysVC: UICollectionViewDataSource {
         switch sectionIndex {
         case 0:
             // popular
-            return plays.count
+            let popularVideos = Array(plays.prefix(20))
+            return popularVideos.count
         default:
             // genre
             let genre = genres[collectionView.tag - 1]
@@ -450,10 +451,11 @@ extension PlaysVC: UICollectionViewDataSource {
         
         switch sectionIndex {
         case 0:
+            let popularVideos = Array(plays.prefix(20))
             // popular
             let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
             cell1.backgroundColor = Color.secondary
-            cell1.video = plays[indexPath.item]
+            cell1.video = popularVideos[indexPath.item]
             return cell1
         default:
             // genre
@@ -499,8 +501,9 @@ extension PlaysVC: UICollectionViewDelegate {
         } else {
             switch sectionIndex {
             case 0:
+                let popularVideos = Array(plays.prefix(20))
                 print("section : \(StringsKeys.popular.localized) => \(indexPath.item)")
-                let video = plays[indexPath.item]
+                let video = popularVideos[indexPath.item]
                 let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
                 detailsVC.modalPresentationStyle = .fullScreen
                 detailsVC.video = video
