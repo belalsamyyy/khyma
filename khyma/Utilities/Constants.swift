@@ -78,6 +78,11 @@ struct Color {
 
 //MARK: - Strings
 struct StringsKeys {
+    //Ads
+    static let noAdsAlertTitle = "noAdsAlertTitle"
+    static let noAdsAlertMessage = "noAdsAlertMessage"
+    static let watchAd = "watchAd"
+
     //Connection
     static let noConnection = "noConnection"
     static let update = "update"

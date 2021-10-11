@@ -5,6 +5,11 @@
   Created by Belal Samy on 19/09/2021.
 */
 
+//Ads
+noAdsAlertTitle = "ليس لديك نقـاط";
+noAdsAlertMessage = "لاستكمال المشاهدة شاهد اعلان لتربح بعض النقاط .";
+watchAd = "شاهد اعلان";
+
 //Connection
 noConnection = "لا يــوجد اتصال !";
 update = "اضغـط هنا";

@@ -63,7 +63,7 @@ struct UserDefaultsManager {
             guard def.object(forKey: UserDefaultsKeys.coins) != nil else {
                 return 0
             }
-            return def.object(forKey: UserDefaultsKeys.coins) as! Int
+            return max(0, def.object(forKey: UserDefaultsKeys.coins) as! Int)
         }
     }
     

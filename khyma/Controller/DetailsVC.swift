@@ -74,8 +74,9 @@ class DetailsVC: UIViewController {
       }
 
       // reward
-      let rewardValue = 5 // earn 5 coins
-      let rewardFrequency = 10 // every 10 seconds
+      let rewardValue = 3000
+    
+    let blockView = UIView()
           
     
     // MARK: - lifecycle
@@ -310,23 +311,35 @@ class DetailsVC: UIViewController {
                 print("remaining => \(hours.twoDigits()):\(minutes.twoDigits()):\(seconds.twoDigits())")
                 
                 // reward the user every "n" seconds with "n" coins
-                guard let rewardFrequency = video?.frequency else { return }
-                guard let rewardValue = video?.price else { return }
-        
-                if seconds % rewardFrequency == 0 {
-                    loseCoins(rewardValue)
+                guard let loseCoinsFrequency = video?.frequency else { return }
+                guard let videoPrice = video?.price else { return }
+                
+                if seconds % loseCoinsFrequency == 0 {
+                    loseCoins(videoPrice)
                 }
                 
-                if isHalfHourAdsEnabled == true {
-                    if seconds % 1800 == 0 { // every 30 mins
-                        if Int.random(in: 1...10) % 2 == 0 {
-                            presentRewardVideo()
-                        } else {
-                            presentinterstitialAd()
-                        }
-                    }
+                if Defaults.coins <= 0 {
+                    self.YoutubePlayer.pauseVideo()
+                    
+                    // create the alert
+                    let alert = UIAlertController(title: StringsKeys.noAdsAlertTitle.localized,
+                                                  message: StringsKeys.noAdsAlertMessage.localized,
+                                                  preferredStyle: UIAlertController.Style.alert)
+
+                   // add the actions (buttons)
+                    alert.addAction(UIAlertAction(title: "\(StringsKeys.watchAd.localized) \" \(rewardValue) $ \"", style: UIAlertAction.Style.destructive, handler: { [weak self] action in
+                       self?.presentRewardVideo()
+                        self?.earnCoins(self?.rewardValue ?? 0)
+                   }))
+                    alert.addAction(UIAlertAction(title: StringsKeys.cancelAlert.localized, style: UIAlertAction.Style.cancel, handler: nil))
+
+                   // show the alert
+                   self.present(alert, animated: true, completion: nil)
+                    
+                    
+                    
+                    
                 }
-                
             }
         }
     
@@ -408,13 +421,7 @@ class DetailsVC: UIViewController {
             }
         }
         
-        func returnVideoDuration() -> Double {
-            var videoDuration: Double = 0
-            self.YoutubePlayer.duration { duration, error in
-                videoDuration = duration
-            }
-            return videoDuration
-        }
+
     
         func getCurrentTime() {
             if timerState == .playing {
@@ -422,6 +429,17 @@ class DetailsVC: UIViewController {
                     // save current time in user defaults
                     UserDefaultsManager.shared.def.set(currentTime, forKey: self?.video?._id ?? "")
                     
+                    if self?.isHalfHourAdsEnabled == true {
+                        if Int(currentTime) % (30 * 60) == 0 { // every 30 mins
+                            print("every 30 mins ad")
+                            if Int.random(in: 1...10) % 2 == 0 {
+                                self?.presentRewardVideo()
+                            } else {
+                                self?.presentinterstitialAd()
+                            }
+                        }
+                    }
+
                     self?.YoutubePlayer.duration { [weak self] duration, error in
                         if currentTime >= 0.95 * Float(duration) {
                             // delete from continue watching after watching 95% of video
@@ -549,7 +567,6 @@ extension DetailsVC: GADFullScreenContentDelegate {
 
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("Ad dismissed.")
-        earnCoins(500)
         if let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: self.video?._id ?? "") {
             YoutubePlayer.playVideo()
             YoutubePlayer.seek(toSeconds: continueWatchingAt as! Float, allowSeekAhead: true)

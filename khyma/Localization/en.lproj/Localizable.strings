@@ -6,6 +6,11 @@
   
 */
 
+//Ads
+noAdsAlertTitle = "you have no coins";
+noAdsAlertMessage = "to continue watching watch an ad to gain some coins .";
+watchAd = "Watch Ad";
+
 //Connection
 noConnection = "NO CONNECTION !";
 update = "click here";
