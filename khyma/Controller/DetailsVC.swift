@@ -37,18 +37,8 @@ class DetailsVC: UIViewController {
     
     var pauseDate: Date?
     var previousFireDate: Date?
-    
     var isHalfHourAdsEnabled: Bool?
-    
-    var config: Config? {
-        didSet {
-            self.isHalfHourAdsEnabled = config?.halfHourAdds
-            DispatchQueue.main.async {
-                print("config change for halfhourads : \(self.isHalfHourAdsEnabled ?? false)")
-            }
-        }
-    }
-    
+
     // The banner ad
     private var bannerAd: GADBannerView = {
       let banner = GADBannerView()
@@ -144,12 +134,16 @@ class DetailsVC: UIViewController {
         
     }
     
+    
     fileprivate func getConfiguration() {
         Config.endpoint = Endpoints.config
         API<Config>.object(.get(ConfigID)) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.config = data
+                DispatchQueue.main.async {
+                    self?.isHalfHourAdsEnabled = data?.halfHourAdds
+                    print("config change for halfhourads : \(self?.isHalfHourAdsEnabled ?? false)")
+                }
             case .failure(let error):
                 print(error)
             }
@@ -320,6 +314,7 @@ class DetailsVC: UIViewController {
                 
                 if Defaults.coins <= 0 {
                     self.YoutubePlayer.pauseVideo()
+                    self.pauseTimer()
                     
                     // create the alert
                     let alert = UIAlertController(title: StringsKeys.noAdsAlertTitle.localized,
@@ -327,17 +322,13 @@ class DetailsVC: UIViewController {
                                                   preferredStyle: UIAlertController.Style.alert)
 
                    // add the actions (buttons)
-                    alert.addAction(UIAlertAction(title: "\(StringsKeys.watchAd.localized) \" \(rewardValue) $ \"", style: UIAlertAction.Style.destructive, handler: { [weak self] action in
+                    alert.addAction(UIAlertAction(title: "\(StringsKeys.watchAd.localized)", style: UIAlertAction.Style.destructive, handler: { [weak self] action in
                        self?.presentRewardVideo()
-                        self?.earnCoins(self?.rewardValue ?? 0)
                    }))
-                    alert.addAction(UIAlertAction(title: StringsKeys.cancelAlert.localized, style: UIAlertAction.Style.cancel, handler: nil))
+                    alert.addAction(UIAlertAction(title: StringsKeys.wait.localized, style: UIAlertAction.Style.cancel, handler: nil))
 
                    // show the alert
                    self.present(alert, animated: true, completion: nil)
-                    
-                    
-                    
                     
                 }
             }
@@ -535,20 +526,19 @@ class DetailsVC: UIViewController {
     
     //MARK: - functions - coins
       
-    // #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
-    
       fileprivate func earnCoins(_ coins: NSInteger) {
           print("Reward received with \(coins) coins")
           Defaults.coins += coins
           let message = coins == 1 ? " +\(coins) coin" : " +\(coins) coins"
-          self.showToast(color: .green, message: message, font: .systemFont(ofSize: 18))
+          let greenColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+          self.showToast(duration: 6.0, color: greenColor, message: message, font: .systemFont(ofSize: 18))
       }
         
      fileprivate func loseCoins(_ coins: NSInteger) {
          print("lose \(coins) coins")
          Defaults.coins -= coins
          let message = coins == 1 ? " -\(coins) coin" : " -\(coins) coins"
-         self.showToast(color: .red, message: message, font: .systemFont(ofSize: 18))
+         self.showToast(duration: 3.0, color: .red, message: message, font: .systemFont(ofSize: 18))
      }
     
     //MARK: - actions
@@ -567,6 +557,8 @@ extension DetailsVC: GADFullScreenContentDelegate {
 
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         print("Ad dismissed.")
+        earnCoins(self.rewardValue)
+        self.resumeTimer()
         if let continueWatchingAt = UserDefaultsManager.shared.def.object(forKey: self.video?._id ?? "") {
             YoutubePlayer.playVideo()
             YoutubePlayer.seek(toSeconds: continueWatchingAt as! Float, allowSeekAhead: true)

@@ -51,6 +51,7 @@ struct Endpoints {
 
 struct UserDefaultsKeys {
     static let firstTime = "firstTime"
+    static let everySixHoursReward = "everySixHoursReward"
     static let language = "language"
     static let deviceID = "deviceID"
     static let coins = "coins"
@@ -82,6 +83,7 @@ struct StringsKeys {
     static let noAdsAlertTitle = "noAdsAlertTitle"
     static let noAdsAlertMessage = "noAdsAlertMessage"
     static let watchAd = "watchAd"
+    static let wait = "wait"
 
     //Connection
     static let noConnection = "noConnection"

@@ -26,20 +26,6 @@ class MainVC: UIViewController {
     var sliderTimer: Timer?
     var counter = 0
     var timerState = TimerState.notStarted
-    
-    var config: Config? {
-        didSet {
-            guard let updateScreen = config?.updateScreen else { return }
-            print("config change for update screen : \(updateScreen)")
-            if updateScreen {
-                DispatchQueue.main.async {
-                let updateScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "UpdateScreenVC") as! UpdateScreenVC
-                    updateScreen.modalPresentationStyle = .fullScreen
-                    self.present(updateScreen, animated: true)
-               }
-            }
-        }
-    }
         
     //MARK: - constants
         
@@ -119,7 +105,13 @@ class MainVC: UIViewController {
         API<Config>.object(.get(ConfigID)) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.config = data
+                if data?.updateScreen == true {
+                    DispatchQueue.main.async {
+                        let updateScreen = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "UpdateScreenVC") as! UpdateScreenVC
+                        updateScreen.modalPresentationStyle = .fullScreen
+                        self?.present(updateScreen, animated: true)
+                    }
+                }
             case .failure(let error):
                 print(error)
             }

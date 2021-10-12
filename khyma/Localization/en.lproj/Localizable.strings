@@ -8,8 +8,9 @@
 
 //Ads
 noAdsAlertTitle = "you have no coins";
-noAdsAlertMessage = "to continue watching watch an ad to gain some coins .";
+noAdsAlertMessage = "to continue watching watch an ad to gain some coins or wait 6 hours for more coins .";
 watchAd = "Watch Ad";
+wait = "Wait";
 
 //Connection
 noConnection = "NO CONNECTION !";
