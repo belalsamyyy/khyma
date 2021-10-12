@@ -15,11 +15,11 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-2432082960307086~4452633449</string>
+	<string>ca-app-pub-2432082960307086~1543484797</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>SKAdNetworkItems</key>

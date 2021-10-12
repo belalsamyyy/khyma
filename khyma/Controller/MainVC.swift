@@ -50,7 +50,6 @@ class MainVC: UIViewController {
     
     //MARK: - lifecycle
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()

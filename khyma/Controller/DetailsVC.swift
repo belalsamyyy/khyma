@@ -325,7 +325,7 @@ class DetailsVC: UIViewController {
                     alert.addAction(UIAlertAction(title: "\(StringsKeys.watchAd.localized)", style: UIAlertAction.Style.destructive, handler: { [weak self] action in
                        self?.presentRewardVideo()
                    }))
-                    alert.addAction(UIAlertAction(title: StringsKeys.wait.localized, style: UIAlertAction.Style.cancel, handler: nil))
+                    alert.addAction(UIAlertAction(title: StringsKeys.cancelAlert.localized, style: UIAlertAction.Style.cancel, handler: nil))
 
                    // show the alert
                    self.present(alert, animated: true, completion: nil)

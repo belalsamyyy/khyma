@@ -7,9 +7,8 @@
 
 //Ads
 noAdsAlertTitle = "ليس لديك نقـاط";
-noAdsAlertMessage = "لاستكمال المشاهدة شاهد اعلان لتربح بعض النقاط او انتظر ٦ ساعات لمزيد من النقاط .";
+noAdsAlertMessage = "لاستكمال المشاهدة شاهد اعلان لتربح بعض النقاط .";
 watchAd = "شاهد اعلان";
-wait = "انتظر";
 
 //Connection
 noConnection = "لا يــوجد اتصال !";

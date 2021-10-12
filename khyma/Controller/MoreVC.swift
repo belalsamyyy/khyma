@@ -22,24 +22,22 @@ class MoreVC: UIViewController {
     var genreName: String?
     
     //MARK: - constants
-
-    let customNavBar = MoreNavBar()
     
     //MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        print("genre id is => \(genreID ?? "")")
         setupViews()
         getVideos()
-        print("genre id is => \(genreID ?? "")")
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        addCustomNavBar()
+        addNavBar()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        customNavBar.removeFromSuperview()
+        //
     }
     
     //MARK: - functions
@@ -60,7 +58,7 @@ class MoreVC: UIViewController {
     }
     
     fileprivate func setupViews() {
-        addCustomNavBar()
+        addNavBar()
         
         moreCollectionView.backgroundColor = Color.primary
         moreCollectionView.layout(shortcut: .fillSuperView(0))
@@ -71,15 +69,11 @@ class MoreVC: UIViewController {
         moreCollectionView.reloadData()
     }
     
-    fileprivate func addCustomNavBar() {
+    fileprivate func addNavBar() {
         navigationController?.navigationBar.barTintColor = Color.primary
-        customNavBar.delegate = self // custom delegation pattern
-        customNavBar.moreLabel.text = genreName // StringsKeys.more.localized
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-        self.navigationItem.setHidesBackButton(true, animated: true)
         let navBar = navigationController?.navigationBar
-        navBar?.addSubview(customNavBar)
-        customNavBar.layout(X: .center(nil), W: .equal(nil, 0.9), Y: .center(nil), H: .fixed(50))
+        navBar?.topItem?.backButtonTitle = genreName
     }
     
     
@@ -88,17 +82,6 @@ class MoreVC: UIViewController {
 }
 
 //MARK: - extensions
-
-//MARK: - CustomNavBar Delegate
-
-extension MoreVC: MoreNavBarDelegate {
-    // custom delegation pattern
-    func handleCancelTapped() {
-        print("cancel tapped here from more vc")
-        self.navigationController?.popViewController(animated: true)
-    }
-}
-
 
 // MARK: - UICollectionView Data Source
 extension MoreVC: UICollectionViewDataSource {
