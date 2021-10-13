@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 import FBSDKCoreKit
 import OneSignal
+import GoogleMobileAds
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {

@@ -9,7 +9,7 @@ import DesignX
 import GoogleMobileAds
 
 class MainTabBar: UITabBarController {
-    
+        
     // The banner ad
     private var bannerAd: GADBannerView = {
       let banner = GADBannerView()
@@ -23,8 +23,7 @@ class MainTabBar: UITabBarController {
         // Do any additional setup after loading the view.
         self.tabBar.backgroundColor = Color.primary
         self.tabBar.tintColor = Color.text
-        self.tabBar.unselectedItemTintColor = .darkGray
-        
+        self.tabBar.unselectedItemTintColor = .darkGray        
         loadBannerAd()
         
         if Defaults.backToSettings {
