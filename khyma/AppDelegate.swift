@@ -6,16 +6,45 @@
 //
 
 import UIKit
+import Firebase
+import FBSDKCoreKit
+import OneSignal
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        // Firebase
+        FirebaseApp.configure()
+        
         // localization
         Localizer.doTheExchange()
         
-        return true
+        // Facebook
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+        
+       // OneSignal
+        
+       // Remove this method to stop OneSignal Debugging
+       OneSignal.setLogLevel(.LL_VERBOSE, visualLevel: .LL_NONE)
+
+       // OneSignal initialization
+       OneSignal.initWithLaunchOptions(launchOptions)
+       OneSignal.setAppId(OneSignalID)
+
+       // promptForPushNotifications will show the native iOS notification permission prompt.
+       // We recommend removing the following code and instead using an In-App Message to prompt for notification permission (See step 8)
+       OneSignal.promptForPushNotifications(userResponse: { accepted in
+       print("User accepted notifications: \(accepted)")
+       })
+        
+       return true
+    }
+    
+    // Facebook
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:] ) -> Bool {
+        ApplicationDelegate.shared.application(app, open: url, sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplication.OpenURLOptionsKey.annotation])
     }
 
     // MARK: UISceneSession Lifecycle

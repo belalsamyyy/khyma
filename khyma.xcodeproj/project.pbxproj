@@ -22,6 +22,7 @@
 		41319D9C26FFE58000FCCBBC /* MoreVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41319D9B26FFE58000FCCBBC /* MoreVC.swift */; };
 		41688384270D088200499EF1 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41688383270D088200499EF1 /* Category.swift */; };
 		4181A32C271045DB0009DEA0 /* MainNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4181A32B271045DB0009DEA0 /* MainNavigationController.swift */; };
+		9FBB1607399F62CE90170FF6 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08BE82B136EEDC26933B7830 /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		C9EE0CBD26ED0C0E009361A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE0CBC26ED0C0E009361A6 /* AppDelegate.swift */; };
 		C9EE0CBF26ED0C0E009361A6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9EE0CBE26ED0C0E009361A6 /* SceneDelegate.swift */; };
 		C9EE0CC426ED0C0E009361A6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C9EE0CC226ED0C0E009361A6 /* Main.storyboard */; };
@@ -68,6 +69,9 @@
 		D994B54F27130A4500C851D0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D994B55127130A4500C851D0 /* InfoPlist.strings */; };
 		D99B79A126F9E0460019B087 /* MainSliderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99B799F26F9E0460019B087 /* MainSliderCell.swift */; };
 		D99B79A226F9E0460019B087 /* MainSliderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D99B79A026F9E0460019B087 /* MainSliderCell.xib */; };
+		D9FBBF482716CF7500BDD7CE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9FBBF472716CF7400BDD7CE /* GoogleService-Info.plist */; };
+		D9FBBF502716D83A00BDD7CE /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9FBBF4F2716D83A00BDD7CE /* NotificationService.swift */; };
+		D9FBBF542716D83A00BDD7CE /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D9FBBF4D2716D83900BDD7CE /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EF3650329F78E05222102D37 /* Pods_khyma.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F6373667ECC5ED1C9FC9E6E /* Pods_khyma.framework */; };
 /* End PBXBuildFile section */
 
@@ -86,11 +90,34 @@
 			remoteGlobalIDString = C9EE0CB826ED0C0E009361A6;
 			remoteInfo = khyma;
 		};
+		D9FBBF522716D83A00BDD7CE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9EE0CB126ED0C0E009361A6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D9FBBF4C2716D83600BDD7CE;
+			remoteInfo = OneSignalNotificationServiceExtension;
+		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		D9FBBF552716D83A00BDD7CE /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D9FBBF542716D83A00BDD7CE /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		08BE82B136EEDC26933B7830 /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		13004361A4B68163AA6E6858 /* Pods-khyma-khymaUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-khyma-khymaUITests.debug.xcconfig"; path = "Target Support Files/Pods-khyma-khymaUITests/Pods-khyma-khymaUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		20C7C837C4807D970C3916A6 /* Pods-khyma.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-khyma.debug.xcconfig"; path = "Target Support Files/Pods-khyma/Pods-khyma.debug.xcconfig"; sourceTree = "<group>"; };
+		23BDF58F059D25CC8EA4D010 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
 		2EDF089912BC63D00E86D3A4 /* Pods-khymaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-khymaTests.release.xcconfig"; path = "Target Support Files/Pods-khymaTests/Pods-khymaTests.release.xcconfig"; sourceTree = "<group>"; };
 		393D1248B15BF50FECE00549 /* Pods_khymaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_khymaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		41319D7C26FE620300FCCBBC /* SettingsTableSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableSections.swift; sourceTree = "<group>"; };
@@ -126,6 +153,7 @@
 		C9EE0CDA26ED0C10009361A6 /* khymaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = khymaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9EE0CDE26ED0C10009361A6 /* khymaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = khymaUITests.swift; sourceTree = "<group>"; };
 		C9EE0CE026ED0C10009361A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D31EB1205C7A970CE570D4F7 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		D77ABEB214A545FFDA55348B /* Pods-khyma.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-khyma.release.xcconfig"; path = "Target Support Files/Pods-khyma/Pods-khyma.release.xcconfig"; sourceTree = "<group>"; };
 		D908B7D22714589100ED819C /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		D908B7D42714621B00ED819C /* UpdateScreenVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateScreenVC.swift; sourceTree = "<group>"; };
@@ -167,6 +195,11 @@
 		D994B55227130A4800C851D0 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D99B799F26F9E0460019B087 /* MainSliderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSliderCell.swift; sourceTree = "<group>"; };
 		D99B79A026F9E0460019B087 /* MainSliderCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainSliderCell.xib; sourceTree = "<group>"; };
+		D9FBBF472716CF7400BDD7CE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D9FBBF4D2716D83900BDD7CE /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9FBBF4F2716D83A00BDD7CE /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		D9FBBF512716D83A00BDD7CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D9FBBF592716D95100BDD7CE /* khyma.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = khyma.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +227,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D9FBBF4A2716D83600BDD7CE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9FBB1607399F62CE90170FF6 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -206,6 +247,8 @@
 				BCFAF704DF6EE0E91551BC8B /* Pods-khyma-khymaUITests.release.xcconfig */,
 				72918592827959E61CF01DFE /* Pods-khymaTests.debug.xcconfig */,
 				2EDF089912BC63D00E86D3A4 /* Pods-khymaTests.release.xcconfig */,
+				D31EB1205C7A970CE570D4F7 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */,
+				23BDF58F059D25CC8EA4D010 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -216,6 +259,7 @@
 				C9EE0CBB26ED0C0E009361A6 /* khyma */,
 				C9EE0CD226ED0C10009361A6 /* khymaTests */,
 				C9EE0CDD26ED0C10009361A6 /* khymaUITests */,
+				D9FBBF4E2716D83A00BDD7CE /* OneSignalNotificationServiceExtension */,
 				C9EE0CBA26ED0C0E009361A6 /* Products */,
 				461E2ED22CBA341896254858 /* Pods */,
 				FF1F1483D89E0CF4BFBB913E /* Frameworks */,
@@ -228,6 +272,7 @@
 				C9EE0CB926ED0C0E009361A6 /* khyma.app */,
 				C9EE0CCF26ED0C10009361A6 /* khymaTests.xctest */,
 				C9EE0CDA26ED0C10009361A6 /* khymaUITests.xctest */,
+				D9FBBF4D2716D83900BDD7CE /* OneSignalNotificationServiceExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -235,6 +280,7 @@
 		C9EE0CBB26ED0C0E009361A6 /* khyma */ = {
 			isa = PBXGroup;
 			children = (
+				D9FBBF592716D95100BDD7CE /* khyma.entitlements */,
 				C9EE0CBC26ED0C0E009361A6 /* AppDelegate.swift */,
 				C9EE0CBE26ED0C0E009361A6 /* SceneDelegate.swift */,
 				C9EE0CC726ED0C10009361A6 /* LaunchScreen.storyboard */,
@@ -242,6 +288,7 @@
 				D9125A6826F7299200D29128 /* Localization */,
 				C9EE0CC526ED0C10009361A6 /* Assets.xcassets */,
 				C9EE0CCA26ED0C10009361A6 /* Info.plist */,
+				D9FBBF472716CF7400BDD7CE /* GoogleService-Info.plist */,
 				D95CF75D26FB722A00C05C89 /* Model */,
 				D95CF75E26FB723100C05C89 /* View */,
 				D95CF75F26FB723600C05C89 /* Controller */,
@@ -395,12 +442,22 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		D9FBBF4E2716D83A00BDD7CE /* OneSignalNotificationServiceExtension */ = {
+			isa = PBXGroup;
+			children = (
+				D9FBBF4F2716D83A00BDD7CE /* NotificationService.swift */,
+				D9FBBF512716D83A00BDD7CE /* Info.plist */,
+			);
+			path = OneSignalNotificationServiceExtension;
+			sourceTree = "<group>";
+		};
 		FF1F1483D89E0CF4BFBB913E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				6F6373667ECC5ED1C9FC9E6E /* Pods_khyma.framework */,
 				6721A2C4845D67214760FBA1 /* Pods_khyma_khymaUITests.framework */,
 				393D1248B15BF50FECE00549 /* Pods_khymaTests.framework */,
+				08BE82B136EEDC26933B7830 /* Pods_OneSignalNotificationServiceExtension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -417,10 +474,12 @@
 				C9EE0CB626ED0C0E009361A6 /* Frameworks */,
 				C9EE0CB726ED0C0E009361A6 /* Resources */,
 				6F04E540DB060290EF5B5D1D /* [CP] Embed Pods Frameworks */,
+				D9FBBF552716D83A00BDD7CE /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D9FBBF532716D83A00BDD7CE /* PBXTargetDependency */,
 			);
 			name = khyma;
 			productName = khyma;
@@ -466,13 +525,31 @@
 			productReference = C9EE0CDA26ED0C10009361A6 /* khymaUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		D9FBBF4C2716D83600BDD7CE /* OneSignalNotificationServiceExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D9FBBF582716D83A00BDD7CE /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */;
+			buildPhases = (
+				B3BF6DB3205F403EEA05B5C8 /* [CP] Check Pods Manifest.lock */,
+				D9FBBF492716D83600BDD7CE /* Sources */,
+				D9FBBF4A2716D83600BDD7CE /* Frameworks */,
+				D9FBBF4B2716D83600BDD7CE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OneSignalNotificationServiceExtension;
+			productName = OneSignalNotificationServiceExtension;
+			productReference = D9FBBF4D2716D83900BDD7CE /* OneSignalNotificationServiceExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		C9EE0CB126ED0C0E009361A6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1250;
+				LastSwiftUpdateCheck = 1300;
 				LastUpgradeCheck = 1250;
 				TargetAttributes = {
 					C9EE0CB826ED0C0E009361A6 = {
@@ -485,6 +562,9 @@
 					C9EE0CD926ED0C10009361A6 = {
 						CreatedOnToolsVersion = 12.5.1;
 						TestTargetID = C9EE0CB826ED0C0E009361A6;
+					};
+					D9FBBF4C2716D83600BDD7CE = {
+						CreatedOnToolsVersion = 13.0;
 					};
 				};
 			};
@@ -505,6 +585,7 @@
 				C9EE0CB826ED0C0E009361A6 /* khyma */,
 				C9EE0CCE26ED0C10009361A6 /* khymaTests */,
 				C9EE0CD926ED0C10009361A6 /* khymaUITests */,
+				D9FBBF4C2716D83600BDD7CE /* OneSignalNotificationServiceExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -514,6 +595,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9FBBF482716CF7500BDD7CE /* GoogleService-Info.plist in Resources */,
 				C9EE0CC926ED0C10009361A6 /* LaunchScreen.storyboard in Resources */,
 				D994B54F27130A4500C851D0 /* InfoPlist.strings in Resources */,
 				41319D8126FE6F5D00FCCBBC /* CoinsCell.xib in Resources */,
@@ -537,6 +619,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		C9EE0CD826ED0C10009361A6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D9FBBF4B2716D83600BDD7CE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -629,6 +718,28 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-khyma/Pods-khyma-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B3BF6DB3205F403EEA05B5C8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OneSignalNotificationServiceExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D8783F42601537DE36454CF2 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -717,6 +828,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D9FBBF492716D83600BDD7CE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D9FBBF502716D83A00BDD7CE /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -729,6 +848,11 @@
 			isa = PBXTargetDependency;
 			target = C9EE0CB826ED0C0E009361A6 /* khyma */;
 			targetProxy = C9EE0CDB26ED0C10009361A6 /* PBXContainerItemProxy */;
+		};
+		D9FBBF532716D83A00BDD7CE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D9FBBF4C2716D83600BDD7CE /* OneSignalNotificationServiceExtension */;
+			targetProxy = D9FBBF522716D83A00BDD7CE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -894,17 +1018,20 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 20C7C837C4807D970C3916A6 /* Pods-khyma.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = khyma/khyma.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8A4HTMPS6P;
+				CURRENT_PROJECT_VERSION = "";
+				DEVELOPMENT_TEAM = 9NBG9HL25L;
 				INFOPLIST_FILE = khyma/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hwayadesign.khyma;
+				MARKETING_VERSION = 2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hwaya.khyma;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -915,17 +1042,20 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D77ABEB214A545FFDA55348B /* Pods-khyma.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = khyma/khyma.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8A4HTMPS6P;
+				CURRENT_PROJECT_VERSION = "";
+				DEVELOPMENT_TEAM = 9NBG9HL25L;
 				INFOPLIST_FILE = khyma/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.hwayadesign.khyma;
+				MARKETING_VERSION = 2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hwaya.khyma;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1020,6 +1150,62 @@
 			};
 			name = Release;
 		};
+		D9FBBF562716D83A00BDD7CE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D31EB1205C7A970CE570D4F7 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9NBG9HL25L;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OneSignalNotificationServiceExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hwaya.khyma.OneSignalNotificationServiceExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D9FBBF572716D83A00BDD7CE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 23BDF58F059D25CC8EA4D010 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9NBG9HL25L;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = OneSignalNotificationServiceExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.hwaya.khyma.OneSignalNotificationServiceExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1055,6 +1241,15 @@
 			buildConfigurations = (
 				C9EE0CEA26ED0C10009361A6 /* Debug */,
 				C9EE0CEB26ED0C10009361A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D9FBBF582716D83A00BDD7CE /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D9FBBF562716D83A00BDD7CE /* Debug */,
+				D9FBBF572716D83A00BDD7CE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

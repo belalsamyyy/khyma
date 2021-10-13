@@ -12,17 +12,18 @@ import UIKit
 
 let BASE_URL = "https://polar-plateau-31663.herokuapp.com"
 let ConfigID = "61641f9fa2ee6a208c57990c"
+let OneSignalID = "9529c9c9-90b7-41fc-9f4e-114e2863bf75"
 
-struct CategoryName {
-    static let movies = "movies"
-    static let series = "series"
-    static let plays = "plays"
-}
-
-struct CategoryID {
-    static let movies = "615c27d1920678e0b8e502e0"
-    static let series = "615c520085fd16ab63fc3e8d"
-    static let plays = "615c5b8785fd16ab63fc3ec5"
+struct UserDefaultsKeys {
+    static let firstTime = "firstTime"
+    static let everySixHoursReward = "everySixHoursReward"
+    static let language = "language"
+    static let deviceID = "deviceID"
+    static let coins = "coins"
+    static let darkMode = "darkMode"
+    static let backToSettings = "backToSettings"
+    static let myList = "myList"
+    static let continueWatching = "continueWatching"
 }
 
 struct Endpoints {
@@ -49,16 +50,16 @@ struct Endpoints {
     static let playFromID = "\(BASE_URL)/api/plays/" // with id
 }
 
-struct UserDefaultsKeys {
-    static let firstTime = "firstTime"
-    static let everySixHoursReward = "everySixHoursReward"
-    static let language = "language"
-    static let deviceID = "deviceID"
-    static let coins = "coins"
-    static let darkMode = "darkMode"
-    static let backToSettings = "backToSettings"
-    static let myList = "myList"
-    static let continueWatching = "continueWatching"
+struct CategoryName {
+    static let movies = "movies"
+    static let series = "series"
+    static let plays = "plays"
+}
+
+struct CategoryID {
+    static let movies = "615c27d1920678e0b8e502e0"
+    static let series = "615c520085fd16ab63fc3e8d"
+    static let plays = "615c5b8785fd16ab63fc3ec5"
 }
 
 //MARK: - Ad Units Keys
