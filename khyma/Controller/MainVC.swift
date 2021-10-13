@@ -9,6 +9,7 @@ import Network
 import UIKit
 import DesignX
 import SimpleAPI
+import FBSDKCoreKit
 
 class MainVC: UIViewController {
 
@@ -291,9 +292,7 @@ class MainVC: UIViewController {
         self.navigationController?.pushViewController(moreVC, animated: true)
     }
 
-    
     //MARK: - actions
-    
     
 }
 
@@ -308,6 +307,7 @@ extension MainVC: MainNavBarDelegate {
     
     func handleMoviesTapped() {
         print("movies tapped here from main vc")
+        AppEvents.logEvent(AppEvents.Name(rawValue: "button_clicked"))
         let moviesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoviesRootVC") as! MainNavController
         moviesVC.modalPresentationStyle = .fullScreen
         self.navigationController?.present(moviesVC, animated: true, completion: nil)

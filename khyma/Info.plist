@@ -21,7 +21,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fbAPP-ID</string>
+				<string>fb453852422571857</string>
 			</array>
 		</dict>
 	</array>
@@ -30,13 +30,13 @@
 	<key>FacebookAdvertiserIDCollectionEnabled</key>
 	<true/>
 	<key>FacebookAppID</key>
-	<string>APP-ID</string>
+	<string>453852422571857</string>
 	<key>FacebookAutoLogAppEventsEnabled</key>
 	<true/>
 	<key>FacebookClientToken</key>
-	<string>CLIENT-TOKEN</string>
+	<string>76b78d37d2f4591c625cb347367bad06</string>
 	<key>FacebookDisplayName</key>
-	<string>APP-NAME</string>
+	<string>الخيمة</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-9037650239384734~8667518777</string>
 	<key>LSApplicationQueriesSchemes</key>
