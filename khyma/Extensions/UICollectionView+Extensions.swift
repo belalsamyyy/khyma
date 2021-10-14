@@ -26,11 +26,11 @@ extension UICollectionView {
     func size(rows: CGFloat, columns: CGFloat) -> CGSize {
         let width = ( self.frame.width - ( columns * 10 ) - 10 ) / columns //  horizontal spacing 10
         let height = ( self.frame.height - ( rows * 10 ) - 10 ) / rows // vertical spacing 10
-        return CGSize(width: width, height: height)
+        return CGSize(width: max(CGFloat.leastNonzeroMagnitude, width), height: max(CGFloat.leastNonzeroMagnitude, height))
     }
     
     func size(height: CGFloat, columns: CGFloat) -> CGSize {
         let width = ( self.frame.width - ( columns * 10 ) - 10 ) / columns //  horizontal spacing 10
-        return CGSize(width: width, height: height)
+        return CGSize(width: max(CGFloat.leastNonzeroMagnitude, width), height: max(CGFloat.leastNonzeroMagnitude, height))
     }
 }

@@ -56,6 +56,7 @@ class SeriesVC: UIViewController {
     // series -> seasons -> episodes
     var genres = [Genre?]()
     var series = [Series?]()
+    var seriesDict = [String: [Series?]]()
     var sliderVideos = [Series?]()
     
     //MARK: - lifecycle
@@ -121,6 +122,27 @@ class SeriesVC: UIViewController {
             switch result {
             case .success(let data):
                 self?.genres = data
+                data.forEach { genre in
+                    print(genre?.ar_name ?? "")
+                    self?.getVideos(genreID: genre?._id ?? "")
+                }
+                DispatchQueue.main.async {
+                    self?.seriesSliderCollectionView.reloadData()
+                    self?.seriesTableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    
+    fileprivate func getVideos(genreID: String) {
+        Series.endpoint = "\(BASE_URL)/api/\(CategoryName.series)/genre/\(genreID)"
+        API<Series>.list { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.seriesDict[genreID] = data
                 DispatchQueue.main.async {
                     self?.seriesSliderCollectionView.reloadData()
                     self?.seriesTableView.reloadData()
@@ -423,7 +445,9 @@ extension SeriesVC: UICollectionViewDataSource {
         default:
             // genre
             let genre = genres[collectionView.tag - 1]
-            let filteredVideos = series.filter { $0?.genreId == genre?._id }
+            let videosFromGenreID = seriesDict[genre?._id ?? ""] ?? []
+            let filteredVideos = Array(videosFromGenreID.prefix(20))
+            //let filteredVideos = series.filter { $0?.genreId == genre?._id }
             return filteredVideos.count == 0 ? 0 : filteredVideos.count
         }
     }
@@ -449,7 +473,9 @@ extension SeriesVC: UICollectionViewDataSource {
         default:
             // genre
             let genre = genres[collectionView.tag - 1]
-            let filteredVideos = series.filter { $0?.genreId == genre?._id }
+            let videosFromGenreID = seriesDict[genre?._id ?? ""] ?? []
+            let filteredVideos = Array(videosFromGenreID.prefix(20))
+            //let filteredVideos = series.filter { $0?.genreId == genre?._id }
 
             let cell4 = collectionView.dequeue(indexPath: indexPath) as MovieCell
             cell4.backgroundColor = Color.secondary
@@ -501,7 +527,9 @@ extension SeriesVC: UICollectionViewDelegate {
             default:
                 // other genre from api
                 let genre = genres[collectionView.tag - 1]
-                let filteredVideos = series.filter { $0?.genreId == genre?._id }
+                let videosFromGenreID = seriesDict[genre?._id ?? ""] ?? []
+                let filteredVideos = Array(videosFromGenreID.prefix(20))
+                //let filteredVideos = series.filter { $0?.genreId == genre?._id }
                 print("genre : \(genre?.en_name ?? "") => \(indexPath.item)")
 
                 let series = filteredVideos[indexPath.item]

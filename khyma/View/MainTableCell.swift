@@ -57,6 +57,7 @@ class MainTableCell: UITableViewCell {
         super.layoutSubviews()
         guard collectionView.frame != contentView.bounds else { return }
         collectionView.frame = contentView.bounds
+        collectionView.reloadData()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

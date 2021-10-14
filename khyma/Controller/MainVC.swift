@@ -46,6 +46,7 @@ class MainVC: UIViewController {
     
     var genres = [Genre?]()
     var videos = [Video?]()
+    var videosDict = [String: [Video?]]()
     var sliderVideos = [Video?]()
     var continueWatching = Defaults.savedContinueWatching()
     
@@ -124,6 +125,27 @@ class MainVC: UIViewController {
             switch result {
             case .success(let data):
                 self?.genres = data
+                data.forEach { genre in
+                    print(genre?.ar_name ?? "")
+                    self?.getVideos(genreID: genre?._id ?? "")
+                }
+                DispatchQueue.main.async {
+                    self?.sliderCollectionView.reloadData()
+                    self?.mainTableView.reloadData()
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    
+    fileprivate func getVideos(genreID: String) {
+        Video.endpoint = "\(BASE_URL)/api/movies/genre/\(genreID)"
+        API<Video>.list { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.videosDict[genreID] = data
                 DispatchQueue.main.async {
                     self?.sliderCollectionView.reloadData()
                     self?.mainTableView.reloadData()
@@ -153,6 +175,7 @@ class MainVC: UIViewController {
         }
     }
     
+    
     fileprivate func checkConnection() {
         self.monitor.pathUpdateHandler = { [weak self] pathUpdateHandler in
            if pathUpdateHandler.status == .satisfied {
@@ -170,7 +193,7 @@ class MainVC: UIViewController {
     }
     
     fileprivate func setupViews() {
-        
+
         // navigation bar
         self.navigationController?.navigationBar.topItem?.title = ""
         self.navigationController?.setNavigationBarHidden(true, animated: true)
@@ -182,6 +205,11 @@ class MainVC: UIViewController {
         mainScrollView.backgroundColor = Color.primary
         scrollContainer.backgroundColor = Color.primary
         
+        // to get rid of top safearea margin
+        let topPadding = UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0
+        let navBarHeight: CGFloat = self.navigationController?.navigationBar.frame.height ?? 0
+        scrollContainer.constraint(Y: .top(nil, -(topPadding + navBarHeight)))
+        
         // posters slider
         sliderCollectionView.backgroundColor = Color.primary
         sliderCollectionView.delegate = self
@@ -189,7 +217,7 @@ class MainVC: UIViewController {
         sliderCollectionView.isPagingEnabled = true
         
         sliderCollectionView.register(cell: MainSliderCell.self)
-        sliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 0, mainTableView, 0, .fixed(500)))
+        sliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 0, mainTableView, 0, .fixed(600)))
         sliderCollectionView.reloadData()
 
         // pager
@@ -205,8 +233,6 @@ class MainVC: UIViewController {
         self.mainTableView.layoutIfNeeded()
         
         self.view.layoutIfNeeded()
-        
-        
         mainTableView.reloadData()
         mainTableView.updateConstraints()
         scrollContainer.layoutIfNeeded()
@@ -214,9 +240,7 @@ class MainVC: UIViewController {
         mainTableView.delegate = self
         mainTableView.dataSource = self
         mainScrollView.delegate = self
-        
     }
-    
     
     fileprivate func startTimer() {
         // timer
@@ -225,7 +249,6 @@ class MainVC: UIViewController {
             self.sliderTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(self.timerTick), userInfo: nil, repeats: true)
         }
     }
-    
     
     @objc func timerTick() {
         if timerState == .playing {
@@ -498,7 +521,9 @@ extension MainVC: UICollectionViewDataSource {
         default:
             // genre
             let genre = genres[collectionView.tag - 2]
-            let filteredVideos = videos.filter { $0?.genreId == genre?._id }
+            let videosFromGenreID = videosDict[genre?._id ?? ""] ?? []
+            let filteredVideos = Array(videosFromGenreID.prefix(20))
+            //let filteredVideos = videos.filter { $0?.genreId == genre?._id }
             return filteredVideos.count == 0 ? 0 : filteredVideos.count
         }
     }
@@ -531,7 +556,9 @@ extension MainVC: UICollectionViewDataSource {
         default:
             // genre
             let genre = genres[collectionView.tag - 2]
-            let filteredVideos = videos.filter { $0?.genreId == genre?._id }
+            let videosFromGenreID = videosDict[genre?._id ?? ""] ?? []
+            let filteredVideos = Array(videosFromGenreID.prefix(20))
+            //let filteredVideos = videos.filter { $0?.genreId == genre?._id }
 
             let cell4 = collectionView.dequeue(indexPath: indexPath) as MovieCell
             cell4.backgroundColor = Color.secondary
@@ -592,10 +619,13 @@ extension MainVC: UICollectionViewDelegate {
                 detailsVC.video = video
                 detailsVC.watchableType = .movie
                 self.navigationController?.pushViewController(detailsVC, animated: true)
+                
             default:
                 // other genre from api
                 let genre = genres[collectionView.tag - 2]
-                let filteredVideos = videos.filter { $0?.genreId == genre?._id }
+                let videosFromGenreID = videosDict[genre?._id ?? ""] ?? []
+                let filteredVideos = Array(videosFromGenreID.prefix(20))
+                // let filteredVideos = videos.filter { $0?.genreId == genre?._id }
                 print("genre : \(genre?.en_name ?? "") => \(indexPath.item)")
 
                 let video = filteredVideos[indexPath.item]
@@ -638,7 +668,8 @@ extension MainVC: UICollectionViewDelegateFlowLayout {
 
         if collectionView == sliderCollectionView {
             let size = sliderCollectionView.frame.size
-            return CGSize(width: size.width, height: size.height)
+            return CGSize(width: max(CGFloat.leastNonzeroMagnitude, size.width), height: max(CGFloat.leastNonzeroMagnitude, size.height))
+            
         }
         
         switch sectionIndex {

@@ -46,8 +46,7 @@ class BackNavBar: UIView {
         backBtn.setTitleColor(Color.text, for: .normal)
         backBtn.titleLabel?.textAlignment = .center
         backBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 25)
-      
-
+        
         // actions
         backBtn.addTarget(self, action: #selector(handleBackTapped), for: .touchUpInside)
       

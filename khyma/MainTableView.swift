@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class MainTableView: UITableView {
-    override var contentSize:CGSize {
+    override var contentSize: CGSize {
         didSet {
             invalidateIntrinsicContentSize()
         }
