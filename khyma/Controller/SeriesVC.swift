@@ -195,7 +195,7 @@ class SeriesVC: UIViewController {
         seriesSliderCollectionView.isPagingEnabled = true
 
         seriesSliderCollectionView.register(cell: MainSliderCell.self)
-        seriesSliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 0, seriesTableView, 0, .fixed(500)))
+        seriesSliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 0, seriesTableView, 0, .fixed(600)))
         seriesSliderCollectionView.reloadData()
 
         // pager

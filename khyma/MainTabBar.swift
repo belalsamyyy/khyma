@@ -39,5 +39,5 @@ class MainTabBar: UITabBarController {
        view.addSubview(bannerAd)
        bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(self.tabBar, 0), H: .fixed(60))
     }
-
+    
 }

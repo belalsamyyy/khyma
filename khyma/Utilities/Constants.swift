@@ -62,6 +62,7 @@ struct CategoryID {
     static let plays = "615c5b8785fd16ab63fc3ec5"
 }
 
+
 //MARK: - Ad Units Keys
 
 struct AdUnitKeys {
@@ -85,6 +86,7 @@ struct Color {
 }
 
 //MARK: - Strings
+
 struct StringsKeys {
     //Ads
     static let noAdsAlertTitle = "noAdsAlertTitle"

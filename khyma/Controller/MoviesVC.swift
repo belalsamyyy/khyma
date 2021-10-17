@@ -196,7 +196,7 @@ class MoviesVC: UIViewController {
         moviesSliderCollectionView.isPagingEnabled = true
         
         moviesSliderCollectionView.register(cell: MainSliderCell.self)
-        moviesSliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 0, moviesTableView, 0, .fixed(500)))
+        moviesSliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 0, moviesTableView, 0, .fixed(600)))
         moviesSliderCollectionView.reloadData()
 
         // pager

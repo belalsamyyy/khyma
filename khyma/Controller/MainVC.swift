@@ -52,6 +52,7 @@ class MainVC: UIViewController {
     
     //MARK: - lifecycle
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -97,7 +98,6 @@ class MainVC: UIViewController {
         self.navigationController?.navigationBar.topItem?.title = ""
         sliderCollectionView.reloadData()
     }
-
     
     //MARK: - functions
     
@@ -206,9 +206,9 @@ class MainVC: UIViewController {
         scrollContainer.backgroundColor = Color.primary
         
         // to get rid of top safearea margin
-        let topPadding = UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0
-        let navBarHeight: CGFloat = self.navigationController?.navigationBar.frame.height ?? 0
-        scrollContainer.constraint(Y: .top(nil, -(topPadding + navBarHeight)))
+//      let topPadding = UIApplication.shared.windows.first?.safeAreaInsets.top ?? 0
+//      let navBarHeight: CGFloat = self.navigationController?.navigationBar.frame.height ?? 0
+//      scrollContainer.constraint(Y: .top(nil, -(topPadding + navBarHeight)))
         
         // posters slider
         sliderCollectionView.backgroundColor = Color.primary

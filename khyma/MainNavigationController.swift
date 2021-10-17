@@ -7,10 +7,20 @@
 
 import UIKit
 import SimpleAPI
+//import DesignX
+//import GoogleMobileAds
 
 // preventing navController from pushing twice
 class MainNavController: UINavigationController {
     var isPushing = false
+    
+//    // The banner ad
+//    private var bannerAd: GADBannerView = {
+//      let banner = GADBannerView()
+//      banner.adUnitID = AdUnitKeys.banner
+//      banner.load(GADRequest())
+//      return banner
+//    }()
     
     //MARK: - lifecycle
     override func viewWillAppear(_ animated: Bool) {
@@ -35,6 +45,8 @@ class MainNavController: UINavigationController {
             super.pushViewController(viewController, animated: animated)
             CATransaction.commit()
         }
+        
+//        loadBannerAd()
     }
     
     //MARK: - function
@@ -50,4 +62,14 @@ class MainNavController: UINavigationController {
             }
         }
     }
+    
+    
+//    fileprivate func loadBannerAd() {
+//       bannerAd.rootViewController = self
+//       view.addSubview(bannerAd)
+//        bannerAd.backgroundColor = Color.secondary
+//       bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(60))
+//    }
+    
+    
 }

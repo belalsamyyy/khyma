@@ -196,7 +196,7 @@ class PlaysVC: UIViewController {
         playsSliderCollectionView.isPagingEnabled = true
 
         playsSliderCollectionView.register(cell: MainSliderCell.self)
-        playsSliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 0, playsTableView, 0, .fixed(500)))
+        playsSliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 0, playsTableView, 0, .fixed(600)))
         playsSliderCollectionView.reloadData()
 
         // pager
