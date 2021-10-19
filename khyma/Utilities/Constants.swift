@@ -68,12 +68,47 @@ struct CategoryID {
 struct AdUnitKeys {
     //test Ids
     //static let banner = "ca-app-pub-3940256099942544/2934735716"
-    static let interstitial = "ca-app-pub-3940256099942544/4411468910"
-    static let rewardVideo = "ca-app-pub-3940256099942544/1712485313"
+    //static let interstitial = "ca-app-pub-3940256099942544/4411468910"
+    //static let rewardVideo = "ca-app-pub-3940256099942544/1712485313"
     
     //read Ids
-    static let bannerUp = "ca-app-pub-9037650239384734/3402324628"
-    static let bannerDown = "ca-app-pub-9037650239384734/3402324628"
+
+    static let MainVCbannerUp = "ca-app-pub-9037650239384734/3402324628"
+    static let SearchVCbannerUP = "ca-app-pub-9037650239384734/3210752938"
+    static let MyListVCbannerUP = "ca-app-pub-9037650239384734/9776161289"
+    static let SettingsVCbannerUP = "ca-app-pub-9037650239384734/8475947085"
+    
+    // TabBar
+    static let tabBarbannerDown = "ca-app-pub-9037650239384734/1350876358"
+    
+    // ————————
+
+    static let MoreVCbannerUP = "ca-app-pub-9037650239384734/4228321130"
+    static let MoreVCbannerDown = "ca-app-pub-9037650239384734/7724713011"
+
+    // ————————
+
+    // MovieVC
+    static let MoviesVCbannerUP = "ca-app-pub-9037650239384734/1159304668"
+    static let MoviesVCbannerDown = "ca-app-pub-9037650239384734/3785468008"
+
+    // SeriesVC
+    static let SeriesVCbannerUP = "ca-app-pub-9037650239384734/9967732972"
+    static let SeriesVCbannerDown = "ca-app-pub-9037650239384734/9097504435"
+
+    // PlaysVC
+    static let PlaysVCbannerUP = "ca-app-pub-9037650239384734/4910793828"
+    static let PlaysVCbannerDown = "ca-app-pub-9037650239384734/7668819103"
+
+    // ————————
+
+    // VideoPlayerVC
+    static let VideoPlayerVCbannerUP = "ca-app-pub-9037650239384734/1779387544"
+    static let VideoPlayerVCbannerDown = "ca-app-pub-9037650239384734/3597712150"
+
+    static let VideoPlayerVCInterstitial = "ca-app-pub-9037650239384734/1246233213"
+    static let VideoPlayerVCRewardVideo = "ca-app-pub-9037650239384734/4276369008"
+
 }
 
 //MARK: - Colors

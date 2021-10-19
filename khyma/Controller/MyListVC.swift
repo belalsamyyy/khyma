@@ -25,7 +25,7 @@ class MyListVC: UIViewController {
     // The banner ad
     private var bannerAd: GADBannerView = {
       let banner = GADBannerView()
-      banner.adUnitID = AdUnitKeys.bannerUp
+      banner.adUnitID = AdUnitKeys.MyListVCbannerUP
       banner.load(GADRequest())
       return banner
     }()

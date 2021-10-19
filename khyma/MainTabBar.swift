@@ -13,7 +13,7 @@ class MainTabBar: UITabBarController {
     // The banner ad
     private var bannerAd: GADBannerView = {
       let banner = GADBannerView()
-      banner.adUnitID = AdUnitKeys.bannerUp
+      banner.adUnitID = AdUnitKeys.tabBarbannerDown
       banner.load(GADRequest())
       return banner
     }()

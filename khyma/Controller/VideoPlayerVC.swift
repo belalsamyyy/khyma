@@ -42,14 +42,14 @@ class VideoPlayerVC: UIViewController {
     // The banner ad
     private var bannerAd1: GADBannerView = {
       let banner = GADBannerView()
-      banner.adUnitID = AdUnitKeys.bannerUp
+      banner.adUnitID = AdUnitKeys.VideoPlayerVCbannerUP
       banner.load(GADRequest())
       return banner
     }()
     
     private var bannerAd2: GADBannerView = {
       let banner = GADBannerView()
-      banner.adUnitID = AdUnitKeys.bannerDown
+      banner.adUnitID = AdUnitKeys.VideoPlayerVCbannerDown
       banner.load(GADRequest())
       return banner
     }()
@@ -466,7 +466,7 @@ class VideoPlayerVC: UIViewController {
     
     fileprivate func loadInterstitialAd() {
         let request = GADRequest()
-        GADInterstitialAd.load(withAdUnitID: AdUnitKeys.interstitial, request: request) { (ad, error) in
+        GADInterstitialAd.load(withAdUnitID: AdUnitKeys.VideoPlayerVCInterstitial, request: request) { (ad, error) in
           if let error = error {
             print("Failed to load interstitial ad with error: \(error.localizedDescription)")
             return
@@ -480,7 +480,7 @@ class VideoPlayerVC: UIViewController {
       
         
       fileprivate func loadRewardVideoAd() {
-        GADRewardedAd.load(withAdUnitID: AdUnitKeys.rewardVideo, request: GADRequest())  { (ad, error) in
+        GADRewardedAd.load(withAdUnitID: AdUnitKeys.VideoPlayerVCRewardVideo, request: GADRequest())  { (ad, error) in
             
           if let error = error {
             print("Rewarded ad failed to load with error: \(error.localizedDescription)")

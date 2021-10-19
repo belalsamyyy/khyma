@@ -26,14 +26,14 @@ class SeriesVC: UIViewController {
     // The banner ad
     private var bannerAd1: GADBannerView = {
       let banner = GADBannerView()
-      banner.adUnitID = AdUnitKeys.bannerUp
+      banner.adUnitID = AdUnitKeys.SeriesVCbannerUP
       banner.load(GADRequest())
       return banner
     }()
     
     private var bannerAd2: GADBannerView = {
       let banner = GADBannerView()
-      banner.adUnitID = AdUnitKeys.bannerDown
+      banner.adUnitID = AdUnitKeys.SeriesVCbannerDown
       banner.load(GADRequest())
       return banner
     }()
