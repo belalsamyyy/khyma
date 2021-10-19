@@ -10,6 +10,7 @@ import UIKit
 import DesignX
 import SimpleAPI
 import FBSDKCoreKit
+import GoogleMobileAds
 
 class MainVC: UIViewController {
 
@@ -29,6 +30,14 @@ class MainVC: UIViewController {
     var timerState = TimerState.notStarted
         
     //MARK: - constants
+    
+    // The banner ad
+    private var bannerAd: GADBannerView = {
+      let banner = GADBannerView()
+      banner.adUnitID = AdUnitKeys.banner
+      banner.load(GADRequest())
+      return banner
+    }()
         
     // check network
     let monitor = NWPathMonitor()
@@ -64,6 +73,9 @@ class MainVC: UIViewController {
         // API
         getGenres()
         getVideos()
+        
+        // banner Ad
+        loadBannerAd()
         
         // stop timer when application is backgrounded.
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
@@ -222,7 +234,6 @@ class MainVC: UIViewController {
 
         // pager
         pageView.layout(X: .center(nil), W: .equal(nil, 1), Y: .top(sliderCollectionView, -75), H: .fixed(50))
-        // pageView.numberOfPages = videos.count
         pageView.currentPage = 0
         pageView.currentPageIndicatorTintColor = .white
                 
@@ -313,6 +324,12 @@ class MainVC: UIViewController {
         moreVC.genreName = genreName
         moreVC.categoryName = CategoryName.movies
         self.navigationController?.pushViewController(moreVC, animated: true)
+    }
+    
+    fileprivate func loadBannerAd() {
+       bannerAd.rootViewController = self
+       scrollContainer.addSubview(bannerAd)
+       bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(60))
     }
 
     //MARK: - actions
