@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="xK5-fo-vcw">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -18,7 +16,7 @@
                         <viewControllerLayoutGuide type="bottom" id="1u2-G7-lpz"/>
                     </layoutGuides>
                     <view key="view" autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="fH0-BA-nIx">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" insetsLayoutMarginsFromSafeArea="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gkk-UW-F7Q" userLabel="mainScrollView">
@@ -71,16 +69,16 @@
             </objects>
             <point key="canvasLocation" x="853.62318840579712" y="1316.5178571428571"/>
         </scene>
-        <!--DetailsVC-->
+        <!--Video PlayerVC-->
         <scene sceneID="4zd-kz-NA1">
             <objects>
-                <viewController storyboardIdentifier="DetailsVC" id="R4v-Qu-jCG" customClass="DetailsVC" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DetailsVC" id="R4v-Qu-jCG" customClass="VideoPlayerVC" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="SHA-ZE-gLF"/>
                         <viewControllerLayoutGuide type="bottom" id="Nub-4f-QqF"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="5Nq-as-jQj">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Video Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ee6-dT-MfI">
@@ -110,7 +108,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Zbr-in-QxO"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="fg1-5H-0cd">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="8of-uj-mtr">
@@ -146,7 +144,7 @@
                         <viewControllerLayoutGuide type="bottom" id="8R6-YV-aKy"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="IFc-6g-mhS">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
@@ -164,7 +162,7 @@
                         <viewControllerLayoutGuide type="bottom" id="qZC-PI-ROF"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="iR6-Ow-yyf">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
@@ -222,11 +220,11 @@
                         <viewControllerLayoutGuide type="bottom" id="MCv-6F-erH"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="sTR-Hx-7Aa">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <searchBar contentMode="redraw" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z9D-yK-caH">
-                                <rect key="frame" x="0.0" y="88" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="88" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <textInputTraits key="textInputTraits"/>
                             </searchBar>
@@ -257,13 +255,13 @@
         <!--My List-->
         <scene sceneID="nhV-jf-FCr">
             <objects>
-                <viewController id="wcw-f9-S4M" customClass="myListVC" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="wcw-f9-S4M" customClass="MyListVC" customModule="khyma" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BbN-Tv-RnR"/>
                         <viewControllerLayoutGuide type="bottom" id="yyF-kU-uaT"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Bc2-1V-lq1">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="e9G-aP-gCN">
@@ -299,7 +297,7 @@
                         <viewControllerLayoutGuide type="bottom" id="bIb-vE-pQs"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="NxZ-ra-RLQ">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="lGJ-6U-nLo">
@@ -327,8 +325,8 @@
                         <viewControllerLayoutGuide type="top" id="D0d-Do-pPe"/>
                         <viewControllerLayoutGuide type="bottom" id="C7e-Np-b0B"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="2Hy-yu-8kb">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="2Hy-yu-8kb">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Bx-XQ-xIO" userLabel="moviesScrollView">
@@ -410,8 +408,8 @@
                         <viewControllerLayoutGuide type="top" id="3g0-m1-uu5"/>
                         <viewControllerLayoutGuide type="bottom" id="WB8-is-UzN"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Zhq-wl-tjo">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="Zhq-wl-tjo">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YoZ-d2-kQj" userLabel="seriesScrollView">
@@ -475,7 +473,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wQS-mx-OQo"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ae4-Zk-WGS">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TCG-XB-3rs">
@@ -522,7 +520,7 @@
                         <viewControllerLayoutGuide type="bottom" id="qgo-TU-meE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="azX-eB-Idx">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6rb-Em-pjx" userLabel="playsScrollView">

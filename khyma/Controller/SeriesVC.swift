@@ -24,7 +24,14 @@ class SeriesVC: UIViewController {
     //MARK: - variables
     
     // The banner ad
-    private var bannerAd: GADBannerView = {
+    private var bannerAd1: GADBannerView = {
+      let banner = GADBannerView()
+      banner.adUnitID = AdUnitKeys.banner
+      banner.load(GADRequest())
+      return banner
+    }()
+    
+    private var bannerAd2: GADBannerView = {
       let banner = GADBannerView()
       banner.adUnitID = AdUnitKeys.banner
       banner.load(GADRequest())
@@ -195,7 +202,7 @@ class SeriesVC: UIViewController {
         seriesSliderCollectionView.isPagingEnabled = true
 
         seriesSliderCollectionView.register(cell: MainSliderCell.self)
-        seriesSliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 0, seriesTableView, 0, .fixed(600)))
+        seriesSliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 60, seriesTableView, 0, .fixed(600)))
         seriesSliderCollectionView.reloadData()
 
         // pager
@@ -283,9 +290,13 @@ class SeriesVC: UIViewController {
     }
     
     fileprivate func loadBannerAd() {
-       bannerAd.rootViewController = self
-       view.addSubview(bannerAd)
-       bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(60))
+       bannerAd1.rootViewController = self
+    scrollContainer.addSubview(bannerAd1)
+       bannerAd1.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(60))
+        
+       bannerAd2.rootViewController = self
+       scrollContainer.addSubview(bannerAd2)
+       bannerAd2.layout(XW: .leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(60))
     }
     
     

@@ -7,6 +7,8 @@
 
 import UIKit
 import SimpleAPI
+import GoogleMobileAds
+import DesignX
 
 class SearchVC: UIViewController {
     
@@ -18,6 +20,14 @@ class SearchVC: UIViewController {
     
     //MARK: - variables
     var categoryName = CategoryName.movies
+    
+    // The banner ad
+    private var bannerAd: GADBannerView = {
+      let banner = GADBannerView()
+      banner.adUnitID = AdUnitKeys.banner
+      banner.load(GADRequest())
+      return banner
+    }()
     
     //MARK: - constants
     
@@ -50,12 +60,15 @@ class SearchVC: UIViewController {
     fileprivate func setupViews() {
         view.backgroundColor = Color.primary
         
+        // banner Ad
+        loadBannerAd()
+        
         // nav bar
         setupNavBar()
         
         // filter Button
         view.addSubview(filterBtn)
-        filterBtn.layout(X: .trailing(nil, 7), W: .fixed(30), Y: .topToSafeArea(nil, 20), H: .fixed(35))
+        filterBtn.layout(X: .trailing(nil, 7), W: .fixed(30), Y: .topToSafeArea(nil, 20+60), H: .fixed(35))
         let image = UIImage(named: "icon-filter")?.withRenderingMode(.alwaysTemplate)
 
         filterBtn.setImage(image, for: .normal)
@@ -70,7 +83,7 @@ class SearchVC: UIViewController {
         searchBar.layer.borderColor = Color.primary.cgColor
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = Color.secondary
         
-        searchBar.layout(XW: .leadingAndTrailing(nil, 5, filterBtn, 1), Y: .topToSafeArea(nil, 0), H: .fixed(75))
+        searchBar.layout(XW: .leadingAndTrailing(nil, 5, filterBtn, 1), Y: .topToSafeArea(nil, 60), H: .fixed(75))
         
         //collectionView
         searchCollectionView.delegate = self
@@ -157,8 +170,11 @@ class SearchVC: UIViewController {
         }
     }
     
-    
-    
+    fileprivate func loadBannerAd() {
+       bannerAd.rootViewController = self
+       view.addSubview(bannerAd)
+       bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(60))
+    }
     
     //MARK: - actions
     
@@ -233,7 +249,7 @@ extension SearchVC: UICollectionViewDelegate {
             
         } else {
             let video = videos[indexPath.item]
-            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! VideoPlayerVC
             detailsVC.modalPresentationStyle = .fullScreen
             detailsVC.video = video
             self.navigationController?.pushViewController(detailsVC, animated: true)

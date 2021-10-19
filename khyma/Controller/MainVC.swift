@@ -229,7 +229,7 @@ class MainVC: UIViewController {
         sliderCollectionView.isPagingEnabled = true
         
         sliderCollectionView.register(cell: MainSliderCell.self)
-        sliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 0, mainTableView, 0, .fixed(600)))
+        sliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 60, mainTableView, 0, .fixed(600)))
         sliderCollectionView.reloadData()
 
         // pager
@@ -608,7 +608,7 @@ extension MainVC: UICollectionViewDelegate {
         if collectionView == sliderCollectionView {
             // posters sliders
             let video = sliderVideos[indexPath.item]
-            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! VideoPlayerVC
             detailsVC.modalPresentationStyle = .fullScreen
             detailsVC.video = video
             detailsVC.watchableType = .movie
@@ -620,7 +620,7 @@ extension MainVC: UICollectionViewDelegate {
                 print("section : \(StringsKeys.continueWatching.localized) => \(indexPath.item)")
                 if continueWatching.count != 0 {
                     let video = continueWatching[indexPath.item]
-                    let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+                    let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! VideoPlayerVC
                     detailsVC.modalPresentationStyle = .fullScreen
                     detailsVC.video = video
                     detailsVC.watchableType = .movie
@@ -631,7 +631,7 @@ extension MainVC: UICollectionViewDelegate {
                 let popularVideos = Array(videos.prefix(20))
                 print("section : \(StringsKeys.popular.localized) => \(indexPath.item)")
                 let video = popularVideos[indexPath.item]
-                let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+                let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! VideoPlayerVC
                 detailsVC.modalPresentationStyle = .fullScreen
                 detailsVC.video = video
                 detailsVC.watchableType = .movie
@@ -646,7 +646,7 @@ extension MainVC: UICollectionViewDelegate {
                 print("genre : \(genre?.en_name ?? "") => \(indexPath.item)")
 
                 let video = filteredVideos[indexPath.item]
-                let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+                let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! VideoPlayerVC
                 detailsVC.modalPresentationStyle = .fullScreen
                 detailsVC.video = video
                 detailsVC.watchableType = .movie
@@ -686,7 +686,6 @@ extension MainVC: UICollectionViewDelegateFlowLayout {
         if collectionView == sliderCollectionView {
             let size = sliderCollectionView.frame.size
             return CGSize(width: max(CGFloat.leastNonzeroMagnitude, size.width), height: max(CGFloat.leastNonzeroMagnitude, size.height))
-            
         }
         
         switch sectionIndex {

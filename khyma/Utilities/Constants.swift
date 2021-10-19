@@ -67,14 +67,13 @@ struct CategoryID {
 
 struct AdUnitKeys {
     //test Ids
-    static let banner = "ca-app-pub-3940256099942544/2934735716"
+    //static let banner = "ca-app-pub-3940256099942544/2934735716"
     static let interstitial = "ca-app-pub-3940256099942544/4411468910"
     static let rewardVideo = "ca-app-pub-3940256099942544/1712485313"
     
     //read Ids
-//    static let banner = "ca-app-pub-2432082960307086/1172428632"
-//    static let interstitial = "ca-app-pub-2432082960307086/9581756913"
-//    static let rewardVideo = "ca-app-pub-2432082960307086/8268675249"
+    static let banner = "ca-app-pub-9037650239384734/3402324628"
+
 }
 
 //MARK: - Colors

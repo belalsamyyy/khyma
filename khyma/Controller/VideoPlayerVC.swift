@@ -40,7 +40,14 @@ class VideoPlayerVC: UIViewController {
     var isHalfHourAdsEnabled: Bool?
 
     // The banner ad
-    private var bannerAd: GADBannerView = {
+    private var bannerAd1: GADBannerView = {
+      let banner = GADBannerView()
+      banner.adUnitID = AdUnitKeys.banner
+      banner.load(GADRequest())
+      return banner
+    }()
+    
+    private var bannerAd2: GADBannerView = {
       let banner = GADBannerView()
       banner.adUnitID = AdUnitKeys.banner
       banner.load(GADRequest())
@@ -124,7 +131,7 @@ class VideoPlayerVC: UIViewController {
         setupNavBar()
         
         view.addSubview(YoutubePlayer)
-        YoutubePlayer.layout(XW :.leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(300))
+        YoutubePlayer.layout(XW :.leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 60), H: .fixed(300))
         videoTitle.layout(XW: .leadingAndCenter(nil, 20), Y: .top(YoutubePlayer, 10), H: .wrapContent)
         videoTitle.numberOfLines = 0
         videoTitle.font = UIFont.boldSystemFont(ofSize: 18)
@@ -448,9 +455,13 @@ class VideoPlayerVC: UIViewController {
     //MARK: - functions - admob ads
     
     fileprivate func loadBannerAd() {
-       bannerAd.rootViewController = self
-       view.addSubview(bannerAd)
-       bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(60))
+       bannerAd1.rootViewController = self
+       view.addSubview(bannerAd1)
+       bannerAd1.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(60))
+        
+       bannerAd2.rootViewController = self
+       view.addSubview(bannerAd2)
+       bannerAd2.layout(XW: .leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(60))
     }
     
     fileprivate func loadInterstitialAd() {

@@ -7,6 +7,8 @@
 
 import UIKit
 import SimpleAPI
+import GoogleMobileAds
+import DesignX
 
 class MoreVC: UIViewController {
     
@@ -15,6 +17,21 @@ class MoreVC: UIViewController {
     @IBOutlet weak var moreCollectionView: UICollectionView!
     
     //MARK: - variables
+    
+    // The banner ad
+    private var bannerAd1: GADBannerView = {
+      let banner = GADBannerView()
+      banner.adUnitID = AdUnitKeys.banner
+      banner.load(GADRequest())
+      return banner
+    }()
+    
+    private var bannerAd2: GADBannerView = {
+      let banner = GADBannerView()
+      banner.adUnitID = AdUnitKeys.banner
+      banner.load(GADRequest())
+      return banner
+    }()
     
     var videos = [Video?]()
     var categoryName: String?
@@ -27,9 +44,14 @@ class MoreVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        // admob ads
+        loadBannerAd()
+        
         print("genre id is => \(genreID ?? "")")
         setupViews()
         getVideos()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -61,7 +83,7 @@ class MoreVC: UIViewController {
         addNavBar()
         
         moreCollectionView.backgroundColor = Color.primary
-        moreCollectionView.layout(shortcut: .fillSuperView(0))
+        moreCollectionView.layout(shortcut: .fillToSafeArea(nil, 60, nil, 60))
         
         moreCollectionView.delegate = self
         moreCollectionView.dataSource = self
@@ -74,6 +96,16 @@ class MoreVC: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         let navBar = navigationController?.navigationBar
         navBar?.topItem?.backButtonTitle = genreName
+    }
+    
+    fileprivate func loadBannerAd() {
+       bannerAd1.rootViewController = self
+       view.addSubview(bannerAd1)
+       bannerAd1.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(60))
+        
+       bannerAd2.rootViewController = self
+       view.addSubview(bannerAd2)
+       bannerAd2.layout(XW: .leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(60))
     }
     
     
@@ -110,7 +142,7 @@ extension MoreVC: UICollectionViewDelegate {
     // item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movie = videos[indexPath.item]
-        let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+        let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! VideoPlayerVC
         detailsVC.modalPresentationStyle = .fullScreen
         detailsVC.video = movie
         self.navigationController?.pushViewController(detailsVC, animated: true)

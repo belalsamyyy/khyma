@@ -24,7 +24,14 @@ class PlaysVC: UIViewController {
     //MARK: - variables
     
     // The banner ad
-    private var bannerAd: GADBannerView = {
+    private var bannerAd1: GADBannerView = {
+      let banner = GADBannerView()
+      banner.adUnitID = AdUnitKeys.banner
+      banner.load(GADRequest())
+      return banner
+    }()
+    
+    private var bannerAd2: GADBannerView = {
       let banner = GADBannerView()
       banner.adUnitID = AdUnitKeys.banner
       banner.load(GADRequest())
@@ -196,7 +203,7 @@ class PlaysVC: UIViewController {
         playsSliderCollectionView.isPagingEnabled = true
 
         playsSliderCollectionView.register(cell: MainSliderCell.self)
-        playsSliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 0, playsTableView, 0, .fixed(600)))
+        playsSliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 60, playsTableView, 0, .fixed(600)))
         playsSliderCollectionView.reloadData()
 
         // pager
@@ -288,9 +295,13 @@ class PlaysVC: UIViewController {
     }
 
     fileprivate func loadBannerAd() {
-       bannerAd.rootViewController = self
-       view.addSubview(bannerAd)
-       bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(60))
+       bannerAd1.rootViewController = self
+       scrollContainer.addSubview(bannerAd1)
+       bannerAd1.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(60))
+        
+       bannerAd2.rootViewController = self
+       scrollContainer.addSubview(bannerAd2)
+       bannerAd2.layout(XW: .leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(60))
     }
     
     
@@ -511,7 +522,7 @@ extension PlaysVC: UICollectionViewDelegate {
         if collectionView == playsSliderCollectionView {
             // posters sliders
             let video = sliderVideos[indexPath.item]
-            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! VideoPlayerVC
             detailsVC.modalPresentationStyle = .fullScreen
             detailsVC.video = video
             detailsVC.watchableType = .play
@@ -522,7 +533,7 @@ extension PlaysVC: UICollectionViewDelegate {
                 let popularVideos = Array(plays.prefix(20))
                 print("section : \(StringsKeys.popular.localized) => \(indexPath.item)")
                 let video = popularVideos[indexPath.item]
-                let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+                let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! VideoPlayerVC
                 detailsVC.modalPresentationStyle = .fullScreen
                 detailsVC.video = video
                 detailsVC.watchableType = .play
@@ -536,7 +547,7 @@ extension PlaysVC: UICollectionViewDelegate {
                 print("genre : \(genre?.en_name ?? "") => \(indexPath.item)")
 
                 let video = filteredVideos[indexPath.item]
-                let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+                let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! VideoPlayerVC
                 detailsVC.modalPresentationStyle = .fullScreen
                 detailsVC.video = video
                 detailsVC.watchableType = .play

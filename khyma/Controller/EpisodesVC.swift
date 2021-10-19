@@ -262,7 +262,7 @@ extension EpisodesVC: UICollectionViewDelegate {
         let season = seasons[collectionView.tag]
         let episodes = episodes[season?._id ?? ""]
         
-        let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+        let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! VideoPlayerVC
         detailsVC.modalPresentationStyle = .fullScreen
         detailsVC.video = episodes?[indexPath.item]
         detailsVC.series = series

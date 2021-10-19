@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import GoogleMobileAds
+import DesignX
 
 class SettingsVC: UIViewController {
     
@@ -14,6 +16,14 @@ class SettingsVC: UIViewController {
     
     
     //MARK: - variables
+    
+    // The banner ad
+    private var bannerAd: GADBannerView = {
+      let banner = GADBannerView()
+      banner.adUnitID = AdUnitKeys.banner
+      banner.load(GADRequest())
+      return banner
+    }()
     
     
     //MARK: - constants
@@ -42,6 +52,10 @@ class SettingsVC: UIViewController {
     //MARK: - functions
     
     fileprivate func setupViews() {
+        
+        // banner Ad
+        loadBannerAd()
+        
         // nav bar
         setupNavBar()
         
@@ -55,13 +69,20 @@ class SettingsVC: UIViewController {
 
         settingsTableView.separatorStyle = .none
         settingsTableView.backgroundColor = Color.primary
-        settingsTableView.layout(shortcut: .fillToSafeArea(nil, 0, nil, 0))
+        
+        settingsTableView.layout(shortcut: .fillToSafeArea(nil, 60, nil, 0))
     }
 
     fileprivate func setupNavBar() {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationController?.navigationBar.topItem?.title = StringsKeys.settings.localized
+    }
+    
+    fileprivate func loadBannerAd() {
+       bannerAd.rootViewController = self
+       view.addSubview(bannerAd)
+       bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(60))
     }
     
     //MARK: - functions - language

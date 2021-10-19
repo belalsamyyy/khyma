@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import GoogleMobileAds
+import DesignX
 
-class myListVC: UIViewController {
+class MyListVC: UIViewController {
     
     //MARK: - outlets
     
@@ -19,6 +21,15 @@ class myListVC: UIViewController {
     var indexPath = 0
     
     let emptyImage = UIImageView()
+    
+    // The banner ad
+    private var bannerAd: GADBannerView = {
+      let banner = GADBannerView()
+      banner.adUnitID = AdUnitKeys.banner
+      banner.load(GADRequest())
+      return banner
+    }()
+    
     
     //MARK: - constants
     
@@ -59,12 +70,15 @@ class myListVC: UIViewController {
     fileprivate func setupViews() {
         view.backgroundColor = Color.primary
         
+        // banner Ad
+        loadBannerAd()
+        
         // nav bar
         setupNavBar()
         
         // list collection view
         myListCollectionView.backgroundColor = Color.primary
-        myListCollectionView.layout(shortcut: .fillSuperView(0))
+        myListCollectionView.layout(shortcut: .fillToSafeArea(nil, 60, nil, 0))
         
         myListCollectionView.delegate = self
         myListCollectionView.dataSource = self
@@ -115,6 +129,13 @@ class myListVC: UIViewController {
         emptyImage.alpha = 0.50
         emptyImage.isHidden = videos.count == 0 ? false : true
     }
+    
+    fileprivate func loadBannerAd() {
+       bannerAd.rootViewController = self
+       view.addSubview(bannerAd)
+       bannerAd.layout(XW: .leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(60))
+    }
+    
 }
 
 
@@ -122,7 +143,7 @@ class myListVC: UIViewController {
 
 
 // MARK: - UICollectionView Data Source
-extension myListVC: UICollectionViewDataSource {
+extension MyListVC: UICollectionViewDataSource {
 
     // section
     func numberOfSections(in _: UICollectionView) -> Int {
@@ -144,7 +165,7 @@ extension myListVC: UICollectionViewDataSource {
 
 
 // MARK: - UICollectionView Delegate
-extension myListVC: UICollectionViewDelegate {
+extension MyListVC: UICollectionViewDelegate {
     // item
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -158,7 +179,7 @@ extension myListVC: UICollectionViewDelegate {
             
         } else {
             let video = videos[indexPath.item]
-            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! DetailsVC
+            let detailsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "DetailsVC") as! VideoPlayerVC
             detailsVC.modalPresentationStyle = .fullScreen
             detailsVC.video = video
             self.navigationController?.pushViewController(detailsVC, animated: true)
@@ -169,7 +190,7 @@ extension myListVC: UICollectionViewDelegate {
 
 
 // MARK: - UICollectionViewDelegate Flow Layout
-extension myListVC: UICollectionViewDelegateFlowLayout {
+extension MyListVC: UICollectionViewDelegateFlowLayout {
     // section
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, insetForSectionAt _: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
