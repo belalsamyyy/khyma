@@ -72,8 +72,8 @@ struct AdUnitKeys {
     static let rewardVideo = "ca-app-pub-3940256099942544/1712485313"
     
     //read Ids
-    static let banner = "ca-app-pub-9037650239384734/3402324628"
-
+    static let bannerUp = "ca-app-pub-9037650239384734/3402324628"
+    static let bannerDown = "ca-app-pub-9037650239384734/3402324628"
 }
 
 //MARK: - Colors

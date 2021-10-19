@@ -42,14 +42,14 @@ class VideoPlayerVC: UIViewController {
     // The banner ad
     private var bannerAd1: GADBannerView = {
       let banner = GADBannerView()
-      banner.adUnitID = AdUnitKeys.banner
+      banner.adUnitID = AdUnitKeys.bannerUp
       banner.load(GADRequest())
       return banner
     }()
     
     private var bannerAd2: GADBannerView = {
       let banner = GADBannerView()
-      banner.adUnitID = AdUnitKeys.banner
+      banner.adUnitID = AdUnitKeys.bannerDown
       banner.load(GADRequest())
       return banner
     }()

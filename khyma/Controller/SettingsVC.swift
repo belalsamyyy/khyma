@@ -20,7 +20,7 @@ class SettingsVC: UIViewController {
     // The banner ad
     private var bannerAd: GADBannerView = {
       let banner = GADBannerView()
-      banner.adUnitID = AdUnitKeys.banner
+      banner.adUnitID = AdUnitKeys.bannerUp
       banner.load(GADRequest())
       return banner
     }()
