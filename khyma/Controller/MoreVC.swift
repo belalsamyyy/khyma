@@ -94,20 +94,20 @@ class MoreVC: UIViewController {
     fileprivate func addNavBar() {
         navigationController?.navigationBar.barTintColor = Color.primary
         self.navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationItem.largeTitleDisplayMode = .never
         let navBar = navigationController?.navigationBar
         navBar?.topItem?.backButtonTitle = genreName
     }
-    
+
     fileprivate func loadBannerAd() {
        bannerAd1.rootViewController = self
        view.addSubview(bannerAd1)
-       bannerAd1.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(60))
+       bannerAd1.layout(XW: .leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(60))
         
        bannerAd2.rootViewController = self
        view.addSubview(bannerAd2)
-       bannerAd2.layout(XW: .leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 0), H: .fixed(60))
+       bannerAd2.layout(XW: .leadingAndCenter(nil, 0), Y: .bottomToSafeArea(nil, 0), H: .fixed(60))
     }
-    
     
     //MARK: - actions
     
