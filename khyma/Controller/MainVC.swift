@@ -28,6 +28,18 @@ class MainVC: UIViewController {
     var sliderTimer: Timer?
     var counter = 0
     var timerState = TimerState.notStarted
+    
+    private lazy var paginationManager: HorizontalPaginationManager = {
+        let manager = HorizontalPaginationManager(scrollView: self.sliderCollectionView)
+        manager.delegate = self
+        return manager
+    }()
+    
+    private var isDragging: Bool {
+        return self.sliderCollectionView.isDragging
+    }
+    
+    var CURRENT_PAGE = 1
         
     //MARK: - constants
     
@@ -55,7 +67,7 @@ class MainVC: UIViewController {
     
     var genres = [Genre?]()
     var videos = [Video?]()
-    var videosDict = [String: [Video?]]()
+    var videosDict = [String: (page: Int, videos: [Video?])]()
     var sliderVideos = [Video?]()
     var continueWatching = Defaults.savedContinueWatching()
     
@@ -72,7 +84,7 @@ class MainVC: UIViewController {
         
         // API
         getGenres()
-        getVideos()
+        //getVideos()
         
         // banner Ad
         loadBannerAd()
@@ -153,11 +165,11 @@ class MainVC: UIViewController {
     
     
     fileprivate func getVideos(genreID: String) {
-        Video.endpoint = "\(BASE_URL)/api/movies/genre/\(genreID)"
+        Video.endpoint = "\(BASE_URL)/api/movies/genre/\(genreID)/\(self.videosDict[genreID]?.page ?? 1)"
         API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):
-                self?.videosDict[genreID] = data
+                self?.videosDict[genreID]?.videos = data
                 DispatchQueue.main.async {
                     self?.sliderCollectionView.reloadData()
                     self?.mainTableView.reloadData()
@@ -168,13 +180,20 @@ class MainVC: UIViewController {
         }
     }
     
-    fileprivate func getVideos() {
-        Video.endpoint = Endpoints.movies
+    fileprivate func getVideos(page: Int) {
+        Video.endpoint = "\(BASE_URL)/api/movies?page=\(page)&nameEn=&nameAr="
         API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):
-                self?.videos = Array(data.prefix(50))
-                self?.sliderVideos = Array(data.shuffled().prefix(5))
+                // self?.videos = Array(data.prefix(50))
+                // self?.sliderVideos = Array(data.shuffled().prefix(5))
+                
+                if page == 1 {
+                    self?.sliderVideos = data
+                } else {
+                    self?.sliderVideos.append(contentsOf: data)
+                }
+                
                 DispatchQueue.main.async {
                     self?.pageView.numberOfPages = self?.sliderVideos.count ?? 0
                     self?.sliderCollectionView.reloadData()
@@ -205,6 +224,7 @@ class MainVC: UIViewController {
     }
     
     fileprivate func setupViews() {
+        self.setupPagination()
 
         // navigation bar
         self.navigationController?.navigationBar.topItem?.title = ""
@@ -339,6 +359,47 @@ class MainVC: UIViewController {
 
 //MARK: - extensions
 
+public func delay2(_ delay: Double, closure: @escaping () -> Void) {
+    let deadline = DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+    DispatchQueue.main.asyncAfter(
+        deadline: deadline,
+        execute: closure
+    )
+}
+
+extension MainVC: HorizontalPaginationManagerDelegate {
+    
+    private func setupPagination() {
+        self.paginationManager.refreshViewColor = .clear
+        self.paginationManager.loaderColor = .white
+    }
+    
+    private func fetchItems() {
+        self.paginationManager.initialLoad()
+    }
+    
+    func swipeToLeft(completion: @escaping (Bool) -> Void) {
+        delay2(2.0) {
+            print("swipe To Left ... ")
+            self.getVideos(page: 1)
+            //self.items = [1, 2, 3, 4, 5]
+            self.sliderCollectionView.reloadData()
+            completion(true)
+        }
+    }
+    
+    func swipeToRight(completion: @escaping (Bool) -> Void) {
+        delay2(2.0) {
+            print("swipe To Right ... ")
+            self.CURRENT_PAGE = self.CURRENT_PAGE + 1
+            self.getVideos(page: self.CURRENT_PAGE)
+            //self.items.append(contentsOf: [6, 7, 8, 9, 10])
+            self.sliderCollectionView.reloadData()
+            completion(true)
+        }
+    }
+    
+}
 
 //MARK: - CustomNavBar Delegate
 
@@ -538,7 +599,7 @@ extension MainVC: UICollectionViewDataSource {
         default:
             // genre
             let genre = genres[collectionView.tag - 2]
-            let videosFromGenreID = videosDict[genre?._id ?? ""] ?? []
+            let videosFromGenreID = videosDict[genre?._id ?? ""]?.videos ?? []
             let filteredVideos = Array(videosFromGenreID.prefix(20))
             //let filteredVideos = videos.filter { $0?.genreId == genre?._id }
             return filteredVideos.count == 0 ? 0 : filteredVideos.count
@@ -573,7 +634,7 @@ extension MainVC: UICollectionViewDataSource {
         default:
             // genre
             let genre = genres[collectionView.tag - 2]
-            let videosFromGenreID = videosDict[genre?._id ?? ""] ?? []
+            let videosFromGenreID = videosDict[genre?._id ?? ""]?.videos ?? []
             let filteredVideos = Array(videosFromGenreID.prefix(20))
             //let filteredVideos = videos.filter { $0?.genreId == genre?._id }
 
@@ -640,7 +701,7 @@ extension MainVC: UICollectionViewDelegate {
             default:
                 // other genre from api
                 let genre = genres[collectionView.tag - 2]
-                let videosFromGenreID = videosDict[genre?._id ?? ""] ?? []
+                let videosFromGenreID = videosDict[genre?._id ?? ""]?.videos ?? []
                 let filteredVideos = Array(videosFromGenreID.prefix(20))
                 // let filteredVideos = videos.filter { $0?.genreId == genre?._id }
                 print("genre : \(genre?.en_name ?? "") => \(indexPath.item)")

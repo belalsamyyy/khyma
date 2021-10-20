@@ -36,7 +36,7 @@ struct Endpoints {
     static let categories = "\(BASE_URL)/api/categories"
     
     // movies
-    static let movies = "\(BASE_URL)/api/movies/1?nameEn=&nameAr="
+    static let movies = "\(BASE_URL)/api/movies?page=1&nameEn=&nameAr="
     static let movieFromID = "\(BASE_URL)/api/movies/" // with id
     static let moviesFromGenreID = "\(BASE_URL)/api/movies/genre/" // with genre id
 

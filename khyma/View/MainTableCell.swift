@@ -83,3 +83,4 @@ class MainTableCell: UITableViewCell {
         collectionView.reloadData()
     }
 }
+
