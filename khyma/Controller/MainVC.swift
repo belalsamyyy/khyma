@@ -481,7 +481,7 @@ extension MainVC: UITableViewDelegate {
            sectionLabel.text = filteredVideos.count == 0 ? "" : self.tableView(tableView, titleForHeaderInSection: section)
            moreBtn.genreId = genre?._id
            moreBtn.genreName = Language.currentLanguage == Lang.english.rawValue ? genre?.en_name : genre?.ar_name
-           moreBtn.isHidden = filteredVideos.count < 4 ? true : false
+           moreBtn.isHidden = false // filteredVideos.count < 4 ? true : false
        }
        return headerView
     }

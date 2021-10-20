@@ -38,6 +38,9 @@ class MoreVC: UIViewController {
     var genreID: String?
     var genreName: String?
     
+    var page: Int = 0
+    var isPageRefreshing:Bool = false
+    
     //MARK: - constants
     
     //MARK: - lifecycle
@@ -50,7 +53,7 @@ class MoreVC: UIViewController {
         
         print("genre id is => \(genreID ?? "")")
         setupViews()
-        getVideos()
+        getVideos(page: page)
         
     }
     
@@ -64,8 +67,8 @@ class MoreVC: UIViewController {
     
     //MARK: - functions
     
-    fileprivate func getVideos() {
-        Video.endpoint = "\(BASE_URL)/api/\(categoryName ?? "")/genre/\(genreID ?? "")"
+    fileprivate func getVideos(page: Int) {
+        Video.endpoint = "\(BASE_URL)/api/\(categoryName ?? "")/genre/\(genreID ?? "")/\(page)"
         API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):
@@ -114,6 +117,23 @@ class MoreVC: UIViewController {
 }
 
 //MARK: - extensions
+
+//MARK: - UIScrollView Delegate
+
+extension MoreVC: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if moreCollectionView.contentOffset.y >= (moreCollectionView.contentSize.height - moreCollectionView.bounds.size.height) {
+            if !isPageRefreshing {
+                isPageRefreshing = true
+                print(page)
+                page = page + 1
+                getVideos(page: page)
+                // YourApi(page1: page)
+            }
+        }
+    }
+}
 
 // MARK: - UICollectionView Data Source
 extension MoreVC: UICollectionViewDataSource {
