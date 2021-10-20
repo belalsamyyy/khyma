@@ -15,20 +15,12 @@ watchAd = "Watch Ad";
 noConnection = "NO CONNECTION !";
 update = "click here";
 
-//Movies
-bodyGuard = "Body Guard";
-avengers = "Avengers: End Game";
-weladRizk = "Welad Rizk 2";
-batman = "Batman Hush";
-blueElephant = "Blue Elephant 2";
-
 //Main
-continueWatching = "Contiue Watching";
-popular = "Popular";
+continueWatching = "continue watching";
+popular = "popular";
 movies = "Movies";
 series = "Series";
 plays = "Plays";
-anime = "anime";
 more = "More";
 
 //Series

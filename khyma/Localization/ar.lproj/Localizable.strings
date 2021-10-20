@@ -14,20 +14,12 @@ watchAd = "شاهد اعلان";
 noConnection = "لا يــوجد اتصال !";
 update = "اضغـط هنا";
 
-//Movies
-bodyGuard = "بودي جارد";
-avengers = "الافنجرز: نهاية اللعبة";
-weladRizk = "ولاد رزق ٢";
-batman = "بات مان هاش";
-blueElephant = "الفيل الازرق ٢";
-
 //Main
 continueWatching = "استكمال المشاهدة";
 popular = "الاكثر مشاهدة";
 movies = "افــــلام";
 series = "مسلسلات";
 plays = "مسرحيات";
-anime = "انمــــي";
 more = "المزيــد";
 
 //Series

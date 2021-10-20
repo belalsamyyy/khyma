@@ -72,17 +72,18 @@ struct AdUnitKeys {
     //static let rewardVideo = "ca-app-pub-3940256099942544/1712485313"
     
     //read Ids
-
+    
+    // TabBar
     static let MainVCbannerUp = "ca-app-pub-9037650239384734/3402324628"
     static let SearchVCbannerUP = "ca-app-pub-9037650239384734/3210752938"
     static let MyListVCbannerUP = "ca-app-pub-9037650239384734/9776161289"
     static let SettingsVCbannerUP = "ca-app-pub-9037650239384734/8475947085"
     
-    // TabBar
     static let tabBarbannerDown = "ca-app-pub-9037650239384734/1350876358"
-    
+        
     // ————————
 
+    // More
     static let MoreVCbannerUP = "ca-app-pub-9037650239384734/4228321130"
     static let MoreVCbannerDown = "ca-app-pub-9037650239384734/7724713011"
 
