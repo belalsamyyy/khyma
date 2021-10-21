@@ -30,8 +30,8 @@ class MainVC: UIViewController {
     var timerState = TimerState.notStarted
     
     // pagination
-    var currentCell = MainTableCell()
-    var CURRENT_PAGE = 0
+    var CURRENT_GENRE_ID: String?
+    var POPULAR_CURRENT_PAGE = 0
         
     //MARK: - constants
     
@@ -60,12 +60,12 @@ class MainVC: UIViewController {
     var genres = [Genre?]()
     var videos = [Video?]()
     var videosDict = [String: [Video?]]()
+    var pagesDict = [String: Int]()
     
     var sliderVideos = [Video?]()
     var continueWatching = Defaults.savedContinueWatching()
     
     //MARK: - lifecycle
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -143,7 +143,7 @@ class MainVC: UIViewController {
             case .success(let data):
                 self?.genres = data
                 data.forEach { genre in
-                    print(genre?.ar_name ?? "")
+                    self?.pagesDict[genre?._id ?? ""] = 1
                     self?.getVideos(page: 1, genreID: genre?._id ?? "")
                 }
                 DispatchQueue.main.async {
@@ -157,12 +157,14 @@ class MainVC: UIViewController {
     }
     
     fileprivate func getVideos(page: Int, genreID: String) {
-        CURRENT_PAGE = page
-        Video.endpoint = "\(BASE_URL)/api/\(CategoryName.movies)/genre/\(genreID)/\(CURRENT_PAGE)"
+        var currentPage = pagesDict[genreID] ?? 0
+        currentPage = page
+        Video.endpoint = "\(BASE_URL)/api/\(CategoryName.movies)/genre/\(genreID)/\(currentPage)"
         API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):
-                if self?.CURRENT_PAGE == 1 {
+                
+                if self?.POPULAR_CURRENT_PAGE == 1 {
                     self?.videosDict[genreID] = data
                 } else {
                     self?.videosDict[genreID]?.append(contentsOf: data)
@@ -178,7 +180,8 @@ class MainVC: UIViewController {
     }
     
     fileprivate func getVideos(page: Int) {
-        Video.endpoint = "\(BASE_URL)/api/\(CategoryName.movies)?page=\(page)&nameEn=&nameAr="
+        POPULAR_CURRENT_PAGE = page
+        Video.endpoint = "\(BASE_URL)/api/\(CategoryName.movies)?page=\(POPULAR_CURRENT_PAGE)&nameEn=&nameAr="
         API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):
@@ -359,12 +362,24 @@ class MainVC: UIViewController {
 extension MainVC: HorizontalPaginationManagerDelegate {
     
     func loadMore(completion: @escaping (Bool) -> Void) {
-        refreshDelay(2.0) {
+        refreshDelay(2.0) { [self] in
             // load more
-            print("load more ...")
-            self.CURRENT_PAGE = self.CURRENT_PAGE + 1
-            self.getVideos(page: self.CURRENT_PAGE)
-            self.currentCell.collectionView.reloadData()
+            
+            if self.CURRENT_GENRE_ID == "" {
+                //  popular videos
+                var currentPage = self.POPULAR_CURRENT_PAGE
+                currentPage = currentPage + 1
+                print("load more for popular for page \(currentPage) ...")
+                self.getVideos(page: currentPage)
+                
+            } else {
+                // load more videos from genre id
+                var currentPage = self.pagesDict[self.CURRENT_GENRE_ID ?? ""] ?? 0
+                currentPage = currentPage + 1
+                print("load more for genre id \"\(self.CURRENT_GENRE_ID ?? "")\" for page \(currentPage) ...")
+                self.getVideos(page: currentPage, genreID: self.CURRENT_GENRE_ID!)
+            }
+            
             completion(true)
         }
     }
@@ -428,7 +443,6 @@ extension MainVC: UIScrollViewDelegate {
 }
 
 
-
 // MARK: - UITableView Data Source
 
 extension MainVC: UITableViewDataSource {
@@ -468,6 +482,7 @@ extension MainVC: UITableViewDataSource {
 
 // MARK: - UITableView Delegate
 extension MainVC: UITableViewDelegate {
+    
     // section
     func tableView(_: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
@@ -521,7 +536,7 @@ extension MainVC: UITableViewDelegate {
        return 0
     }
     
-     // row
+    // row
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return continueWatching.count == 0 ? CGFloat.leastNonzeroMagnitude : 200
@@ -540,7 +555,6 @@ extension MainVC: UITableViewDelegate {
         
        // pagination
        cell.paginagationManager.delegate = self
-       currentCell = cell
     }
 }
 
@@ -573,7 +587,6 @@ extension MainVC: UICollectionViewDataSource {
             // genre
             let genre = genres[collectionView.tag - 2]
             let videosFromGenreID = videosDict[genre?._id ?? ""] ?? []
-            print(videosFromGenreID)
             return videosFromGenreID.count == 0 ? 0 : videosFromGenreID.count
         }
     }
@@ -611,6 +624,7 @@ extension MainVC: UICollectionViewDataSource {
             let cell4 = collectionView.dequeue(indexPath: indexPath) as MovieCell
             cell4.backgroundColor = Color.secondary
             cell4.video = videosFromGenreID[indexPath.item]
+            cell4.genreID = genre?._id
             return cell4
         }
     }
@@ -628,6 +642,9 @@ extension MainVC: UICollectionViewDelegate {
                 counter = index
                 pageView.currentPage = counter
             }
+        } else {
+            guard let cell = collectionView.visibleCells.first as? MovieCell else { return }
+            CURRENT_GENRE_ID = cell.genreID ?? ""
         }
     }
     

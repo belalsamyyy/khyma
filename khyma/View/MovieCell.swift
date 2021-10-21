@@ -10,9 +10,10 @@ import DesignX
 import SDWebImage
 
 class MovieCell: UICollectionViewCell {
-    
+    var genreID: String?
+
     @IBOutlet weak var posterImageView: UIImageView!
-    
+        
      var video: Watchable? {
          didSet {
              let placeHolderImage = UIImage(named: "logo-khyma-transparent")?.withRenderingMode(.automatic).withTintColor(Defaults.darkMode ? .lightGray : .darkGray) 
