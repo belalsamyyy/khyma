@@ -7,6 +7,12 @@
 
 import UIKit
 
+extension UICollectionViewFlowLayout {
+    open override var flipsHorizontallyInOppositeLayoutDirection: Bool {
+        return Language.currentLanguage == Lang.english.rawValue ? false : true
+    }
+}
+
 //MARK: - CollectionView
 class CollectionView: UICollectionView {
     var indexPath: IndexPath!
@@ -17,6 +23,7 @@ class MainTableCell: UITableViewCell {
     static let identifier = "MainTableCell"
     var collectionView: CollectionView!
     var collectionFlowLayout = UICollectionViewFlowLayout()
+    var paginagationManager: HorizontalPaginationManager!
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -36,9 +43,14 @@ class MainTableCell: UITableViewCell {
         collectionView.isDirectionalLockEnabled = true
         collectionView.isMultipleTouchEnabled = false
         collectionView.isOpaque = true
+        collectionView.alwaysBounceHorizontal = true
+        
+        // Pagination manager
+        paginagationManager = HorizontalPaginationManager(scrollView: collectionView)
+        paginagationManager.refreshViewColor = .clear
+        paginagationManager.loaderColor = Color.text
         
         collectionView.reloadData()
-
         contentView.addSubview(collectionView)
     }
 
@@ -71,7 +83,7 @@ class MainTableCell: UITableViewCell {
     final func setCollectionView(dataSource: UICollectionViewDataSource, delegate: UICollectionViewDelegate, indexPath: IndexPath) {
         collectionView.indexPath = indexPath
         collectionView.tag = indexPath.section
-
+        
         if collectionView.dataSource == nil {
             collectionView.dataSource = dataSource
         }

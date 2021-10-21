@@ -42,6 +42,10 @@ class SeriesVC: UIViewController {
     var counter = 0
     
     var timerState = TimerState.notStarted
+    
+    // pagination
+    var currentCell = MainTableCell()
+    var CURRENT_PAGE = 1
 
         
     //MARK: - constants
@@ -77,7 +81,7 @@ class SeriesVC: UIViewController {
         
         // API
         getGenres()
-        getVideos()
+        getVideos(page: 1)
         
         // stop timer when application is backgrounded.
         NotificationCenter.default.addObserver(self, selector: #selector(applicationDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
@@ -131,7 +135,7 @@ class SeriesVC: UIViewController {
                 self?.genres = data
                 data.forEach { genre in
                     print(genre?.ar_name ?? "")
-                    self?.getVideos(genreID: genre?._id ?? "")
+                    self?.getVideos(page: 1, genreID: genre?._id ?? "")
                 }
                 DispatchQueue.main.async {
                     self?.seriesSliderCollectionView.reloadData()
@@ -144,12 +148,18 @@ class SeriesVC: UIViewController {
     }
     
     
-    fileprivate func getVideos(genreID: String) {
-        Series.endpoint = "\(BASE_URL)/api/\(CategoryName.series)/genre/\(genreID)"
+    fileprivate func getVideos(page: Int, genreID: String) {
+        CURRENT_PAGE = page
+        Video.endpoint = "\(BASE_URL)/api/\(CategoryName.series)/genre/\(genreID)/\(CURRENT_PAGE)"
         API<Series>.list { [weak self] result in
             switch result {
             case .success(let data):
-                self?.seriesDict[genreID] = data
+                //self?.seriesDict[genreID] = data
+                if self?.CURRENT_PAGE == 1 {
+                    self?.seriesDict[genreID] = data
+                } else {
+                    self?.seriesDict[genreID]?.append(contentsOf: data)
+                }
                 DispatchQueue.main.async {
                     self?.seriesSliderCollectionView.reloadData()
                     self?.seriesTableView.reloadData()
@@ -160,13 +170,21 @@ class SeriesVC: UIViewController {
         }
     }
     
-    fileprivate func getVideos() {
-        Series.endpoint = Endpoints.series
+    fileprivate func getVideos(page: Int) {
+        Series.endpoint = "\(BASE_URL)/api/\(CategoryName.series)?page=\(page)&nameEn=&nameAr="
         API<Series>.list { [weak self] result in
             switch result {
             case .success(let data):
-                self?.series = Array(data.prefix(50))
-                self?.sliderVideos = Array(data.shuffled().prefix(5))
+//                self?.series = Array(data.prefix(50))
+//                self?.sliderVideos = Array(data.shuffled().prefix(5))
+                
+                if page == 1 {
+                    self?.sliderVideos = Array(data.shuffled().prefix(5))
+                    self?.series = data
+                } else {
+                    self?.series.append(contentsOf: data)
+                }
+                
                 DispatchQueue.main.async {
                     self?.pageView.numberOfPages = self?.sliderVideos.count ?? 0
                     self?.seriesSliderCollectionView.reloadData()
@@ -307,6 +325,31 @@ class SeriesVC: UIViewController {
 
 //MARK: - extensions
 
+extension SeriesVC: HorizontalPaginationManagerDelegate {
+    
+    func refreshAll(completion: @escaping (Bool) -> Void) {
+        refreshDelay(1.0) {
+            // refresh all
+            print("refresh all ...")
+            self.CURRENT_PAGE = 1
+            self.getVideos(page: self.CURRENT_PAGE)
+            self.currentCell.collectionView.reloadData()
+            completion(true)
+        }
+    }
+    
+    func loadMore(completion: @escaping (Bool) -> Void) {
+        refreshDelay(1.0) {
+            // load more
+            print("load more ...")
+            self.CURRENT_PAGE = self.CURRENT_PAGE + 1
+            self.getVideos(page: self.CURRENT_PAGE)
+            self.currentCell.collectionView.reloadData()
+            completion(true)
+        }
+    }
+    
+}
 
 //MARK: - CustomNavBar Delegate
 
@@ -428,6 +471,10 @@ extension SeriesVC: UITableViewDelegate {
     func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
        guard let cell: MainTableCell = cell as? MainTableCell else { return }
        cell.setCollectionView(dataSource: self, delegate: self, indexPath: indexPath)
+        
+        // pagination
+        cell.paginagationManager.delegate = self
+        currentCell = cell
     }
 }
 
@@ -457,9 +504,7 @@ extension SeriesVC: UICollectionViewDataSource {
             // genre
             let genre = genres[collectionView.tag - 1]
             let videosFromGenreID = seriesDict[genre?._id ?? ""] ?? []
-            let filteredVideos = Array(videosFromGenreID.prefix(20))
-            //let filteredVideos = series.filter { $0?.genreId == genre?._id }
-            return filteredVideos.count == 0 ? 0 : filteredVideos.count
+            return videosFromGenreID.count == 0 ? 0 : videosFromGenreID.count
         }
     }
 
@@ -485,12 +530,10 @@ extension SeriesVC: UICollectionViewDataSource {
             // genre
             let genre = genres[collectionView.tag - 1]
             let videosFromGenreID = seriesDict[genre?._id ?? ""] ?? []
-            let filteredVideos = Array(videosFromGenreID.prefix(20))
-            //let filteredVideos = series.filter { $0?.genreId == genre?._id }
-
+   
             let cell4 = collectionView.dequeue(indexPath: indexPath) as MovieCell
             cell4.backgroundColor = Color.secondary
-            cell4.video = filteredVideos[indexPath.item]
+            cell4.video = videosFromGenreID[indexPath.item]
             return cell4
         }
     }
@@ -539,11 +582,9 @@ extension SeriesVC: UICollectionViewDelegate {
                 // other genre from api
                 let genre = genres[collectionView.tag - 1]
                 let videosFromGenreID = seriesDict[genre?._id ?? ""] ?? []
-                let filteredVideos = Array(videosFromGenreID.prefix(20))
-                //let filteredVideos = series.filter { $0?.genreId == genre?._id }
                 print("genre : \(genre?.en_name ?? "") => \(indexPath.item)")
 
-                let series = filteredVideos[indexPath.item]
+                let series = videosFromGenreID[indexPath.item]
                 let episodesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "EpisodesVC") as! EpisodesVC
                 episodesVC.modalPresentationStyle = .fullScreen
                 episodesVC.series = series

@@ -9,8 +9,15 @@ import Foundation
 import UIKit
 
 protocol HorizontalPaginationManagerDelegate: AnyObject {
-    func swipeToLeft(completion: @escaping (Bool) -> Void)
-    func swipeToRight(completion: @escaping (Bool) -> Void)
+    func loadMore(completion: @escaping (Bool) -> Void)
+}
+
+public func refreshDelay(_ delay: Double, closure: @escaping () -> Void) {
+    let deadline = DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+    DispatchQueue.main.asyncAfter(
+        deadline: deadline,
+        execute: closure
+    )
 }
 
 class HorizontalPaginationManager: NSObject {
@@ -18,8 +25,7 @@ class HorizontalPaginationManager: NSObject {
     private var isLoading = false
     private var isObservingKeyPath: Bool = false
     private var scrollView: UIScrollView!
-    private var leftMostLoader: UIView?
-    private var rightMostLoader: UIView?
+    private var moreLoader: UIView?
     var refreshViewColor: UIColor = .white
     var loaderColor: UIColor = .white
     
@@ -36,62 +42,32 @@ class HorizontalPaginationManager: NSObject {
     }
     
     func initialLoad() {
-        self.delegate?.swipeToLeft(completion: {_ in })
+        self.delegate?.loadMore(completion: {_ in })
     }
     
 }
 
-// MARK: ADD LEFT LOADER
+// MARK: More LOADER
 extension HorizontalPaginationManager {
     
-    private func addLeftMostControl() {
+    private func addmoreLoaderControl() {
         let view = UIView()
         view.backgroundColor = self.refreshViewColor
-        view.frame.origin = CGPoint(x: -60, y: 0)
-        view.frame.size = CGSize(width: 60,
-                                 height: self.scrollView.bounds.height)
-        let activity = UIActivityIndicatorView(style: .medium)
-        activity.color = self.loaderColor
-        activity.frame = view.bounds
-        activity.startAnimating()
-        view.addSubview(activity)
-        self.scrollView.contentInset.left = view.frame.width
-        self.leftMostLoader = view
-        self.scrollView.addSubview(view)
-    }
-    
-    func removeLeftLoader() {
-        self.leftMostLoader?.removeFromSuperview()
-        self.leftMostLoader = nil
-        self.scrollView.contentInset.left = 0
-        self.scrollView.setContentOffset(.zero, animated: true)
-    }
-    
-}
-
-// MARK: RIGHT LOADER
-extension HorizontalPaginationManager {
-    
-    private func addRightMostControl() {
-        let view = UIView()
-        view.backgroundColor = self.refreshViewColor
-        view.frame.origin = CGPoint(x: self.scrollView.contentSize.width,
-                                    y: 0)
-        view.frame.size = CGSize(width: 60,
-                                 height: self.scrollView.bounds.height)
+        view.frame.origin = CGPoint(x: self.scrollView.contentSize.width, y: 0)
+        view.frame.size = CGSize(width: 60, height: self.scrollView.bounds.height)
         let activity = UIActivityIndicatorView(style: .medium)
         activity.color = self.loaderColor
         activity.frame = view.bounds
         activity.startAnimating()
         view.addSubview(activity)
         self.scrollView.contentInset.right = view.frame.width
-        self.rightMostLoader = view
+        self.moreLoader = view
         self.scrollView.addSubview(view)
     }
     
-    func removeRightLoader() {
-        self.rightMostLoader?.removeFromSuperview()
-        self.rightMostLoader = nil
+    func removeMoreLoader() {
+        self.moreLoader?.removeFromSuperview()
+        self.moreLoader = nil
     }
     
 }
@@ -131,26 +107,16 @@ extension HorizontalPaginationManager {
     
     private func setContentOffSet(_ offset: CGPoint) {
         let offsetX = offset.x
-        if offsetX < -100 && !self.isLoading {
-            self.isLoading = true
-            self.addLeftMostControl()
-            self.delegate?.swipeToLeft { success in
-                self.isLoading = false
-                self.removeLeftLoader()
-            }
-            return
-        }
-        
         let contentWidth = self.scrollView.contentSize.width
         let frameWidth = self.scrollView.bounds.size.width
+        
         let diffX = contentWidth - frameWidth
-        if contentWidth > frameWidth,
-        offsetX > (diffX + 130) && !self.isLoading {
+        if contentWidth > frameWidth, offsetX > (diffX + 100) && !self.isLoading {
             self.isLoading = true
-            self.addRightMostControl()
-            self.delegate?.swipeToRight { success in
+            self.addmoreLoaderControl()
+            self.delegate?.loadMore { success in
                 self.isLoading = false
-                self.removeRightLoader()
+                self.removeMoreLoader()
             }
         }
     }
