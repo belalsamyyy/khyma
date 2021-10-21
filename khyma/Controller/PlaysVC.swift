@@ -477,7 +477,7 @@ extension PlaysVC: UITableViewDelegate {
        cell.setCollectionView(dataSource: self, delegate: self, indexPath: indexPath)
         
         // pagination
-        cell.paginagationManager.delegate = self
+        cell.paginagationManager.delegateH = self
         currentCell = cell
     }
 }

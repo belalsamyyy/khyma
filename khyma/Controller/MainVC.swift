@@ -143,8 +143,9 @@ class MainVC: UIViewController {
             case .success(let data):
                 self?.genres = data
                 data.forEach { genre in
-                    self?.pagesDict[genre?._id ?? ""] = 1
-                    self?.getVideos(page: 1, genreID: genre?._id ?? "")
+                    var currentPage = self?.pagesDict[genre?._id ?? ""] ?? 0
+                    currentPage = 1
+                    self?.getVideos(page: currentPage, genreID: genre?._id ?? "")
                 }
                 DispatchQueue.main.async {
                     self?.sliderCollectionView.reloadData()
@@ -157,14 +158,12 @@ class MainVC: UIViewController {
     }
     
     fileprivate func getVideos(page: Int, genreID: String) {
-        var currentPage = pagesDict[genreID] ?? 0
-        currentPage = page
-        Video.endpoint = "\(BASE_URL)/api/\(CategoryName.movies)/genre/\(genreID)/\(currentPage)"
+        pagesDict[genreID] = page
+        Video.endpoint = "\(BASE_URL)/api/\(CategoryName.movies)/genre/\(genreID)/\(page)"
         API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):
-                
-                if self?.POPULAR_CURRENT_PAGE == 1 {
+                if page == 1 {
                     self?.videosDict[genreID] = data
                 } else {
                     self?.videosDict[genreID]?.append(contentsOf: data)
@@ -369,14 +368,14 @@ extension MainVC: HorizontalPaginationManagerDelegate {
                 //  popular videos
                 var currentPage = self.POPULAR_CURRENT_PAGE
                 currentPage = currentPage + 1
-                print("load more for popular for page \(currentPage) ...")
+                print("load more for popular from page \(currentPage) ...")
                 self.getVideos(page: currentPage)
                 
             } else {
                 // load more videos from genre id
                 var currentPage = self.pagesDict[self.CURRENT_GENRE_ID ?? ""] ?? 0
                 currentPage = currentPage + 1
-                print("load more for genre id \"\(self.CURRENT_GENRE_ID ?? "")\" for page \(currentPage) ...")
+                print("load more for genre id \"\(self.CURRENT_GENRE_ID ?? "")\" from page \(currentPage) ...")
                 self.getVideos(page: currentPage, genreID: self.CURRENT_GENRE_ID!)
             }
             
@@ -554,7 +553,7 @@ extension MainVC: UITableViewDelegate {
        cell.setCollectionView(dataSource: self, delegate: self, indexPath: indexPath)
         
        // pagination
-       cell.paginagationManager.delegate = self
+       cell.paginagationManager.delegateH = self
     }
 }
 

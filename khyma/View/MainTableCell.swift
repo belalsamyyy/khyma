@@ -23,7 +23,7 @@ class MainTableCell: UITableViewCell {
     static let identifier = "MainTableCell"
     var collectionView: CollectionView!
     var collectionFlowLayout = UICollectionViewFlowLayout()
-    var paginagationManager: HorizontalPaginationManager!
+    var paginagationManager: PaginationManager!
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -46,7 +46,7 @@ class MainTableCell: UITableViewCell {
         collectionView.alwaysBounceHorizontal = true
         
         // Pagination manager
-        paginagationManager = HorizontalPaginationManager(scrollView: collectionView)
+        paginagationManager = PaginationManager(scrollView: collectionView, direction: .horizontal)
         paginagationManager.refreshViewColor = .clear
         paginagationManager.loaderColor = Color.text
         

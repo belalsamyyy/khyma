@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		0EE45D6FBA7261C1A7309C5B /* Pods_khymaTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 393D1248B15BF50FECE00549 /* Pods_khymaTests.framework */; };
 		1C6D0E4DA0C79E7B5B7BD251 /* Pods_khyma_khymaUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6721A2C4845D67214760FBA1 /* Pods_khyma_khymaUITests.framework */; };
-		4123BA7027208B5B00D7804A /* HorizontalPaginationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4123BA6F27208B5B00D7804A /* HorizontalPaginationManager.swift */; };
+		4123BA7027208B5B00D7804A /* PaginationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4123BA6F27208B5B00D7804A /* PaginationManager.swift */; };
 		41319D7D26FE620300FCCBBC /* SettingsTableSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41319D7C26FE620300FCCBBC /* SettingsTableSections.swift */; };
 		41319D8026FE6F5D00FCCBBC /* CoinsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41319D7E26FE6F5D00FCCBBC /* CoinsCell.swift */; };
 		41319D8126FE6F5D00FCCBBC /* CoinsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 41319D7F26FE6F5D00FCCBBC /* CoinsCell.xib */; };
@@ -121,7 +121,7 @@
 		23BDF58F059D25CC8EA4D010 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
 		2EDF089912BC63D00E86D3A4 /* Pods-khymaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-khymaTests.release.xcconfig"; path = "Target Support Files/Pods-khymaTests/Pods-khymaTests.release.xcconfig"; sourceTree = "<group>"; };
 		393D1248B15BF50FECE00549 /* Pods_khymaTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_khymaTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4123BA6F27208B5B00D7804A /* HorizontalPaginationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalPaginationManager.swift; sourceTree = "<group>"; };
+		4123BA6F27208B5B00D7804A /* PaginationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaginationManager.swift; sourceTree = "<group>"; };
 		41319D7C26FE620300FCCBBC /* SettingsTableSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableSections.swift; sourceTree = "<group>"; };
 		41319D7E26FE6F5D00FCCBBC /* CoinsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoinsCell.swift; sourceTree = "<group>"; };
 		41319D7F26FE6F5D00FCCBBC /* CoinsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CoinsCell.xib; sourceTree = "<group>"; };
@@ -363,12 +363,12 @@
 			children = (
 				D933888227034EA30061AA06 /* NavBar */,
 				41319D8A26FF456E00FCCBBC /* Localizer.swift */,
+				4123BA6F27208B5B00D7804A /* PaginationManager.swift */,
 				4181A32B271045DB0009DEA0 /* MainNavigationController.swift */,
 				D95CF76026FCC4D200C05C89 /* MainTabBar.swift */,
 				D994B54B270EFC3500C851D0 /* MainTableView.swift */,
 				41319D7C26FE620300FCCBBC /* SettingsTableSections.swift */,
 				D964E819270DFB9300FF6287 /* MoreBtn.swift */,
-				4123BA6F27208B5B00D7804A /* HorizontalPaginationManager.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -768,7 +768,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4181A32C271045DB0009DEA0 /* MainNavigationController.swift in Sources */,
-				4123BA7027208B5B00D7804A /* HorizontalPaginationManager.swift in Sources */,
+				4123BA7027208B5B00D7804A /* PaginationManager.swift in Sources */,
 				D95CF75A26FB63B600C05C89 /* SeriesVC.swift in Sources */,
 				D908B7D32714589100ED819C /* Config.swift in Sources */,
 				D9125A8626F7346F00D29128 /* UICollectionView+Extensions.swift in Sources */,

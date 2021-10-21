@@ -37,23 +37,30 @@ class MoreVC: UIViewController {
     var categoryName: String?
     var genreID: String?
     var genreName: String?
-    
-    var page: Int = 0
-    var isPageRefreshing:Bool = false
+
+    // pagination
+    var paginagationManager: PaginationManager!
+    var CURRENT_PAGE = 0
+
     
     //MARK: - constants
     
     //MARK: - lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        // Pagination manager
+        paginagationManager = PaginationManager(scrollView: moreCollectionView, direction: .vertical)
+        paginagationManager.refreshViewColor = .clear
+        paginagationManager.loaderColor = Color.text
+        paginagationManager.delegateV = self 
         
         // admob ads
         loadBannerAd()
         
         print("genre id is => \(genreID ?? "")")
         setupViews()
-        getVideos(page: page)
+        getVideos(page: 1)
         
     }
     
@@ -68,11 +75,17 @@ class MoreVC: UIViewController {
     //MARK: - functions
     
     fileprivate func getVideos(page: Int) {
-        Video.endpoint = "\(BASE_URL)/api/\(categoryName ?? "")/genre/\(genreID ?? "")/\(page)"
+        CURRENT_PAGE = page
+        Video.endpoint = "\(BASE_URL)/api/\(categoryName ?? "")/genre/\(genreID ?? "")/\(CURRENT_PAGE)"
         API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):
-                self?.videos = data
+                if self?.CURRENT_PAGE == 1{
+                    self?.videos = data
+                } else {
+                    self?.videos.append(contentsOf: data)
+                }
+                
                 DispatchQueue.main.async {
                     self?.moreCollectionView.reloadData()
                 }
@@ -91,6 +104,7 @@ class MoreVC: UIViewController {
         moreCollectionView.delegate = self
         moreCollectionView.dataSource = self
         moreCollectionView.register(cell: MovieCell.self)
+        moreCollectionView.alwaysBounceVertical = true
         moreCollectionView.reloadData()
     }
     
@@ -120,20 +134,23 @@ class MoreVC: UIViewController {
 
 //MARK: - UIScrollView Delegate
 
-extension MoreVC: UIScrollViewDelegate {
+extension MoreVC: VerticalPaginationManagerDelegate {
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if moreCollectionView.contentOffset.y >= (moreCollectionView.contentSize.height - moreCollectionView.bounds.size.height) {
-            if !isPageRefreshing {
-                isPageRefreshing = true
-                print(page)
-                page = page + 1
-                getVideos(page: page)
-                // YourApi(page1: page)
-            }
+    func loadMore(completion: @escaping (Bool) -> Void) {
+        refreshDelay(2.0) { [weak self] in
+            // load more videos from genre id
+            print("load more vertically !!")
+            var currentPage = self?.CURRENT_PAGE ?? 0
+            currentPage = currentPage + 1
+            print("load more vertically from page \(currentPage) ...")
+            self?.getVideos(page: currentPage)
+            
+            completion(true)
         }
     }
+    
 }
+
 
 // MARK: - UICollectionView Data Source
 extension MoreVC: UICollectionViewDataSource {
