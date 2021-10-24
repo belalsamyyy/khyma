@@ -44,8 +44,8 @@ class PlaysVC: UIViewController {
     var timerState = TimerState.notStarted
     
     // pagination
-    var currentCell = MainTableCell()
-    var CURRENT_PAGE = 1
+    var CURRENT_GENRE_ID: String?
+    var POPULAR_CURRENT_PAGE = 0
         
     //MARK: - constants
     
@@ -66,6 +66,8 @@ class PlaysVC: UIViewController {
     var genres = [Genre?]()
     var plays = [Play?]()
     var playsDict = [String: [Play?]]()
+    var pagesDict = [String: Int]()
+
     var sliderVideos = [Play?]()
 
 
@@ -135,8 +137,9 @@ class PlaysVC: UIViewController {
             case .success(let data):
                 self?.genres = data
                 data.forEach { genre in
-                    print(genre?.ar_name ?? "")
-                    self?.getVideos(page: 1, genreID: genre?._id ?? "")
+                    var currentPage = self?.pagesDict[genre?._id ?? ""] ?? 0
+                    currentPage = 1
+                    self?.getVideos(page: currentPage, genreID: genre?._id ?? "")
                 }
                 DispatchQueue.main.async {
                     self?.playsSliderCollectionView.reloadData()
@@ -150,13 +153,12 @@ class PlaysVC: UIViewController {
     
     
     fileprivate func getVideos(page: Int, genreID: String) {
-        CURRENT_PAGE = page
-        Video.endpoint = "\(BASE_URL)/api/\(CategoryName.plays)/genre/\(genreID)/\(CURRENT_PAGE)"
+        pagesDict[genreID] = page
+        Video.endpoint = "\(BASE_URL)/api/\(CategoryName.plays)/genre/\(genreID)/\(page)"
         API<Play>.list { [weak self] result in
             switch result {
             case .success(let data):
-                // self?.playsDict[genreID] = data
-                if self?.CURRENT_PAGE == 1 {
+                if page == 1 {
                     self?.playsDict[genreID] = data
                 } else {
                     self?.playsDict[genreID]?.append(contentsOf: data)
@@ -172,7 +174,8 @@ class PlaysVC: UIViewController {
     }
     
     fileprivate func getVideos(page: Int) {
-        Play.endpoint = "\(BASE_URL)/api/\(CategoryName.plays)?page=\(page)&nameEn=&nameAr="
+        POPULAR_CURRENT_PAGE = page
+        Play.endpoint = "\(BASE_URL)/api/\(CategoryName.plays)?page=\(POPULAR_CURRENT_PAGE)&nameEn=&nameAr="
         API<Play>.list { [weak self] result in
             switch result {
             case .success(let data):
@@ -272,7 +275,7 @@ class PlaysVC: UIViewController {
              self.playsSliderCollectionView.scrollToItem(at: index, at: .centeredHorizontally, animated: false)
              pageView.currentPage = counter
          }
-        print("series slider => \(counter)")
+        print("plays slider => \(counter)")
     }
     
     
@@ -333,24 +336,25 @@ class PlaysVC: UIViewController {
 
 extension PlaysVC: HorizontalPaginationManagerDelegate {
     
-    func refreshAll(completion: @escaping (Bool) -> Void) {
-        refreshDelay(1.0) {
-            // refresh all
-            print("refresh all ...")
-            self.CURRENT_PAGE = 1
-            self.getVideos(page: self.CURRENT_PAGE)
-            self.currentCell.collectionView.reloadData()
-            completion(true)
-        }
-    }
-    
     func loadMore(completion: @escaping (Bool) -> Void) {
-        refreshDelay(1.0) {
+        refreshDelay(2.0) { [weak self] in
             // load more
-            print("load more ...")
-            self.CURRENT_PAGE = self.CURRENT_PAGE + 1
-            self.getVideos(page: self.CURRENT_PAGE)
-            self.currentCell.collectionView.reloadData()
+            
+            if self?.CURRENT_GENRE_ID == "" {
+                //  popular videos
+                var currentPage = self?.POPULAR_CURRENT_PAGE ?? 0
+                currentPage = currentPage + 1
+                print("load more for popular plays from page \(currentPage) ...")
+                self?.getVideos(page: currentPage)
+                
+            } else {
+                // load more videos from genre id
+                var currentPage = self?.pagesDict[self?.CURRENT_GENRE_ID ?? ""] ?? 0
+                currentPage = currentPage + 1
+                print("load more for genre id \"\(self?.CURRENT_GENRE_ID ?? "")\" from page \(currentPage) ...")
+                self?.getVideos(page: currentPage, genreID: self?.CURRENT_GENRE_ID ?? "")
+            }
+            
             completion(true)
         }
     }
@@ -478,7 +482,6 @@ extension PlaysVC: UITableViewDelegate {
         
         // pagination
         cell.paginagationManager.delegateH = self
-        currentCell = cell
     }
 }
 
@@ -538,6 +541,7 @@ extension PlaysVC: UICollectionViewDataSource {
             let cell4 = collectionView.dequeue(indexPath: indexPath) as MovieCell
             cell4.backgroundColor = Color.secondary
             cell4.video = videosFromGenreID[indexPath.item]
+            cell4.genreID = genre?._id
             return cell4
         }
     }
@@ -555,6 +559,9 @@ extension PlaysVC: UICollectionViewDelegate {
                 counter = index
                 pageView.currentPage = counter
             }
+        } else {
+            guard let cell = collectionView.visibleCells.first as? MovieCell else { return }
+            CURRENT_GENRE_ID = cell.genreID ?? ""
         }
     }
     

@@ -59,7 +59,6 @@ class PaginationManager: NSObject {
     func initialLoad() {
         self.delegateH?.loadMore(completion: {_ in })
     }
-    
 }
 
 // MARK: Horizontal LOADER
@@ -70,7 +69,7 @@ extension PaginationManager {
         view.backgroundColor = self.refreshViewColor
         view.frame.origin = CGPoint(x: self.scrollView.contentSize.width, y: 0)
         view.frame.size = CGSize(width: 60, height: self.scrollView.bounds.height)
-        let activity = UIActivityIndicatorView(style: .medium)
+        let activity = UIActivityIndicatorView(style: .large)
         activity.color = self.loaderColor
         activity.frame = view.bounds
         activity.startAnimating()
@@ -100,7 +99,7 @@ extension PaginationManager {
         activity.frame = view.bounds
         activity.startAnimating()
         view.addSubview(activity)
-        self.scrollView.contentInset.bottom = view.frame.width
+        self.scrollView.contentInset.bottom = 60
         self.verticalLoader = view
         self.scrollView.addSubview(view)
     }
@@ -155,7 +154,7 @@ extension PaginationManager {
             let frameWidth = self.scrollView.bounds.size.width
             
             let diffX = contentWidth - frameWidth
-            if contentWidth > frameWidth, offsetX > (diffX + 100) && !self.isLoading {
+            if contentWidth > frameWidth, offsetX > (diffX + 50) && !self.isLoading {
                 self.isLoading = true
                 self.addHorizontalLoaderControl()
                 self.delegateH?.loadMore { success in
@@ -179,7 +178,6 @@ extension PaginationManager {
                 }
             }
         }
-
         
     }
     

@@ -105,6 +105,7 @@ class MoreVC: UIViewController {
         moreCollectionView.dataSource = self
         moreCollectionView.register(cell: MovieCell.self)
         moreCollectionView.alwaysBounceVertical = true
+        moreCollectionView.isPagingEnabled = false 
         moreCollectionView.reloadData()
     }
     

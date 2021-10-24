@@ -99,6 +99,7 @@ class MainVC: UIViewController {
         startTimer()
         
         mainTableView.reloadData()
+        
         self.navigationController?.navigationBar.topItem?.title = ""
         addCustomNavBar()
     }
@@ -361,22 +362,22 @@ class MainVC: UIViewController {
 extension MainVC: HorizontalPaginationManagerDelegate {
     
     func loadMore(completion: @escaping (Bool) -> Void) {
-        refreshDelay(2.0) { [self] in
+        refreshDelay(2.0) { [weak self] in
             // load more
             
-            if self.CURRENT_GENRE_ID == "" {
+            if self?.CURRENT_GENRE_ID == "" {
                 //  popular videos
-                var currentPage = self.POPULAR_CURRENT_PAGE
+                var currentPage = self?.POPULAR_CURRENT_PAGE ?? 0
                 currentPage = currentPage + 1
                 print("load more for popular from page \(currentPage) ...")
-                self.getVideos(page: currentPage)
+                self?.getVideos(page: currentPage)
                 
             } else {
                 // load more videos from genre id
-                var currentPage = self.pagesDict[self.CURRENT_GENRE_ID ?? ""] ?? 0
+                var currentPage = self?.pagesDict[self?.CURRENT_GENRE_ID ?? ""] ?? 0
                 currentPage = currentPage + 1
-                print("load more for genre id \"\(self.CURRENT_GENRE_ID ?? "")\" from page \(currentPage) ...")
-                self.getVideos(page: currentPage, genreID: self.CURRENT_GENRE_ID!)
+                print("load more for genre id \"\(self?.CURRENT_GENRE_ID ?? "")\" from page \(currentPage) ...")
+                self?.getVideos(page: currentPage, genreID: self?.CURRENT_GENRE_ID ?? "")
             }
             
             completion(true)
