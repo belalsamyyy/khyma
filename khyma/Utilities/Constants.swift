@@ -10,7 +10,6 @@ import UIKit
 
 //MARK: - UserDefaults Keys
 
-let BASE_URL = "https://polar-plateau-31663.herokuapp.com"
 let ConfigID = "61641f9fa2ee6a208c57990c"
 let OneSignalID = "9529c9c9-90b7-41fc-9f4e-114e2863bf75"
 
@@ -24,30 +23,31 @@ struct UserDefaultsKeys {
     static let backToSettings = "backToSettings"
     static let myList = "myList"
     static let continueWatching = "continueWatching"
+    static let BASE_URL = "BASE_URL"
 }
 
 struct Endpoints {
     // images
-    static let image = "\(BASE_URL)/"
-    static let config = "\(BASE_URL)/api/configs/"
+    static let image = "\(Defaults.BASE_URL)/"
+    static let config = "\(Defaults.BASE_URL)configs/"
     
     // Categories and genres
-    static let genres = "\(BASE_URL)/api/genres"
-    static let categories = "\(BASE_URL)/api/categories"
+    static let genres = "\(Defaults.BASE_URL)genres"
+    static let categories = "\(Defaults.BASE_URL)categories"
     
     // movies
-    static let movies = "\(BASE_URL)/api/movies?page=1&nameEn=&nameAr="
-    static let movieFromID = "\(BASE_URL)/api/movies/" // with id
-    static let moviesFromGenreID = "\(BASE_URL)/api/movies/genre/" // with genre id
+    static let movies = "\(Defaults.BASE_URL)movies?page=1&nameEn=&nameAr="
+    static let movieFromID = "\(Defaults.BASE_URL)movies/" // with id
+    static let moviesFromGenreID = "\(Defaults.BASE_URL)movies/genre/" // with genre id
 
     // series
-    static let series = "\(BASE_URL)/api/series?nameEn=&nameAr="
-    static let serieFromID = "\(BASE_URL)/api/series/" // with id
-    static let seasons = "\(BASE_URL)/api/seasons/serie/" // with series id
+    static let series = "\(Defaults.BASE_URL)series?nameEn=&nameAr="
+    static let serieFromID = "\(Defaults.BASE_URL)series/" // with id
+    static let seasons = "\(Defaults.BASE_URL)seasons/serie/" // with series id
     
     // plays
-    static let plays = "\(BASE_URL)/api/plays?nameEn=&nameAr="
-    static let playFromID = "\(BASE_URL)/api/plays/" // with id
+    static let plays = "\(Defaults.BASE_URL)plays?nameEn=&nameAr="
+    static let playFromID = "\(Defaults.BASE_URL)plays/" // with id
 }
 
 struct CategoryName {

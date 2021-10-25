@@ -158,7 +158,7 @@ class VideoPlayerVC: UIViewController {
     }
     
     fileprivate func increaseViews(categoryName: String, id: String) {
-        Video.endpoint = "\(BASE_URL)/api/\(categoryName)/"
+        Video.endpoint = "\(Defaults.BASE_URL)\(categoryName)/"
         API<Video>.object(.get(id)) { result in
             // add view for current vidoe
         }

@@ -72,7 +72,7 @@ class EpisodesVC: UIViewController {
     }
     
     fileprivate func getEpisodes(seasonID: String) {
-        Episode.endpoint = "\(BASE_URL)/api/episodes/serie/\(series?._id ?? "")/season/\(seasonID)"
+        Episode.endpoint = "\(Defaults.BASE_URL)episodes/serie/\(series?._id ?? "")/season/\(seasonID)"
         API<Episode>.list { [weak self] result in
             switch result {
             case .success(let data):

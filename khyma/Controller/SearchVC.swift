@@ -132,7 +132,7 @@ class SearchVC: UIViewController {
     }
     
     fileprivate func getVideos(categoryName: String, nameEn: String, nameAr: String) {
-        Video.endpoint = "\(BASE_URL)/api/\(categoryName)?nameEn=\(nameEn)&nameAr=\(nameAr)"
+        Video.endpoint = "\(Defaults.BASE_URL)\(categoryName)?nameEn=\(nameEn)&nameAr=\(nameAr)"
         API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):
@@ -152,7 +152,7 @@ class SearchVC: UIViewController {
     
     
     fileprivate func getSeries(nameEn: String, nameAr: String) {
-        Series.endpoint = "\(BASE_URL)/api/series?nameEn=\(nameEn)&nameAr=\(nameAr)"
+        Series.endpoint = "\(Defaults.BASE_URL)series?nameEn=\(nameEn)&nameAr=\(nameAr)"
         API<Series>.list { [weak self] result in
             switch result {
             case .success(let data):

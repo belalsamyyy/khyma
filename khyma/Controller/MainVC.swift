@@ -132,6 +132,18 @@ class MainVC: UIViewController {
                         self?.present(updateScreen, animated: true)
                     }
                 }
+                
+                // change BASE_URL from server
+                if Defaults.BASE_URL != data?.serverUrl {
+                    print("BEFORE | local url : \"\(Defaults.BASE_URL)\" and server url : \"\(data?.serverUrl ?? "")\"")
+                    Defaults.BASE_URL = data?.serverUrl ?? ""
+                    print("AFTER | local url : \"\(Defaults.BASE_URL)\" and server url : \"\(data?.serverUrl ?? "")\"")
+                    
+                    // recalling API Functions
+                    self?.getGenres()
+                    self?.getVideos(page: 1)
+                }
+                
             case .failure(let error):
                 print(error)
             }
@@ -161,7 +173,8 @@ class MainVC: UIViewController {
     
     fileprivate func getVideos(page: Int, genreID: String) {
         pagesDict[genreID] = page
-        Video.endpoint = "\(BASE_URL)/api/\(CategoryName.movies)/genre/\(genreID)/\(page)"
+        Video.endpoint = "\(Defaults.BASE_URL)\(CategoryName.movies)/genre/\(genreID)/\(page)"
+        print("\(Defaults.BASE_URL)\(CategoryName.movies)/genre/\(genreID)/\(page)")
         API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):
@@ -186,7 +199,7 @@ class MainVC: UIViewController {
     
     fileprivate func getVideos(page: Int) {
         POPULAR_CURRENT_PAGE = page
-        Video.endpoint = "\(BASE_URL)/api/\(CategoryName.movies)?page=\(POPULAR_CURRENT_PAGE)&nameEn=&nameAr="
+        Video.endpoint = "\(Defaults.BASE_URL)\(CategoryName.movies)?page=\(POPULAR_CURRENT_PAGE)&nameEn=&nameAr="
         API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):

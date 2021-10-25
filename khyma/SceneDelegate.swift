@@ -21,14 +21,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-        // Change to arabic (RTL)
+        // FIRST TIME OPEN THE APP
         if Defaults.firstTime == true {
-            Localizer.changeToArabic()
+            
+            // SAVE DATE AND TIME
             Defaults.def.set(Date(), forKey: UserDefaultsKeys.everySixHoursReward)
+            
+            // SET DEFAULT LANGAUGE
+            Localizer.changeToArabic()
+            
+            // SET DEFAULT BASE_URL
+            Defaults.BASE_URL = "https://polar-plateau-31663.herokuapp.com/api/"
+            
             Defaults.firstTime = false
         }
         
-        // every six hours reward
+        // RTL OR LTR
         window?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "rootVC")
         UIView.appearance().semanticContentAttribute = Language.currentLanguage == Lang.english.rawValue ? .forceLeftToRight : .forceRightToLeft
         
@@ -36,14 +44,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.overrideUserInterfaceStyle = Defaults.darkMode ? .dark : .light
         
         // Initialize Google Mobile Ads SDK
-           GADMobileAds.sharedInstance().start(completionHandler: nil)
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
            
-           // Defaults.deviceID = "RESET USER DEFAULTS"  // reset usesr defaults
-           
-           if Defaults.deviceID != UIDevice.current.identifierForVendor!.uuidString {
-               Defaults.deviceID = UIDevice.current.identifierForVendor!.uuidString
-               Defaults.coins = 3000
-           }
+        // Defaults.deviceID = "RESET USER DEFAULTS"  // reset usesr defaults
+       
+        if Defaults.deviceID != UIDevice.current.identifierForVendor!.uuidString {
+           Defaults.deviceID = UIDevice.current.identifierForVendor!.uuidString
+           Defaults.coins = 3000
+        }
 
         guard let _ = (scene as? UIWindowScene) else { return }
     }

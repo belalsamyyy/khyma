@@ -26,5 +26,5 @@ struct Config: Model {
     var textArUpdateScreen: String?
     var textEnUpdateScreen: String?
     var linkUpdateScreen: String?
-    
+    var serverUrl: String?
 }

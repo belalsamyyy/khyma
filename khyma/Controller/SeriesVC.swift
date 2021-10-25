@@ -154,7 +154,7 @@ class SeriesVC: UIViewController {
     
     fileprivate func getVideos(page: Int, genreID: String) {
         pagesDict[genreID] = page
-        Video.endpoint = "\(BASE_URL)/api/\(CategoryName.series)/genre/\(genreID)/\(page)"
+        Video.endpoint = "\(Defaults.BASE_URL)\(CategoryName.series)/genre/\(genreID)/\(page)"
         API<Series>.list { [weak self] result in
             switch result {
             case .success(let data):
@@ -179,7 +179,7 @@ class SeriesVC: UIViewController {
     
     fileprivate func getVideos(page: Int) {
         POPULAR_CURRENT_PAGE = page
-        Series.endpoint = "\(BASE_URL)/api/\(CategoryName.series)?page=\(POPULAR_CURRENT_PAGE)&nameEn=&nameAr="
+        Series.endpoint = "\(Defaults.BASE_URL)\(CategoryName.series)?page=\(POPULAR_CURRENT_PAGE)&nameEn=&nameAr="
         API<Series>.list { [weak self] result in
             switch result {
             case .success(let data):

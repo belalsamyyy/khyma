@@ -19,6 +19,18 @@ struct UserDefaultsManager {
     
     //MARK: - computed properties
     
+    // computed propery for BASE_URL
+        var BASE_URL: String {
+            set {
+                def.set(newValue, forKey: UserDefaultsKeys.BASE_URL)
+            } get {
+                guard def.object(forKey: UserDefaultsKeys.BASE_URL) != nil else {
+                    return "NO BASE_URL"
+                }
+                return def.object(forKey: UserDefaultsKeys.BASE_URL) as! String
+            }
+        }
+    
     // computed propery for firstTime
     var firstTime: Bool {
         set {

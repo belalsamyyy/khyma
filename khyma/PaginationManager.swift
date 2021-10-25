@@ -69,7 +69,7 @@ extension PaginationManager {
         view.backgroundColor = self.refreshViewColor
         view.frame.origin = CGPoint(x: self.scrollView.contentSize.width, y: 0)
         view.frame.size = CGSize(width: 60, height: self.scrollView.bounds.height)
-        let activity = UIActivityIndicatorView(style: .large)
+        let activity = UIActivityIndicatorView(style: .medium)
         activity.color = self.loaderColor
         activity.frame = view.bounds
         activity.startAnimating()
@@ -94,7 +94,7 @@ extension PaginationManager {
         view.backgroundColor = self.refreshViewColor
         view.frame.origin = CGPoint(x: 0, y: self.scrollView.contentSize.height)
         view.frame.size = CGSize(width: self.scrollView.bounds.width, height: 60)
-        let activity = UIActivityIndicatorView(style: .large)
+        let activity = UIActivityIndicatorView(style: .medium)
         activity.color = self.loaderColor
         activity.frame = view.bounds
         activity.startAnimating()
@@ -169,7 +169,7 @@ extension PaginationManager {
             let frameHeight = self.scrollView.bounds.size.height
             
             let diffY = contentHeight - frameHeight
-            if contentHeight > frameHeight, offsetY > (diffY + 100) && !self.isLoading {
+            if contentHeight > frameHeight, offsetY > (diffY + 50) && !self.isLoading {
                 self.isLoading = true
                 self.addVerticalLoaderControl()
                 self.delegateV?.loadMore { success in

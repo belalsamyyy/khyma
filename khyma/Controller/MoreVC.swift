@@ -76,7 +76,7 @@ class MoreVC: UIViewController {
     
     fileprivate func getVideos(page: Int) {
         CURRENT_PAGE = page
-        Video.endpoint = "\(BASE_URL)/api/\(categoryName ?? "")/genre/\(genreID ?? "")/\(CURRENT_PAGE)"
+        Video.endpoint = "\(Defaults.BASE_URL)\(categoryName ?? "")/genre/\(genreID ?? "")/\(CURRENT_PAGE)"
         API<Video>.list { [weak self] result in
             switch result {
             case .success(let data):
@@ -140,7 +140,6 @@ extension MoreVC: VerticalPaginationManagerDelegate {
     func loadMore(completion: @escaping (Bool) -> Void) {
         refreshDelay(2.0) { [weak self] in
             // load more videos from genre id
-            print("load more vertically !!")
             var currentPage = self?.CURRENT_PAGE ?? 0
             currentPage = currentPage + 1
             print("load more vertically from page \(currentPage) ...")
