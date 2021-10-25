@@ -44,10 +44,10 @@ class MoviesVC: UIViewController {
     var timerState = TimerState.notStarted
     
     // pagination
+    var CURRENT_TABLE_SECTION: Int?
     var CURRENT_GENRE_ID: String?
     var POPULAR_CURRENT_PAGE = 0
-//    var currentCell = MainTableCell()
-//    var CURRENT_PAGE = 1
+
         
     //MARK: - constants
     
@@ -168,8 +168,12 @@ class MoviesVC: UIViewController {
                     self?.moviesDict[genreID]?.append(contentsOf: data)
                 }
                 DispatchQueue.main.async {
-                    self?.moviesSliderCollectionView.reloadData()
-                    self?.moviesTableView.reloadData()
+                    if page == 1 {
+                        self?.moviesTableView.reloadData()
+                    } else {
+                        let currentSection = IndexPath(row: 0, section: self?.CURRENT_TABLE_SECTION ?? 0)
+                        if let cell = self?.moviesTableView.cellForRow(at: currentSection) as? MainTableCell { cell.collectionView.reloadData() }
+                    }
                 }
             case .failure(let error):
                 print(error)
@@ -183,8 +187,6 @@ class MoviesVC: UIViewController {
         API<Movie>.list { [weak self] result in
             switch result {
             case .success(let data):
-//                self?.movies = Array(data.prefix(50))
-//                self?.sliderVideos = Array(data.shuffled().prefix(5))
                 
                 if page == 1 {
                     self?.sliderVideos = Array(data.shuffled().prefix(5))
@@ -197,7 +199,13 @@ class MoviesVC: UIViewController {
                     self?.pageView.numberOfPages = self?.sliderVideos.count ?? 0
                     self?.moviesSliderCollectionView.reloadData()
                     self?.startTimer()
-                    self?.moviesTableView.reloadData()
+                    
+                    if page == 1 {
+                        self?.moviesTableView.reloadData()
+                    } else {
+                        let currentSection = IndexPath(row: 0, section: self?.CURRENT_TABLE_SECTION ?? 0)
+                        if let cell = self?.moviesTableView.cellForRow(at: currentSection) as? MainTableCell { cell.collectionView.reloadData() }
+                    }
                 }
             case .failure(let error):
                 print(error)
@@ -524,6 +532,7 @@ extension MoviesVC: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let sectionIndex = collectionView.tag
+        CURRENT_TABLE_SECTION = collectionView.tag
 
         if collectionView == moviesSliderCollectionView {
             let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell

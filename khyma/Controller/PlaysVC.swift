@@ -44,6 +44,7 @@ class PlaysVC: UIViewController {
     var timerState = TimerState.notStarted
     
     // pagination
+    var CURRENT_TABLE_SECTION: Int?
     var CURRENT_GENRE_ID: String?
     var POPULAR_CURRENT_PAGE = 0
         
@@ -164,8 +165,12 @@ class PlaysVC: UIViewController {
                     self?.playsDict[genreID]?.append(contentsOf: data)
                 }
                 DispatchQueue.main.async {
-                    self?.playsSliderCollectionView.reloadData()
-                    self?.playsTableView.reloadData()
+                    if page == 1 {
+                        self?.playsTableView.reloadData()
+                    } else {
+                        let currentSection = IndexPath(row: 0, section: self?.CURRENT_TABLE_SECTION ?? 0)
+                        if let cell = self?.playsTableView.cellForRow(at: currentSection) as? MainTableCell { cell.collectionView.reloadData() }
+                    }
                 }
             case .failure(let error):
                 print(error)
@@ -179,9 +184,7 @@ class PlaysVC: UIViewController {
         API<Play>.list { [weak self] result in
             switch result {
             case .success(let data):
-//                self?.plays = Array(data.prefix(50))
-//                self?.sliderVideos = Array(data.shuffled().prefix(5))
-                
+
                 if page == 1 {
                     self?.sliderVideos = Array(data.shuffled().prefix(5))
                     self?.plays = data
@@ -193,7 +196,12 @@ class PlaysVC: UIViewController {
                     self?.pageView.numberOfPages = self?.sliderVideos.count ?? 0
                     self?.playsSliderCollectionView.reloadData()
                     self?.startTimer()
-                    self?.playsTableView.reloadData()
+                    if page == 1 {
+                        self?.playsTableView.reloadData()
+                    } else {
+                        let currentSection = IndexPath(row: 0, section: self?.CURRENT_TABLE_SECTION ?? 0)
+                        if let cell = self?.playsTableView.cellForRow(at: currentSection) as? MainTableCell { cell.collectionView.reloadData() }
+                    }
                 }
             case .failure(let error):
                 print(error)
@@ -517,6 +525,7 @@ extension PlaysVC: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let sectionIndex = collectionView.tag
+        CURRENT_TABLE_SECTION = collectionView.tag
 
         if collectionView == playsSliderCollectionView {
             let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell

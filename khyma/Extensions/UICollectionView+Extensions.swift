@@ -23,12 +23,12 @@ extension UICollectionView {
         return cell
     }
     
-    func reloadDataAtSamePosition() {
-        let contentOffset = self.contentOffset
-        self.reloadData()
-        self.layoutIfNeeded()
-        self.setContentOffset(contentOffset, animated: false)
-    }
+//    func reloadDataAtSamePosition() {
+//        let contentOffset = self.contentOffset
+//        self.reloadData()
+//        self.layoutIfNeeded()
+//        self.setContentOffset(contentOffset, animated: false)
+//    }
     
     func size(rows: CGFloat, columns: CGFloat) -> CGSize {
         let width = ( self.frame.width - ( columns * 10 ) - 10 ) / columns //  horizontal spacing 10

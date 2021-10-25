@@ -44,6 +44,7 @@ class SeriesVC: UIViewController {
     var timerState = TimerState.notStarted
     
     // pagination
+    var CURRENT_TABLE_SECTION: Int?
     var CURRENT_GENRE_ID: String?
     var POPULAR_CURRENT_PAGE = 0
 
@@ -163,8 +164,12 @@ class SeriesVC: UIViewController {
                     self?.seriesDict[genreID]?.append(contentsOf: data)
                 }
                 DispatchQueue.main.async {
-                    self?.seriesSliderCollectionView.reloadData()
-                    self?.seriesTableView.reloadData()
+                    if page == 1 {
+                        self?.seriesTableView.reloadData()
+                    } else {
+                        let currentSection = IndexPath(row: 0, section: self?.CURRENT_TABLE_SECTION ?? 0)
+                        if let cell = self?.seriesTableView.cellForRow(at: currentSection) as? MainTableCell { cell.collectionView.reloadData() }
+                    }
                 }
             case .failure(let error):
                 print(error)
@@ -178,8 +183,6 @@ class SeriesVC: UIViewController {
         API<Series>.list { [weak self] result in
             switch result {
             case .success(let data):
-//                self?.series = Array(data.prefix(50))
-//                self?.sliderVideos = Array(data.shuffled().prefix(5))
                 
                 if page == 1 {
                     self?.sliderVideos = Array(data.shuffled().prefix(5))
@@ -192,7 +195,12 @@ class SeriesVC: UIViewController {
                     self?.pageView.numberOfPages = self?.sliderVideos.count ?? 0
                     self?.seriesSliderCollectionView.reloadData()
                     self?.startTimer()
-                    self?.seriesTableView.reloadData()
+                    if page == 1 {
+                        self?.seriesTableView.reloadData()
+                    } else {
+                        let currentSection = IndexPath(row: 0, section: self?.CURRENT_TABLE_SECTION ?? 0)
+                        if let cell = self?.seriesTableView.cellForRow(at: currentSection) as? MainTableCell { cell.collectionView.reloadData() }
+                    }
                 }
             case .failure(let error):
                 print(error)
@@ -513,6 +521,7 @@ extension SeriesVC: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let sectionIndex = collectionView.tag
+        CURRENT_TABLE_SECTION = collectionView.tag
 
         if collectionView == seriesSliderCollectionView {
             let cell3 = collectionView.dequeue(indexPath: indexPath) as MainSliderCell
