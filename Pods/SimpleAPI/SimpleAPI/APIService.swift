@@ -30,7 +30,7 @@ public enum HTTPMethod {
 public typealias Params = [String: Any]
 public typealias Headers = [String: String]
 
-class APIService {
+public class APIService {
     
     public enum Response {
         case success(Data?)

@@ -32,7 +32,7 @@ class MainVC: UIViewController {
     // pagination
     var CURRENT_TABLE_SECTION: Int?
     var CURRENT_GENRE_ID: String?
-    var POPULAR_CURRENT_PAGE = 0
+    var POPULAR_CURRENT_PAGE = 1
         
     //MARK: - constants
     
@@ -75,10 +75,11 @@ class MainVC: UIViewController {
         // check connection
         checkConnection()
         getConfiguration()
+        checkBaseUrlFromServer() 
         
-        // API
-        getGenres()
-        getVideos(page: 1)
+//        // API
+//        getGenres()
+//        getVideos(page: 1)
         
         // banner Ad
         loadBannerAd()
@@ -94,6 +95,7 @@ class MainVC: UIViewController {
         // check connection
         checkConnection()
         getConfiguration()
+        checkBaseUrlFromServer()
         
         continueWatching = Defaults.savedContinueWatching()
         sliderCollectionView.reloadData()
@@ -120,6 +122,32 @@ class MainVC: UIViewController {
     
     //MARK: - functions
     
+    fileprivate func checkBaseUrlFromServer() {
+        APIService.request(BASE_URL_FROM_SERVER, method: .get("")) { [weak self] response in
+            switch response {
+            case .success(let data):
+                let serverURL = String(decoding: data!, as: UTF8.self)
+                print("BEFORE | local url : \"\(Defaults.BASE_URL)\" and server url : \"\(serverURL)\"")
+                
+                if Defaults.BASE_URL != serverURL {
+                    Defaults.BASE_URL = serverURL
+                    print("AFTER | local url : \"\(Defaults.BASE_URL)\" and server url : \"\(serverURL)\"")
+                } else {
+                    print("AFTER | local url and server url are similar !")
+                }
+                
+                // recalling API Functions
+                let currentPage = self?.POPULAR_CURRENT_PAGE ?? 0
+                self?.getVideos(page: self?.POPULAR_CURRENT_PAGE == 1 ? 1 : currentPage)
+                self?.getGenres()
+
+                
+            case .failure(let error):
+                print(error?.localizedDescription ?? "error")
+            }
+        }
+    }
+    
     fileprivate func getConfiguration() {
         Config.endpoint = Endpoints.config
         API<Config>.object(.get(ConfigID)) { [weak self] result in
@@ -131,17 +159,6 @@ class MainVC: UIViewController {
                         updateScreen.modalPresentationStyle = .fullScreen
                         self?.present(updateScreen, animated: true)
                     }
-                }
-                
-                // change BASE_URL from server
-                if Defaults.BASE_URL != data?.serverUrl {
-                    print("BEFORE | local url : \"\(Defaults.BASE_URL)\" and server url : \"\(data?.serverUrl ?? "")\"")
-                    Defaults.BASE_URL = data?.serverUrl ?? ""
-                    print("AFTER | local url : \"\(Defaults.BASE_URL)\" and server url : \"\(data?.serverUrl ?? "")\"")
-                    
-                    // recalling API Functions
-                    self?.getGenres()
-                    self?.getVideos(page: 1)
                 }
                 
             case .failure(let error):

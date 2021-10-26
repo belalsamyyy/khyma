@@ -12,6 +12,7 @@ import UIKit
 
 let ConfigID = "61641f9fa2ee6a208c57990c"
 let OneSignalID = "9529c9c9-90b7-41fc-9f4e-114e2863bf75"
+let BASE_URL_FROM_SERVER = "http://hwayadesigns.com/5yma21/api.php"
 
 struct UserDefaultsKeys {
     static let firstTime = "firstTime"

@@ -40,7 +40,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "rootVC")
         UIView.appearance().semanticContentAttribute = Language.currentLanguage == Lang.english.rawValue ? .forceLeftToRight : .forceRightToLeft
         
-        // dark mode
+        // DARK MODE OR LIGHT MODE
         window?.overrideUserInterfaceStyle = Defaults.darkMode ? .dark : .light
         
         // Initialize Google Mobile Ads SDK
