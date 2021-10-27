@@ -130,8 +130,7 @@ class EpisodesVC: UIViewController {
         }
     
     @objc fileprivate func handleAddToMyList() {
-        
-        let alertController = UIAlertController(title: Language.currentLanguage == Lang.english.rawValue ? series?.en_name : series?.ar_name, message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: Language.currentLanguage == Lang.english.rawValue ? series?.en_name : series?.ar_name, message: nil, preferredStyle: UIDevice.current.userInterfaceIdiom != .pad ? .actionSheet : .alert)
         alertController.addAction(UIAlertAction(title: StringsKeys.addAlertAction.localized, style: .default, handler: { (_) in
             // add to my list ---------------------------------
             guard let video =  self.series else { return }
@@ -152,7 +151,7 @@ class EpisodesVC: UIViewController {
             // ------------------------------------------------
         }))
         
-        alertController.addAction(UIAlertAction(title: StringsKeys.cancelAlert.localized, style: .cancel ))
+        alertController.addAction(UIAlertAction(title: StringsKeys.cancelAlert.localized, style: .destructive ))
         present(alertController, animated: true, completion: nil)
     }
     
@@ -209,7 +208,7 @@ extension EpisodesVC: UITableViewDelegate {
         headerView.addSubview(sectionLabel)
 
         sectionLabel.layout(X: .leading(nil, 15), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-        sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        sectionLabel.font = UIFont.boldSystemFont(ofSize: UIDevice.current.userInterfaceIdiom != .pad ? 18 : 25)
         sectionLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
         sectionLabel.textColor = Color.text
         return headerView
@@ -221,7 +220,7 @@ extension EpisodesVC: UITableViewDelegate {
     
      // row
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 250
+        return UIDevice.current.userInterfaceIdiom != .pad ? 250 : 350
     }
     
     func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -290,6 +289,6 @@ extension EpisodesVC: UICollectionViewDelegateFlowLayout {
     
     // item
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        return collectionView.size(rows: 1, columns: 3)
+        return collectionView.size(rows: 1, columns: UIDevice.current.userInterfaceIdiom != .pad ? 3 : 5)
     }
 }

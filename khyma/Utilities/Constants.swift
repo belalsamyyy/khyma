@@ -71,7 +71,7 @@ struct AdUnitKeys {
     //static let banner = "ca-app-pub-3940256099942544/2934735716"
     //static let interstitial = "ca-app-pub-3940256099942544/4411468910"
     //static let rewardVideo = "ca-app-pub-3940256099942544/1712485313"
-    
+
     //read Ids
     
     // TabBar
@@ -79,9 +79,9 @@ struct AdUnitKeys {
     static let SearchVCbannerUP = "ca-app-pub-9037650239384734/3210752938"
     static let MyListVCbannerUP = "ca-app-pub-9037650239384734/9776161289"
     static let SettingsVCbannerUP = "ca-app-pub-9037650239384734/8475947085"
-    
+
     static let tabBarbannerDown = "ca-app-pub-9037650239384734/1350876358"
-        
+
     // ————————
 
     // More

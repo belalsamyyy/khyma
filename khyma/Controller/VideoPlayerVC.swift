@@ -131,12 +131,11 @@ class VideoPlayerVC: UIViewController {
         setupNavBar()
         
         view.addSubview(YoutubePlayer)
-        YoutubePlayer.layout(XW :.leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 60), H: .fixed(300))
+        YoutubePlayer.layout(XW :.leadingAndCenter(nil, 0), Y: .topToSafeArea(nil, 60), H: .fixed(UIDevice.current.userInterfaceIdiom != .pad ? 300 : 500))
         videoTitle.layout(XW: .leadingAndCenter(nil, 20), Y: .top(YoutubePlayer, 10), H: .wrapContent)
         videoTitle.numberOfLines = 0
-        videoTitle.font = UIFont.boldSystemFont(ofSize: 18)
+        videoTitle.font = UIFont.boldSystemFont(ofSize: UIDevice.current.userInterfaceIdiom != .pad ? 18 : 25)
         videoTitle.textAlignment = .center
-        
         setupVideoTitle()
         
     }
@@ -216,7 +215,7 @@ class VideoPlayerVC: UIViewController {
     
     @objc fileprivate func handleAddToMyList() {
         
-        let alertController = UIAlertController(title: Language.currentLanguage == Lang.english.rawValue ? videoTitleTextEN : videoTitleTextAR, message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: Language.currentLanguage == Lang.english.rawValue ? videoTitleTextEN : videoTitleTextAR, message: nil, preferredStyle: UIDevice.current.userInterfaceIdiom != .pad ? .actionSheet : .alert)
         alertController.addAction(UIAlertAction(title: StringsKeys.addAlertAction.localized, style: .default, handler: { (_) in
             // add to my list ---------------------------------
             guard let video =  self.video else { return }
@@ -236,7 +235,7 @@ class VideoPlayerVC: UIViewController {
             // ------------------------------------------------
         }))
         
-        alertController.addAction(UIAlertAction(title: StringsKeys.cancelAlert.localized, style: .cancel ))
+        alertController.addAction(UIAlertAction(title: StringsKeys.cancelAlert.localized, style: .destructive ))
         present(alertController, animated: true, completion: nil)
     }
     

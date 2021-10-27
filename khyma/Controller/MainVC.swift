@@ -71,7 +71,7 @@ class MainVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-                
+
         // check connection
         checkConnection()
         getConfiguration()
@@ -288,7 +288,7 @@ class MainVC: UIViewController {
         sliderCollectionView.isPagingEnabled = true
         
         sliderCollectionView.register(cell: MainSliderCell.self)
-        sliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 60, mainTableView, 0, .fixed(600)))
+        sliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 60, mainTableView, 0, .fixed(UIDevice.current.userInterfaceIdiom != .pad ? 600 : 1000)))
         sliderCollectionView.reloadData()
 
         // pager
@@ -459,7 +459,7 @@ extension MainVC: ContinueWatchingCellDelegate {
     func handleLongPressed(video: Watchable) {
         print("Captured Long Press \(video.ar_name ?? "no video")")
         let alertTitle = StringsKeys.removeFromContinueWatching.localized
-        let alertController = UIAlertController(title: alertTitle, message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: alertTitle, message: nil, preferredStyle: UIDevice.current.userInterfaceIdiom != .pad ? .actionSheet : .alert)
         alertController.addAction(UIAlertAction(title: StringsKeys.removeAlertAction.localized, style: .destructive, handler: { (_) in
             Defaults.deleteContinueWatching(video: video)
             UserDefaultsManager.shared.def.removeObject(forKey: video._id ?? "")
@@ -541,12 +541,12 @@ extension MainVC: UITableViewDelegate {
         let sectionLabel = UILabel()
         headerView.addSubview(sectionLabel)
         sectionLabel.layout(X: .leading(nil, 15), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-        sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        sectionLabel.font = UIFont.boldSystemFont(ofSize: UIDevice.current.userInterfaceIdiom != .pad ? 18 : 25)
         
         let moreBtn = MoreBtn()
         headerView.addSubview(moreBtn)
         moreBtn.layout(X: .trailing(nil, 15), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-        moreBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        moreBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIDevice.current.userInterfaceIdiom != .pad ? 18 : 25)
         moreBtn.setTitle(StringsKeys.more.localized, for: .normal)
         moreBtn.setTitleColor(Color.secondary, for: .normal)
         moreBtn.titleLabel?.textAlignment = .center
@@ -578,13 +578,13 @@ extension MainVC: UITableViewDelegate {
     // row
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return continueWatching.count == 0 ? CGFloat.leastNonzeroMagnitude : 200
+            return continueWatching.count == 0 ? CGFloat.leastNonzeroMagnitude : (UIDevice.current.userInterfaceIdiom != .pad ? 200 : 300)
         } else if indexPath.section == 1 {
-            return videos.count == 0 ? CGFloat.leastNonzeroMagnitude : 200
+            return videos.count == 0 ? CGFloat.leastNonzeroMagnitude : (UIDevice.current.userInterfaceIdiom != .pad ? 200 : 300)
         } else {
             let genre = genres[indexPath.section - 2]
             let filteredVideos = videos.filter { $0?.genreId == genre?._id }
-            return filteredVideos.count == 0 ? CGFloat.leastNonzeroMagnitude : 200
+            return filteredVideos.count == 0 ? CGFloat.leastNonzeroMagnitude : (UIDevice.current.userInterfaceIdiom != .pad ? 200 : 300)
         }
     }
     
@@ -776,9 +776,9 @@ extension MainVC: UICollectionViewDelegateFlowLayout {
         
         switch sectionIndex {
         case 0:
-            return collectionView.size(rows: 1, columns: 1.25)
+            return collectionView.size(rows: 1, columns: UIDevice.current.userInterfaceIdiom != .pad ? 1.25 : 3.25)
         default:
-            return collectionView.size(rows: 1, columns: 3.5)
+            return collectionView.size(rows: 1, columns: UIDevice.current.userInterfaceIdiom != .pad ? 3.5 : 5.5)
         }
     }
 }

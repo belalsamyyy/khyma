@@ -231,7 +231,7 @@ class SeriesVC: UIViewController {
         seriesSliderCollectionView.isPagingEnabled = true
 
         seriesSliderCollectionView.register(cell: MainSliderCell.self)
-        seriesSliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 60, seriesTableView, 0, .fixed(600)))
+        seriesSliderCollectionView.layout(XW: .leadingAndCenter(nil, 0), YH: .TopAndBottomAndHeight(nil, 60, seriesTableView, 0, .fixed(UIDevice.current.userInterfaceIdiom != .pad ? 600 : 1000)))
         seriesSliderCollectionView.reloadData()
 
         // pager
@@ -440,12 +440,12 @@ extension SeriesVC: UITableViewDelegate {
         let sectionLabel = UILabel()
         headerView.addSubview(sectionLabel)
         sectionLabel.layout(X: .leading(nil, 15), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-        sectionLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        sectionLabel.font = UIFont.boldSystemFont(ofSize: UIDevice.current.userInterfaceIdiom != .pad ? 18 : 25)
         
         let moreBtn = MoreBtn()
         headerView.addSubview(moreBtn)
         moreBtn.layout(X: .trailing(nil, 15), W: .wrapContent, Y: .top(nil, 8), H: .fixed(20))
-        moreBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        moreBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIDevice.current.userInterfaceIdiom != .pad ? 18 : 25)
         moreBtn.setTitle(StringsKeys.more.localized, for: .normal)
         moreBtn.setTitleColor(Color.secondary, for: .normal)
         moreBtn.titleLabel?.textAlignment = .center
@@ -472,11 +472,11 @@ extension SeriesVC: UITableViewDelegate {
      // row
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return series.count == 0 ? CGFloat.leastNonzeroMagnitude : 200
+            return series.count == 0 ? CGFloat.leastNonzeroMagnitude : (UIDevice.current.userInterfaceIdiom != .pad ? 200 : 300)
         } else {
             let genre = genres[indexPath.section - 1]
             let filteredVideos = series.filter { $0?.genreId == genre?._id }
-            return filteredVideos.count == 0 ? CGFloat.leastNonzeroMagnitude : 200
+            return filteredVideos.count == 0 ? CGFloat.leastNonzeroMagnitude : (UIDevice.current.userInterfaceIdiom != .pad ? 200 : 300)
         }
     }
     
@@ -642,6 +642,6 @@ extension SeriesVC: UICollectionViewDelegateFlowLayout {
                return CGSize(width: size.width, height: size.height)
            }
         
-        return collectionView.size(rows: 1, columns: 3.5)
+        return collectionView.size(rows: 1, columns: UIDevice.current.userInterfaceIdiom != .pad ? 3.5 : 5.5)
     }
 }

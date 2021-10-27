@@ -88,7 +88,7 @@ class SettingsVC: UIViewController {
     //MARK: - functions - language
     
     fileprivate func changeLanguage() {
-        let alertController = UIAlertController(title: StringsKeys.changeLangAlert.localized, message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: StringsKeys.changeLangAlert.localized, message: nil, preferredStyle: UIDevice.current.userInterfaceIdiom != .pad ? .actionSheet : .alert)
         alertController.addAction(UIAlertAction(title: StringsKeys.english.localized, style: .default, handler: { (_) in
             // change to english -----------------------------------
             print("change to english")
@@ -105,7 +105,7 @@ class SettingsVC: UIViewController {
             // ------------------------------------------------
         }))
         
-        alertController.addAction(UIAlertAction(title: StringsKeys.cancelAlert.localized, style: .cancel ))
+        alertController.addAction(UIAlertAction(title: StringsKeys.cancelAlert.localized, style: .destructive ))
         present(alertController, animated: true, completion: nil)
     }
     

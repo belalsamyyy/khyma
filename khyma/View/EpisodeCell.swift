@@ -28,14 +28,14 @@ class EpisodeCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
 
-        posterImageView.layout(X: .center(nil), W: .equal(nil, 1), Y: .top(nil, 0), H: .fixed(200))
+        posterImageView.layout(X: .center(nil), W: .equal(nil, 1), Y: .top(nil, 0), H: .fixed(UIDevice.current.userInterfaceIdiom != .pad ? 200 : 300))
         posterImageView.contentMode = .scaleAspectFill
         posterImageView.layer.masksToBounds = true
         posterImageView.layer.cornerRadius = 10
         posterImageView.backgroundColor = Color.secondary
         
         episodeTitleLabel.layout(X: .center(nil), W: .wrapContent, Y: .top(posterImageView, 5), H: .wrapContent)
-        episodeTitleLabel.font = UIFont.systemFont(ofSize: 18)
+        episodeTitleLabel.font = UIFont.systemFont(ofSize: UIDevice.current.userInterfaceIdiom != .pad ? 18 : 25)
         episodeTitleLabel.textColor = Color.text
         episodeTitleLabel.numberOfLines = 0
     }

@@ -206,7 +206,8 @@ extension MyListVC: UICollectionViewDelegateFlowLayout {
     
     // item
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        return collectionView.size(height: 200, columns: 3)
+        return collectionView.size(height: UIDevice.current.userInterfaceIdiom != .pad ? 200 : 300,
+                                   columns: UIDevice.current.userInterfaceIdiom != .pad ? 3 : 5)
     }
 }
 

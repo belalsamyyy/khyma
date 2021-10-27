@@ -50,7 +50,7 @@ class NoConnectionVC: UIViewController {
         noConnectinoLabel.text = StringsKeys.noConnection.localized
         noConnectinoLabel.textColor = Color.text
         noConnectinoLabel.textAlignment = .center
-        noConnectinoLabel.font = UIFont.boldSystemFont(ofSize: 25)
+        noConnectinoLabel.font = UIFont.boldSystemFont(ofSize: UIDevice.current.userInterfaceIdiom != .pad ? 25 : 50)
     }
     
     fileprivate func checkConnection() {

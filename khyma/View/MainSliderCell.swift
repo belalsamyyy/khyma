@@ -35,6 +35,7 @@ class MainSliderCell: UICollectionViewCell {
         self.clipsToBounds = true
         posterImageView.contentMode = .scaleAspectFill
         posterImageView.layout(shortcut: .fillSuperView(0))
+        movieNameLabel.font = UIFont.boldSystemFont(ofSize: UIDevice.current.userInterfaceIdiom != .pad ? 32 : 52)
         movieNameLabel.textColor = .white
     }
     

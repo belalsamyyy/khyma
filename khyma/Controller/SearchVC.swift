@@ -97,7 +97,7 @@ class SearchVC: UIViewController {
     }
     
     @objc fileprivate func handleFilterBtnTapped() {
-        let alertController = UIAlertController(title: StringsKeys.searchPlaceholder.localized, message: nil, preferredStyle: .actionSheet)
+        let alertController = UIAlertController(title: StringsKeys.searchPlaceholder.localized, message: nil, preferredStyle: UIDevice.current.userInterfaceIdiom != .pad ? .actionSheet : .alert)
         alertController.addAction(UIAlertAction(title: StringsKeys.movies.localized, style: .default, handler: { (_) in
             print("filter by movies")
             self.categoryName = CategoryName.movies
@@ -121,7 +121,7 @@ class SearchVC: UIViewController {
             self.searchBar.placeholder = "\(StringsKeys.searchPlaceholder.localized)\(StringsKeys.plays.localized) ..."
         }))
         
-        alertController.addAction(UIAlertAction(title: StringsKeys.cancelAlert.localized, style: .cancel ))
+        alertController.addAction(UIAlertAction(title: StringsKeys.cancelAlert.localized, style: .destructive ))
         present(alertController, animated: true, completion: nil)
     }
     
@@ -275,6 +275,7 @@ extension SearchVC: UICollectionViewDelegateFlowLayout {
     
     // item
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        return collectionView.size(height: 200, columns: 3)
+        return collectionView.size(height: UIDevice.current.userInterfaceIdiom != .pad ? 200 : 300,
+                                   columns: UIDevice.current.userInterfaceIdiom != .pad ? 3 : 5)
     }
 }
