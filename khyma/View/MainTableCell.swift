@@ -34,7 +34,7 @@ class MainTableCell: UITableViewCell {
         // register
         collectionView.register(cell: MovieCell.self)
         collectionView.register(cell: ContinueWatchingCell.self)
-        collectionView.register(cell: EpisodeCell.self)
+        collectionView.register(cell: VideoCell.self)
         
         collectionView.backgroundColor = Color.primary
         collectionView.showsHorizontalScrollIndicator = false

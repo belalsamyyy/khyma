@@ -103,7 +103,7 @@ class MoreVC: UIViewController {
         
         moreCollectionView.delegate = self
         moreCollectionView.dataSource = self
-        moreCollectionView.register(cell: MovieCell.self)
+        moreCollectionView.register(cell: VideoCell.self)
         moreCollectionView.alwaysBounceVertical = true
         moreCollectionView.isPagingEnabled = false 
         moreCollectionView.reloadData()
@@ -166,8 +166,8 @@ extension MoreVC: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeue(indexPath: indexPath) as MovieCell
-        cell.backgroundColor = Color.secondary
+        let cell = collectionView.dequeue(indexPath: indexPath) as VideoCell
+        //cell.backgroundColor = Color.secondary
         cell.video = videos[indexPath.item]
         return cell
     }
@@ -204,7 +204,7 @@ extension MoreVC: UICollectionViewDelegateFlowLayout {
     
     // item
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        return collectionView.size(height: UIDevice.current.userInterfaceIdiom != .pad ? 200 : 300,
+        return collectionView.size(height: UIDevice.current.userInterfaceIdiom != .pad ? 250 : 350,
                                    columns: UIDevice.current.userInterfaceIdiom != .pad ? 3 : 5)
     }
 }

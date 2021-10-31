@@ -8,19 +8,20 @@
 import UIKit
 import DesignX
 
-class EpisodeCell: UICollectionViewCell {
-    
+class VideoCell: UICollectionViewCell {
+    var genreID: String?
+
     @IBOutlet weak var posterImageView: UIImageView!
-    @IBOutlet weak var episodeTitleLabel: UILabel!
+    @IBOutlet weak var videoTitleLabel: UILabel!
     
-    var episode: Watchable? {
+    var video: Watchable? {
         didSet {
             let placeHolderImage = UIImage(named: "logo-khyma-transparent")?.withRenderingMode(.automatic).withTintColor(Defaults.darkMode ? .lightGray : .darkGray)
-            posterImageView.sd_setImage(with: URL(string: "\(episode?.posterImageLink ?? "")"),
+            posterImageView.sd_setImage(with: URL(string: "\(video?.posterImageLink ?? "")"),
                                         placeholderImage: placeHolderImage,
                                         options: .progressiveLoad,
                                         context: nil)
-           episodeTitleLabel.text = Language.currentLanguage == Lang.english.rawValue ? episode?.en_name : episode?.ar_name
+           videoTitleLabel.text = Language.currentLanguage == Lang.english.rawValue ? video?.en_name : video?.ar_name
         }
     }
 
@@ -34,9 +35,9 @@ class EpisodeCell: UICollectionViewCell {
         posterImageView.layer.cornerRadius = 10
         posterImageView.backgroundColor = Color.secondary
         
-        episodeTitleLabel.layout(X: .center(nil), W: .wrapContent, Y: .top(posterImageView, 5), H: .wrapContent)
-        episodeTitleLabel.font = UIFont.systemFont(ofSize: UIDevice.current.userInterfaceIdiom != .pad ? 18 : 25)
-        episodeTitleLabel.textColor = Color.text
-        episodeTitleLabel.numberOfLines = 0
+        videoTitleLabel.layout(X: .center(nil), W: .wrapContent, Y: .top(posterImageView, 5), H: .wrapContent)
+        videoTitleLabel.font = UIFont.systemFont(ofSize: UIDevice.current.userInterfaceIdiom != .pad ? 18 : 25)
+        videoTitleLabel.textColor = Color.text
+        videoTitleLabel.numberOfLines = 0
     }
 }

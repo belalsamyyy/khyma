@@ -35,10 +35,12 @@ class SettingsVC: UIViewController {
         // Do any additional setup after loading the view.
         view.backgroundColor = Color.primary
         setupViews()
+        settingsTableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         setupNavBar()
+        settingsTableView.reloadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -47,6 +49,7 @@ class SettingsVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
        setupNavBar()
+       settingsTableView.reloadData()
     }
     
     //MARK: - functions
@@ -145,6 +148,7 @@ extension SettingsVC: UITableViewDataSource {
         switch section {
         case .coins:
             let cell = settingsTableView.dequeue() as CoinsCell
+            cell.currentCoinsLabel.text = "\(Defaults.coins)"
             return cell
             
         case .theme:

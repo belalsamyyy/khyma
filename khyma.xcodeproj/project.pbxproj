@@ -36,8 +36,8 @@
 		D90E6DCA27006A760064A50D /* EpisodesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90E6DC927006A750064A50D /* EpisodesVC.swift */; };
 		D90E6DCE27006BC20064A50D /* Watchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90E6DCD27006BC20064A50D /* Watchable.swift */; };
 		D90E6DD327006E090064A50D /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90E6DD227006E090064A50D /* Season.swift */; };
-		D90E6DDA27008E9D0064A50D /* EpisodeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90E6DD827008E9D0064A50D /* EpisodeCell.swift */; };
-		D90E6DDB27008E9D0064A50D /* EpisodeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D90E6DD927008E9D0064A50D /* EpisodeCell.xib */; };
+		D90E6DDA27008E9D0064A50D /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90E6DD827008E9D0064A50D /* VideoCell.swift */; };
+		D90E6DDB27008E9D0064A50D /* VideoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D90E6DD927008E9D0064A50D /* VideoCell.xib */; };
 		D90E6DDD2700CDF30064A50D /* Series.swift in Sources */ = {isa = PBXBuildFile; fileRef = D90E6DDC2700CDF30064A50D /* Series.swift */; };
 		D9125A7626F72B6A00D29128 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9125A7526F72B6A00D29128 /* MainVC.swift */; };
 		D9125A7826F7326000D29128 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9125A7726F7326000D29128 /* Constants.swift */; };
@@ -162,8 +162,8 @@
 		D90E6DC927006A750064A50D /* EpisodesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodesVC.swift; sourceTree = "<group>"; };
 		D90E6DCD27006BC20064A50D /* Watchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watchable.swift; sourceTree = "<group>"; };
 		D90E6DD227006E090064A50D /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
-		D90E6DD827008E9D0064A50D /* EpisodeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeCell.swift; sourceTree = "<group>"; };
-		D90E6DD927008E9D0064A50D /* EpisodeCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EpisodeCell.xib; sourceTree = "<group>"; };
+		D90E6DD827008E9D0064A50D /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
+		D90E6DD927008E9D0064A50D /* VideoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoCell.xib; sourceTree = "<group>"; };
 		D90E6DDC2700CDF30064A50D /* Series.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Series.swift; sourceTree = "<group>"; };
 		D9125A7526F72B6A00D29128 /* MainVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		D9125A7726F7326000D29128 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -379,7 +379,7 @@
 				D99B79A026F9E0460019B087 /* MainSliderCell.xib */,
 				D9125A9926F738EC00D29128 /* ContinueWatchingCell.xib */,
 				D9125A9526F738D000D29128 /* MovieCell.xib */,
-				D90E6DD927008E9D0064A50D /* EpisodeCell.xib */,
+				D90E6DD927008E9D0064A50D /* VideoCell.xib */,
 				41319D7F26FE6F5D00FCCBBC /* CoinsCell.xib */,
 				41319D8326FF195400FCCBBC /* ThemeCell.xib */,
 				41319D8726FF2E9E00FCCBBC /* LanguageCell.xib */,
@@ -417,7 +417,7 @@
 				D95B208126F8D8E200112079 /* MainTableCell.swift */,
 				D9125A9826F738EC00D29128 /* ContinueWatchingCell.swift */,
 				D9125A9426F738CF00D29128 /* MovieCell.swift */,
-				D90E6DD827008E9D0064A50D /* EpisodeCell.swift */,
+				D90E6DD827008E9D0064A50D /* VideoCell.swift */,
 				41319D7E26FE6F5D00FCCBBC /* CoinsCell.swift */,
 				41319D8226FF195400FCCBBC /* ThemeCell.swift */,
 				41319D8626FF2E9E00FCCBBC /* LanguageCell.swift */,
@@ -603,7 +603,7 @@
 				D994B54F27130A4500C851D0 /* InfoPlist.strings in Resources */,
 				41319D8126FE6F5D00FCCBBC /* CoinsCell.xib in Resources */,
 				C9EE0CC626ED0C10009361A6 /* Assets.xcassets in Resources */,
-				D90E6DDB27008E9D0064A50D /* EpisodeCell.xib in Resources */,
+				D90E6DDB27008E9D0064A50D /* VideoCell.xib in Resources */,
 				41319D8526FF195400FCCBBC /* ThemeCell.xib in Resources */,
 				41319D8926FF2E9E00FCCBBC /* LanguageCell.xib in Resources */,
 				41319D9526FF81A900FCCBBC /* Localizable.strings in Resources */,
@@ -773,7 +773,7 @@
 				D908B7D32714589100ED819C /* Config.swift in Sources */,
 				D9125A8626F7346F00D29128 /* UICollectionView+Extensions.swift in Sources */,
 				D95CF74A26FB2A0F00C05C89 /* MainNavBar.swift in Sources */,
-				D90E6DDA27008E9D0064A50D /* EpisodeCell.swift in Sources */,
+				D90E6DDA27008E9D0064A50D /* VideoCell.swift in Sources */,
 				D9125A8026F7338D00D29128 /* String+Extensions.swift in Sources */,
 				D95CF75C26FB63CB00C05C89 /* PlaysVC.swift in Sources */,
 				C9EE0CBD26ED0C0E009361A6 /* AppDelegate.swift in Sources */,
@@ -1028,14 +1028,14 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = khyma/khyma.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9NBG9HL25L;
 				INFOPLIST_FILE = khyma/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0;
+				MARKETING_VERSION = 4.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hwaya.khyma;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1053,14 +1053,14 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = khyma/khyma.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9NBG9HL25L;
 				INFOPLIST_FILE = khyma/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0;
+				MARKETING_VERSION = 4.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hwaya.khyma;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

@@ -88,7 +88,7 @@ class SearchVC: UIViewController {
         //collectionView
         searchCollectionView.delegate = self
         searchCollectionView.dataSource = self
-        searchCollectionView.register(cell: MovieCell.self)
+        searchCollectionView.register(cell: VideoCell.self)
         searchCollectionView.alwaysBounceVertical = true
         searchCollectionView.keyboardDismissMode = .onDrag
         searchCollectionView.backgroundColor = Color.primary
@@ -217,8 +217,8 @@ extension SearchVC: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeue(indexPath: indexPath) as MovieCell
-        cell.backgroundColor = Color.secondary
+        let cell = collectionView.dequeue(indexPath: indexPath) as VideoCell
+        //cell.backgroundColor = Color.secondary
         cell.video = categoryName == CategoryName.series ? series[indexPath.item] : videos[indexPath.item]
         return cell
     }
@@ -275,7 +275,7 @@ extension SearchVC: UICollectionViewDelegateFlowLayout {
     
     // item
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        return collectionView.size(height: UIDevice.current.userInterfaceIdiom != .pad ? 200 : 300,
+        return collectionView.size(height: UIDevice.current.userInterfaceIdiom != .pad ? 250 : 350,
                                    columns: UIDevice.current.userInterfaceIdiom != .pad ? 3 : 5)
     }
 }

@@ -140,7 +140,6 @@ class MainVC: UIViewController {
                 let currentPage = self?.POPULAR_CURRENT_PAGE ?? 0
                 self?.getVideos(page: self?.POPULAR_CURRENT_PAGE == 1 ? 1 : currentPage)
                 self?.getGenres()
-
                 
             case .failure(let error):
                 print(error?.localizedDescription ?? "error")
@@ -580,11 +579,11 @@ extension MainVC: UITableViewDelegate {
         if indexPath.section == 0 {
             return continueWatching.count == 0 ? CGFloat.leastNonzeroMagnitude : (UIDevice.current.userInterfaceIdiom != .pad ? 200 : 300)
         } else if indexPath.section == 1 {
-            return videos.count == 0 ? CGFloat.leastNonzeroMagnitude : (UIDevice.current.userInterfaceIdiom != .pad ? 200 : 300)
+            return videos.count == 0 ? CGFloat.leastNonzeroMagnitude : (UIDevice.current.userInterfaceIdiom != .pad ? 250 : 350)
         } else {
             let genre = genres[indexPath.section - 2]
             let filteredVideos = videos.filter { $0?.genreId == genre?._id }
-            return filteredVideos.count == 0 ? CGFloat.leastNonzeroMagnitude : (UIDevice.current.userInterfaceIdiom != .pad ? 200 : 300)
+            return filteredVideos.count == 0 ? CGFloat.leastNonzeroMagnitude : (UIDevice.current.userInterfaceIdiom != .pad ? 250 : 350)
         }
     }
     
@@ -652,8 +651,8 @@ extension MainVC: UICollectionViewDataSource {
         case 1:
             // popular
             let popularVideos = Array(videos.prefix(20))
-            let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
-            cell1.backgroundColor = Color.secondary
+            let cell1 = collectionView.dequeue(indexPath: indexPath) as VideoCell
+            //cell1.backgroundColor = Color.secondary
             cell1.video = popularVideos[indexPath.item]
             return cell1
         default:
@@ -661,8 +660,8 @@ extension MainVC: UICollectionViewDataSource {
             let genre = genres[collectionView.tag - 2]
             let videosFromGenreID = videosDict[genre?._id ?? ""] ?? []
             
-            let cell4 = collectionView.dequeue(indexPath: indexPath) as MovieCell
-            cell4.backgroundColor = Color.secondary
+            let cell4 = collectionView.dequeue(indexPath: indexPath) as VideoCell
+            //cell4.backgroundColor = Color.secondary
             cell4.video = videosFromGenreID[indexPath.item]
             cell4.genreID = genre?._id
             return cell4
@@ -683,7 +682,7 @@ extension MainVC: UICollectionViewDelegate {
                 pageView.currentPage = counter
             }
         } else {
-            guard let cell = collectionView.visibleCells.first as? MovieCell else { return }
+            guard let cell = collectionView.visibleCells.first as? VideoCell else { return }
             CURRENT_GENRE_ID = cell.genreID ?? ""
         }
     }

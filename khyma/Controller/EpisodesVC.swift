@@ -247,8 +247,8 @@ extension EpisodesVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
             let season = seasons[collectionView.tag]
             let episodes = episodes[season?._id ?? ""]
-            let cell = collectionView.dequeue(indexPath: indexPath) as EpisodeCell
-            cell.episode = episodes?[indexPath.item]
+            let cell = collectionView.dequeue(indexPath: indexPath) as VideoCell
+            cell.video = episodes?[indexPath.item]
             return cell
     }
 }

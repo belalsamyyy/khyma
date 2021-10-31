@@ -82,7 +82,7 @@ class MyListVC: UIViewController {
         
         myListCollectionView.delegate = self
         myListCollectionView.dataSource = self
-        myListCollectionView.register(cell: MovieCell.self)
+        myListCollectionView.register(cell: VideoCell.self)
         myListCollectionView.reloadData()
         
         // empty image
@@ -156,8 +156,8 @@ extension MyListVC: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeue(indexPath: indexPath) as MovieCell
-        cell.backgroundColor = Color.secondary
+        let cell = collectionView.dequeue(indexPath: indexPath) as VideoCell
+        //cell.backgroundColor = Color.secondary
         cell.video = videos[indexPath.item]
         return cell
     }
@@ -206,7 +206,7 @@ extension MyListVC: UICollectionViewDelegateFlowLayout {
     
     // item
     func collectionView(_ collectionView: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt _: IndexPath) -> CGSize {
-        return collectionView.size(height: UIDevice.current.userInterfaceIdiom != .pad ? 200 : 300,
+        return collectionView.size(height: UIDevice.current.userInterfaceIdiom != .pad ? 250 : 350,
                                    columns: UIDevice.current.userInterfaceIdiom != .pad ? 3 : 5)
     }
 }

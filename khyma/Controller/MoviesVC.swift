@@ -483,11 +483,11 @@ extension MoviesVC: UITableViewDelegate {
      // row
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return movies.count == 0 ? CGFloat.leastNonzeroMagnitude : (UIDevice.current.userInterfaceIdiom != .pad ? 200 : 300)
+            return movies.count == 0 ? CGFloat.leastNonzeroMagnitude : (UIDevice.current.userInterfaceIdiom != .pad ? 250 : 350)
         } else {
             let genre = genres[indexPath.section - 1]
             let filteredVideos = movies.filter { $0?.genreId == genre?._id }
-            return filteredVideos.count == 0 ? CGFloat.leastNonzeroMagnitude : (UIDevice.current.userInterfaceIdiom != .pad ? 200 : 300)
+            return filteredVideos.count == 0 ? CGFloat.leastNonzeroMagnitude : (UIDevice.current.userInterfaceIdiom != .pad ? 250 : 350)
         }
     }
     
@@ -545,8 +545,8 @@ extension MoviesVC: UICollectionViewDataSource {
         case 0:
             // popular
             let popularVideos = Array(movies.prefix(20))
-            let cell1 = collectionView.dequeue(indexPath: indexPath) as MovieCell
-            cell1.backgroundColor = Color.secondary
+            let cell1 = collectionView.dequeue(indexPath: indexPath) as VideoCell
+            // cell1.backgroundColor = Color.secondary
             cell1.video = popularVideos[indexPath.item]
             return cell1
         default:
@@ -554,8 +554,8 @@ extension MoviesVC: UICollectionViewDataSource {
             let genre = genres[collectionView.tag - 1]
             let videosFromGenreID = moviesDict[genre?._id ?? ""] ?? []
 
-            let cell4 = collectionView.dequeue(indexPath: indexPath) as MovieCell
-            cell4.backgroundColor = Color.secondary
+            let cell4 = collectionView.dequeue(indexPath: indexPath) as VideoCell
+            //cell4.backgroundColor = Color.secondary
             cell4.video = videosFromGenreID[indexPath.item]
             cell4.genreID = genre?._id
             return cell4
@@ -576,7 +576,7 @@ extension MoviesVC: UICollectionViewDelegate {
                 pageView.currentPage = counter
             }
         } else {
-            guard let cell = collectionView.visibleCells.first as? MovieCell else { return }
+            guard let cell = collectionView.visibleCells.first as? VideoCell else { return }
             CURRENT_GENRE_ID = cell.genreID ?? ""
         }
     }

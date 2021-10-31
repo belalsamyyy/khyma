@@ -61,9 +61,9 @@ class MainNavBar: UIView {
         seriesBtn.titleLabel?.textAlignment = .center
         playsBtn.titleLabel?.textAlignment = .center
         
-        moviesBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        seriesBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        playsBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        moviesBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIDevice.current.userInterfaceIdiom != .pad ? 18 : 25)
+        seriesBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIDevice.current.userInterfaceIdiom != .pad ? 18 : 25)
+        playsBtn.titleLabel?.font = UIFont.boldSystemFont(ofSize: UIDevice.current.userInterfaceIdiom != .pad ? 18 : 25)
 
         // actions
         moviesBtn.addTarget(self, action: #selector(handleMoviesTapped), for: .touchUpInside)
